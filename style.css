@@ -38,7 +38,8 @@ form label {
   margin: 10px 0 5px;
 }
 
-form select {
+form select,
+form input[type="number"] {
   padding: 5px;
 }
 

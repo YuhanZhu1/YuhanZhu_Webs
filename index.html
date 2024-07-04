@@ -21,6 +21,12 @@
           <option value="americano">Americano - $1.1</option>
         </select>
         <br>
+        <label for="coffee-temp">Choose temperature:</label>
+        <select id="coffee-temp" name="coffee-temp">
+          <option value="hot">Hot</option>
+          <option value="cold">Cold</option>
+        </select>
+        <br>
         <label for="milk-type">Choose your milk:</label>
         <select id="milk-type" name="milk-type">
           <option value="none">None</option>
@@ -30,6 +36,9 @@
           <option value="lactose-free-milk">Lactose Free Milk - $0.4</option>
           <option value="coconut-milk">Coconut Milk - $0.4</option>
         </select>
+        <br>
+        <label for="quantity">Quantity:</label>
+        <input type="number" id="quantity" name="quantity" value="1" min="1">
         <br>
         <button type="button" onclick="calculatePrice()">Calculate Price</button>
       </form>
@@ -56,6 +65,9 @@
             }
           }).render('#paypal-button-container');
         </script>
+
+        <!-- Venmo Button -->
+        <button id="venmo-button">Pay with Venmo</button>
       </div>
     </section>
   </main>
@@ -66,6 +78,7 @@
     function calculatePrice() {
       const coffeeType = document.getElementById('coffee-type').value;
       const milkType = document.getElementById('milk-type').value;
+      const quantity = parseInt(document.getElementById('quantity').value, 10);
 
       let price = 1.1;
       if (milkType === 'whole-milk') price += 0.2;
@@ -73,6 +86,8 @@
       if (milkType === 'almond-milk') price += 0.3;
       if (milkType === 'lactose-free-milk') price += 0.4;
       if (milkType === 'coconut-milk') price += 0.4;
+
+      price *= quantity;
 
       const freeCoffee = Math.random() < 0.1; // 10% chance for free coffee
       if (freeCoffee) {
@@ -84,6 +99,11 @@
 
       document.getElementById('payment-buttons').style.display = 'block';
     }
+
+    document.getElementById('venmo-button').addEventListener('click', () => {
+      const price = document.getElementById('price').innerText.split('$')[1];
+      window.location.href = `venmo://paycharge?txn=pay&recipients=your_venmo_username&amount=${price}&note=Coffee%20Order`;
+    });
   </script>
 </body>
 </html>
