@@ -86,8 +86,8 @@ footer {
   background-color: #333;
   color: white;
   padding: 2px;
-  font-size: 0.8em; /* 缩小字体 */
-  width: 100%;
+  font-size: 0.3em; /* 缩小字体 */
+  width: 80%;
   bottom: 0;
 }
 
