@@ -29,6 +29,19 @@ main {
   color: #555;
 }
 
+form {
+  margin: 20px 0;
+}
+
+form label {
+  display: block;
+  margin: 10px 0 5px;
+}
+
+form select {
+  padding: 5px;
+}
+
 #payment-buttons button {
   background-color: #0070ba;
   color: white;
