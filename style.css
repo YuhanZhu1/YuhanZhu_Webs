@@ -1,9 +1,11 @@
 body {
   font-family: Arial, sans-serif;
   text-align: center;
-  background-color: #f5f5f5;
+  background-color: #ffeedd;
   margin: 0;
   padding: 0;
+  line-height: 1.6;
+  font-size: 18px;
 }
 
 header {
@@ -19,6 +21,7 @@ header {
 
 h1 {
   color: #333;
+  font-size: 2em;
 }
 
 main {
@@ -27,6 +30,7 @@ main {
 
 #order h2 {
   color: #555;
+  font-size: 1.5em;
 }
 
 form {
@@ -40,28 +44,34 @@ form label {
 
 form select,
 form input[type="number"] {
-  padding: 5px;
+  padding: 10px;
+  font-size: 1em;
+  width: calc(100% - 22px);
+  margin: 5px 0;
+  box-sizing: border-box;
 }
 
-#payment-buttons button {
+#payment-buttons button,
+#joke-section button {
   background-color: #0070ba;
   color: white;
-  padding: 10px 20px;
+  padding: 15px 20px;
   margin: 10px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 1em;
 }
 
-#payment-buttons button:hover {
+#payment-buttons button:hover,
+#joke-section button:hover {
   background-color: #005ea6;
 }
 
 footer {
   background-color: #333;
   color: white;
-  padding: 10px;
+  padding: 20px;
   position: fixed;
   width: 100%;
   bottom: 0;
