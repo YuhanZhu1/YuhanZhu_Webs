@@ -14,7 +14,7 @@
   <main>
     <section id="order">
       <h2>Order Your Coffee</h2>
-      <p class="highlight">If you can tell a joke that makes Yuhan laugh out loud, your coffee is free!</p>
+      <p class="highlight"><em>If you can tell a joke that makes Yuhan laugh out loud, your coffee is free!</em></p>
       <form id="coffee-form">
         <label for="coffee-type">Choose your coffee:</label>
         <select id="coffee-type" name="coffee-type">
@@ -28,8 +28,8 @@
         <br>
         <label for="coffee-temp">Choose temperature:</label>
         <select id="coffee-temp" name="coffee-temp">
+	  <option value="Cold">ICED!!!</option>
           <option value="Hot">Absolutely Hot</option>
-          <option value="Cold">ICED!!!</option>
         </select>
         <br>
         <label for="milk-type">Choose your milk:</label>
@@ -88,10 +88,12 @@
     </section>
   </main>
   <footer>
-    <p>© 2024 Koala YuYu Coffee. All rights reserved.</p>
+    <p>© 1998 Koala YuYu. All koalas are cute.</p>
+    <p>Buy Yuhan a bubba: <a href="venmo://paycharge?txn=pay&recipients=Yuhan-Zhu-1&amount=5&note=Buy%20Yuhan%20a%20bubba">Venmo</a></p>
   </footer>
   <script>
     const venmoUsername = 'Yuhan-Zhu-1'; // 替换为你的Venmo用户名
+    const yourPhoneNumber = '+15178020375'; // 替换为你的手机号
 
     function calculatePrice() {
       const coffeeType = document.getElementById('coffee-type').value;
@@ -154,7 +156,10 @@
       alert(responseMessage);
       const orderDetails = `Coffee Order: ${quantity} x ${coffeeType}, ${coffeeTemp}, ${milkType}`;
       const note = `${responseMessage}\n${orderDetails}`;
-      window.location.href = `venmo://paycharge?txn=pay&recipients=${venmoUsername}&note=${encodeURIComponent(note)}`;
+
+      // 使用短信发送订单信息
+      const smsLink = `sms:${yourPhoneNumber}?&body=${encodeURIComponent(note)}`;
+      window.location.href = smsLink;
     }
 
     document.getElementById('venmo-button').addEventListener('click', () => {
