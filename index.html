@@ -14,17 +14,22 @@
   <main>
     <section id="order">
       <h2>Order Your Coffee</h2>
+      <p class="highlight">If you can tell a joke that makes Yuhan laugh out loud, your coffee is free!</p>
       <form id="coffee-form">
         <label for="coffee-type">Choose your coffee:</label>
         <select id="coffee-type" name="coffee-type">
           <option value="Espresso">Espresso - $1.1</option>
           <option value="Americano">Americano - $1.1</option>
+          <option value="DecafEspresso">Decaf Espresso - $1.1</option>
+          <option value="DecafAmericano">Decaf Americano - $1.1</option>
+          <option value="HandDrip">Hand Drip Coffee - $1.4</option>
+          <option value="Omakase">Omakase - $1.5</option>
         </select>
         <br>
         <label for="coffee-temp">Choose temperature:</label>
         <select id="coffee-temp" name="coffee-temp">
-          <option value="Hot">Hot</option>
-          <option value="Cold">Cold</option>
+          <option value="Hot">Absolutely Hot</option>
+          <option value="Cold">ICED!!!</option>
         </select>
         <br>
         <label for="milk-type">Choose your milk:</label>
@@ -44,11 +49,12 @@
       </form>
       <p id="price"></p>
       <div id="joke-section" style="display:none;">
-        <p>If you can tell a joke that makes Yuhan laugh out loud, your coffee is free!</p>
         <label for="joke">Can you guarantee a happy and joyful day?</label>
         <select id="joke" name="joke">
           <option value="yes">Yes, I will have a joyful day!</option>
-          <option value="no">No, I cannot guarantee that.</option>
+          <option value="positive">I will spread positivity!</option>
+          <option value="smile">I will smile and make others smile!</option>
+          <option value="gratitude">I will show gratitude to others!</option>
         </select>
         <br>
         <button type="button" onclick="handleJoke()">Submit</button>
@@ -86,14 +92,28 @@
   </footer>
   <script>
     const venmoUsername = 'Yuhan-Zhu-1'; // 替换为你的Venmo用户名
-    const yourEmail = 'zhuyuha3@msu.edu'; // 替换为你的邮箱地址
 
     function calculatePrice() {
       const coffeeType = document.getElementById('coffee-type').value;
       const milkType = document.getElementById('milk-type').value;
       const quantity = parseInt(document.getElementById('quantity').value, 10);
 
-      let price = 1.1;
+      let price = 0;
+      switch (coffeeType) {
+        case 'Espresso':
+        case 'Americano':
+        case 'DecafEspresso':
+        case 'DecafAmericano':
+          price = 1.1;
+          break;
+        case 'HandDrip':
+          price = 1.4;
+          break;
+        case 'Omakase':
+          price = 1.5;
+          break;
+      }
+
       if (milkType === 'Whole Milk') price += 0.2;
       if (milkType === 'Oak Milk') price += 0.3;
       if (milkType === 'Almond Milk') price += 0.3;
@@ -102,14 +122,7 @@
 
       price *= quantity;
 
-      const freeCoffee = Math.random() < 0.1; // 10% chance for free coffee
-      if (freeCoffee) {
-        price = 0;
-        document.getElementById('price').innerText = 'Congratulations! You get a free coffee!';
-      } else {
-        document.getElementById('price').innerText = 'Total Price: $' + price.toFixed(2);
-      }
-
+      document.getElementById('price').innerText = 'Total Price: $' + price.toFixed(2);
       document.getElementById('joke-section').style.display = 'block';
     }
 
@@ -120,15 +133,28 @@
       const milkType = document.getElementById('milk-type').value;
       const quantity = document.getElementById('quantity').value;
       const priceText = document.getElementById('price').innerText;
-      const price = priceText.includes('Congratulations') ? 0 : priceText.split('$')[1];
+      const price = priceText.split('$')[1];
 
-      if (jokeResponse === 'yes') {
-        alert('Have a joyful day! Your coffee is free!');
-        const orderDetails = `Coffee Order: ${quantity} x ${coffeeType}, ${coffeeTemp}, ${milkType}`;
-        window.location.href = `mailto:${yourEmail}?subject=Free Coffee Order&body=${encodeURIComponent(orderDetails)}`;
-      } else {
-        document.getElementById('payment-buttons').style.display = 'block';
+      let responseMessage = '';
+      switch (jokeResponse) {
+        case 'yes':
+          responseMessage = 'Have a joyful day! Your coffee is free!';
+          break;
+        case 'positive':
+          responseMessage = 'Keep spreading positivity! Your coffee is free!';
+          break;
+        case 'smile':
+          responseMessage = 'Keep smiling and make others smile! Your coffee is free!';
+          break;
+        case 'gratitude':
+          responseMessage = 'Thank you for showing gratitude! Your coffee is free!';
+          break;
       }
+
+      alert(responseMessage);
+      const orderDetails = `Coffee Order: ${quantity} x ${coffeeType}, ${coffeeTemp}, ${milkType}`;
+      const note = `${responseMessage}\n${orderDetails}`;
+      window.location.href = `venmo://paycharge?txn=pay&recipients=${venmoUsername}&note=${encodeURIComponent(note)}`;
     }
 
     document.getElementById('venmo-button').addEventListener('click', () => {
@@ -137,7 +163,7 @@
       const milkType = document.getElementById('milk-type').value;
       const quantity = document.getElementById('quantity').value;
       const priceText = document.getElementById('price').innerText;
-      const price = priceText.includes('Congratulations') ? 0 : priceText.split('$')[1];
+      const price = priceText.split('$')[1];
 
       const note = `Coffee Order: ${quantity} x ${coffeeType}, ${coffeeTemp}, ${milkType}`;
       window.location.href = `venmo://paycharge?txn=pay&recipients=${venmoUsername}&amount=${price}&note=${encodeURIComponent(note)}`;

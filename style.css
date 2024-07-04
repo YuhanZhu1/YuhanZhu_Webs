@@ -24,6 +24,13 @@ h1 {
   font-size: 2em;
 }
 
+.highlight {
+  color: #e74c3c;
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
 main {
   padding: 20px;
 }
