@@ -26,10 +26,10 @@
           <option value="Omakase">Omakase - $1.5</option>
         </select>
         <br>
-        <label for="coffee-temp">Choose temperature:</label>
+        <label for="coffee-temp">Ice?</label>
         <select id="coffee-temp" name="coffee-temp">
 	  <option value="Cold">ICED!!!</option>
-          <option value="Hot">Absolutely Hot</option>
+          <option value="Hot">Nope! Absolutely Hot</option>
         </select>
         <br>
         <label for="milk-type">Choose your milk:</label>
@@ -55,6 +55,7 @@
           <option value="positive">I will spread positivity!</option>
           <option value="smile">I will smile and make others smile!</option>
           <option value="gratitude">I will show gratitude to others!</option>
+          <option value="pay">No joke, just take my money!</option>
         </select>
         <br>
         <button type="button" onclick="handleJoke()">Submit</button>
@@ -88,12 +89,12 @@
     </section>
   </main>
   <footer>
-    <p>© 1998 Koala YuYu. All koalas are cute.</p>
-    <p>Buy Yuhan a bubba: <a href="venmo://paycharge?txn=pay&recipients=Yuhan-Zhu-1&amount=5&note=Buy%20Yuhan%20a%20bubba">Venmo</a></p>
+    <p class="footer-text">© 1998 Koala YuYu. All koalas are cute.</p>
+    <p class="footer-text">Buy Yuhan A Oolong Milk Tea: <a href="venmo://paycharge?txn=pay&recipients=Yuhan-Zhu-1&amount=5&note=Buy%20Yuhan%20a%20bubba">Venmo</a></p>
   </footer>
   <script>
-    const venmoUsername = 'Yuhan-Zhu-1'; // 替换为你的Venmo用户名
-    const yourPhoneNumber = '+15178020375'; // 替换为你的手机号
+    const venmoUsername = 'Yuhan-Zhu-1'; // Replace with your Venmo username
+    const yourPhoneNumber = '+15178020375'; // Replace with your phone number
 
     function calculatePrice() {
       const coffeeType = document.getElementById('coffee-type').value;
@@ -124,7 +125,12 @@
 
       price *= quantity;
 
-      document.getElementById('price').innerText = 'Total Price: $' + price.toFixed(2);
+      if (price > 25 || quantity > 15) {
+        document.getElementById('price').innerText = `Total Price: $${price.toFixed(2)}\nWOW, Yuhan can't make ${quantity} cups of coffee, take care of your Barista!`;
+      } else {
+        document.getElementById('price').innerText = `Total Price: $${price.toFixed(2)}`;
+      }
+      
       document.getElementById('joke-section').style.display = 'block';
     }
 
@@ -151,15 +157,22 @@
         case 'gratitude':
           responseMessage = 'Thank you for showing gratitude! Your coffee is free!';
           break;
+        case 'pay':
+          responseMessage = 'No joke, just take my money!';
+          break;
       }
 
       alert(responseMessage);
       const orderDetails = `Coffee Order: ${quantity} x ${coffeeType}, ${coffeeTemp}, ${milkType}`;
       const note = `${responseMessage}\n${orderDetails}`;
 
-      // 使用短信发送订单信息
-      const smsLink = `sms:${yourPhoneNumber}?&body=${encodeURIComponent(note)}`;
-      window.location.href = smsLink;
+      if (jokeResponse === 'pay') {
+        document.getElementById('payment-buttons').style.display = 'block';
+      } else {
+        // Send order details via SMS
+        const smsLink = `sms:${yourPhoneNumber}?&body=${encodeURIComponent(note)}`;
+        window.location.href = smsLink;
+      }
     }
 
     document.getElementById('venmo-button').addEventListener('click', () => {

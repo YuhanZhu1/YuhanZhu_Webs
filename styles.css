@@ -1,7 +1,7 @@
 body {
   font-family: Arial, sans-serif;
   text-align: center;
-  background-color: #FFF8E1; /* 温暖的阳光黄色 */
+  background-color: #FFF8E1; /* Warm sunny yellow */
   margin: 0;
   padding: 0;
   line-height: 1.8;
@@ -9,7 +9,7 @@ body {
 }
 
 header {
-  background-color: #FFD54F; /* 明亮的加州阳光 */
+  background-color: #FFD54F; /* Bright California sun */
   padding: 20px;
 }
 
@@ -30,7 +30,7 @@ h1 {
   font-size: 1.5em;
   font-weight: bold;
   margin-bottom: 20px;
-  font-style: italic; /* 斜体 */
+  font-style: italic; /* Italic */
 }
 
 main {
@@ -85,9 +85,13 @@ form input[type="number"] {
 footer {
   background-color: #333;
   color: white;
-  padding: 2px;
-  font-size: 0.3em; /* 缩小字体 */
-  width: 80%;
+  padding: 5px;
+  font-size: 0.6em; /* Smaller font size */
+  width: 100%;
   bottom: 0;
+}
+
+.footer-text {
+  margin: 5px 0;
 }
 
