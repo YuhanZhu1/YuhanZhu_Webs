@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Koala YuYu Coffee</title>
+  <title>YuYu Coffee</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <header>
-    <img src="logo.png" alt="Koala YuYu Coffee" class="logo">
-    <h1>Welcome to Koala YuYu Coffee</h1>
+    <img src="logo.png" alt="YuYu Coffee" class="logo">
+    <h1>Welcome to YuYu Coffee</h1>
   </header>
   <main>
     <section id="order">
@@ -26,10 +26,10 @@
           <option value="Omakase">Omakase - $1.5</option>
         </select>
         <br>
-        <label for="coffee-temp">Ice?</label>
+        <label for="coffee-temp">Choose temperature:</label>
         <select id="coffee-temp" name="coffee-temp">
 	  <option value="Cold">ICED!!!</option>
-          <option value="Hot">Nope! Absolutely Hot</option>
+          <option value="Hot">Absolutely Hot</option>
         </select>
         <br>
         <label for="milk-type">Choose your milk:</label>
@@ -89,8 +89,8 @@
     </section>
   </main>
   <footer>
-    <p class="footer-text">© 1998 Koala YuYu. All koalas are cute.</p>
-    <p class="footer-text">Buy Yuhan A Oolong Milk Tea: <a href="venmo://paycharge?txn=pay&recipients=Yuhan-Zhu-1&amount=5&note=Buy%20Yuhan%20a%20bubba">Venmo</a></p>
+    <p class="footer-text">© 1998 YuYu.</p>
+    <p class="footer-text">Buy Yuhan A Oolong Milk Tea🧋: <a href="venmo://paycharge?txn=pay&recipients=Yuhan-Zhu-1&amount=5&note=Buy%20Yuhan%20a%20bubba">Venmo</a></p>
   </footer>
   <script>
     const venmoUsername = 'Yuhan-Zhu-1'; // Replace with your Venmo username
@@ -126,12 +126,13 @@
       price *= quantity;
 
       if (price > 25 || quantity > 15) {
-        document.getElementById('price').innerText = `Total Price: $${price.toFixed(2)}\nWOW, Yuhan can't make ${quantity} cups of coffee, take care of your Barista!`;
+        document.getElementById('price').innerText = `Total Price: $${price.toFixed(2)}\nWow, ${quantity} cups of coffee? That's a lot! Yuhan can't make that many at this moment.`;
+        document.getElementById('joke-section').style.display = 'none';
+        document.getElementById('payment-buttons').style.display = 'none';
       } else {
         document.getElementById('price').innerText = `Total Price: $${price.toFixed(2)}`;
+        document.getElementById('joke-section').style.display = 'block';
       }
-      
-      document.getElementById('joke-section').style.display = 'block';
     }
 
     function handleJoke() {

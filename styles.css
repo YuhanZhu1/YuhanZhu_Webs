@@ -14,7 +14,7 @@ header {
 }
 
 .logo {
-  width: 150px;
+  width: 188px;
   display: block;
   margin: 0 auto;
 }
@@ -85,7 +85,7 @@ form input[type="number"] {
 footer {
   background-color: #333;
   color: white;
-  padding: 5px;
+  padding: 2px;
   font-size: 0.6em; /* Smaller font size */
   width: 100%;
   bottom: 0;
