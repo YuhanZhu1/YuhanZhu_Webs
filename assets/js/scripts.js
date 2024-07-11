@@ -1,4 +1,3 @@
-// assets/js/scripts.js
 const venmoUsername = 'Yuhan-Zhu-1'; 
 const yourPhoneNumber = '+15178020375'; 
 
@@ -92,4 +91,3 @@ document.getElementById('venmo-button').addEventListener('click', () => {
   const note = `Coffee Order: ${quantity} x ${coffeeType}, ${coffeeTemp}, ${milkType}`;
   window.location.href = `venmo://paycharge?txn=pay&recipients=${venmoUsername}&amount=${price}&note=${encodeURIComponent(note)}`;
 });
-
