@@ -25,7 +25,7 @@ function calculatePrice() {
 
   if (milkType === 'Whole Milk') price += 0.2;
   if (milkType === '2%Milk') price += 0.2;
-  if (milkType === 'Oak Milk') price += 0.3;
+  if (milkType === 'Oat Milk') price += 0.3;
   if (milkType === 'Almond Milk') price += 0.3;
   if (milkType === 'Lactose Free Milk') price += 0.4;
   if (milkType === 'Coconut Milk') price += 0.4;
