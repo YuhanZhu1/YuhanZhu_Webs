@@ -1,96 +1,13 @@
-body {
-  font-family: Arial, sans-serif;
-  text-align: center;
-  background-color: #FFF8E1;
-  margin: 0;
-  padding: 0;
-  line-height: 1.8;
-  font-size: 20px;
+/* Minimized CSS */
+body{font-family:Arial,sans-serif;text-align:center;background-color:#FFF8E1;margin:0;padding:0;line-height:1.8;font-size:20px}header{background-color:#FFD54F;padding:20px}.logo{width:188px;display:block;margin:0 auto}h1{color:#333;font-size:2.5em;font-weight:bold}.highlight{color:#E64A19;font-size:1.5em;font-weight:bold;margin-bottom:20px;font-style:italic}main{padding:20px}#order h2{color:#555;font-size:2em;font-weight:bold;margin-bottom:20px}form{margin:20px 0}form label{display:block;margin:15px 0 10px;font-size:1.2em;font-weight:bold}form select,form input[type="number"]{padding:10px;font-size:1.2em;width:calc(100% - 22px);margin:10px 0;box-sizing:border-box}#payment-buttons button,#joke-section button{background-color:#0070ba;color:white;padding:15px 20px;margin:20px;border:none;border-radius:5px;cursor:pointer;font-size:1.2em;font-weight:bold}#payment-buttons button:hover,#joke-section button:hover{background-color:#005ea6}footer{background-color:#333;color:white;padding:2px;font-size:0.6em;width:100%;bottom:0}.footer-text{margin:5px 0}
+
+/* Media queries for mobile optimization */
+@media (max-width: 600px) {
+  body { font-size: 16px; }
+  h1 { font-size: 2em; }
+  .highlight { font-size: 1.2em; }
+  #order h2 { font-size: 1.5em; }
+  form label, form select, form input[type="number"] { font-size: 1em; }
+  #payment-buttons button, #joke-section button { font-size: 1em; padding: 10px 15px; }
 }
 
-header {
-  background-color: #FFD54F;
-  padding: 20px;
-}
-
-.logo {
-  width: 188px;
-  display: block;
-  margin: 0 auto;
-}
-
-h1 {
-  color: #333;
-  font-size: 2.5em;
-  font-weight: bold;
-}
-
-.highlight {
-  color: #E64A19;
-  font-size: 1.5em;
-  font-weight: bold;
-  margin-bottom: 20px;
-  font-style: italic;
-}
-
-main {
-  padding: 20px;
-}
-
-#order h2 {
-  color: #555;
-  font-size: 2em;
-  font-weight: bold;
-  margin-bottom: 20px;
-}
-
-form {
-  margin: 20px 0;
-}
-
-form label {
-  display: block;
-  margin: 15px 0 10px;
-  font-size: 1.2em;
-  font-weight: bold;
-}
-
-form select,
-form input[type="number"] {
-  padding: 10px;
-  font-size: 1.2em;
-  width: calc(100% - 22px);
-  margin: 10px 0;
-  box-sizing: border-box;
-}
-
-#payment-buttons button,
-#joke-section button {
-  background-color: #0070ba;
-  color: white;
-  padding: 15px 20px;
-  margin: 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 1.2em;
-  font-weight: bold;
-}
-
-#payment-buttons button:hover,
-#joke-section button:hover {
-  background-color: #005ea6;
-}
-
-footer {
-  background-color: #333;
-  color: white;
-  padding: 2px;
-  font-size: 0.6em;
-  width: 100%;
-  bottom: 0;
-}
-
-.footer-text {
-  margin: 5px 0;
-}
