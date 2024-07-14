@@ -6,28 +6,29 @@ function calculatePrice() {
   const milkType = document.getElementById('milk-type').value;
   const quantity = parseInt(document.getElementById('quantity').value, 10);
 
-  let price = 0;
+  let pricePerCup = 0;
   switch (coffeeType) {
     case 'Espresso':
     case 'Americano':
     case 'DecafEspresso':
     case 'DecafAmericano':
-      price = 1.1;
+      pricePerCup = 1.1;
       break;
     case 'HandDrip':
-      price = 1.4;
+      pricePerCup = 1.4;
       break;
     case 'Omakase':
-      price = 1.5;
+      pricePerCup = 1.5;
       break;
   }
 
-  price += calculateMilkPrice(milkType) * quantity;
+  const milkPrice = calculateMilkPrice(milkType);
+  const totalPrice = (pricePerCup + milkPrice) * quantity;
 
-  if (price > 25 || quantity > 15) {
-    displayPrice(`Total Price: $${price.toFixed(2)}\nWow, ${quantity} cups of coffee? That's a lot! Yuhan can't make that many at this moment.`, false);
+  if (totalPrice > 25 || quantity > 15) {
+    displayPrice(`Total Price: $${totalPrice.toFixed(2)}\nWow, ${quantity} cups of coffee? That's a lot! Yuhan can't make that many at this moment.`, false);
   } else {
-    displayPrice(`Total Price: $${price.toFixed(2)}`, true);
+    displayPrice(`Total Price: $${totalPrice.toFixed(2)}`, true);
   }
 }
 
