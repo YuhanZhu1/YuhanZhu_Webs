@@ -11,6 +11,9 @@
 <body>
     <header>
         <nav>
+            <div class="logo">
+                <img src="/assets/img/logo.png" alt="Logo">
+            </div>
             <ul>
                 <li><a href="#" onclick="showPage('home')">Home</a></li>
                 <li><a href="#" onclick="showPage('music')">Music</a></li>
@@ -20,17 +23,19 @@
                 <li><a href="#" onclick="showPage('physics')">Physics</a></li>
                 <li><a href="#" onclick="showPage('data_science')">Data Science</a></li>
                 <li><a href="#" onclick="showPage('projects')">Projects</a></li>
-                <li><a href="/coffee">YuYu Coffee</a></li> <!-- Link to YuYu Coffee -->
+                <li><a href="/coffee">YuYu Coffee</a></li>
                 <li><a href="#" onclick="showPage('contact')">Contact</a></li>
             </ul>
         </nav>
     </header>
     <main>
         <section id="home">
-            <img src="/assets/img/profile.jpg" alt="Yuhan Zhu" class="profile-pic">
-            <h1>Yuhan Zhu</h1>
-            <p>"For to me to live is Christ, and to die is gain." - Philippians 1:21</p>
-            <p>Welcome to my personal website! I am passionate about music, travel, photography, cars, physics, and data science. Explore my interests and projects below.</p>
+            <div class="hero">
+                <img src="/assets/img/profile.jpg" alt="Yuhan Zhu" class="profile-pic">
+                <h1>Yuhan Zhu</h1>
+                <p>"For to me to live is Christ, and to die is gain." - Philippians 1:21</p>
+                <p>Welcome to my personal website! I am passionate about music, travel, photography, cars, physics, and data science. Explore my interests and projects below.</p>
+            </div>
             <div class="interests">
                 <div class="interest">
                     <img src="/assets/img/music.jpg" alt="Music">

@@ -1,21 +1,25 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
+    background-color: #f8f8f8;
     color: #333;
 }
 
 header {
-    background-color: #333;
-    color: #fff;
-    padding: 10px 0;
+    background-color: #000;
+    padding: 20px;
     text-align: center;
+}
+
+header .logo img {
+    width: 150px;
 }
 
 nav ul {
     list-style: none;
     padding: 0;
+    margin: 0;
 }
 
 nav ul li {
@@ -30,18 +34,20 @@ nav ul li a {
 }
 
 main {
-    padding: 20px;
+    padding: 40px 20px;
     max-width: 1200px;
-    margin: 20px auto;
-    background-color: #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 0 auto;
+}
+
+.hero {
+    text-align: center;
+    margin-bottom: 40px;
 }
 
 .profile-pic {
-    width: 200px;
+    width: 150px;
     border-radius: 50%;
-    display: block;
-    margin: 0 auto;
+    margin-bottom: 20px;
 }
 
 .interests {
@@ -52,7 +58,7 @@ main {
 }
 
 .interest {
-    width: 45%;
+    width: 30%;
     margin: 20px 0;
     text-align: center;
 }
@@ -66,10 +72,13 @@ main {
 
 .interest h2 {
     margin: 10px 0;
+    font-size: 1.5em;
+    color: #000;
 }
 
 .interest p {
     color: #666;
+    margin-bottom: 10px;
 }
 
 .hidden {
@@ -77,9 +86,12 @@ main {
 }
 
 footer {
-    background-color: #333;
-    color: #fff;
-    padding: 10px 0;
+    background-color: #000;
+    padding: 20px;
     text-align: center;
+    color: #fff;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
 }
 
