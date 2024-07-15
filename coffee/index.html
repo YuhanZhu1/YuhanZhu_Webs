@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YuYu Coffee</title>
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <link rel="icon" href="assets/img/logo.png" type="image/png">
+  <link rel="apple-touch-icon" href="assets/img/logo.png">
+</head>
+<body>
+  <header>
+    <img src="assets/img/logo.png" alt="YuYu Coffee" class="logo">
+    <h1>Welcome to YuYu Coffee</h1>
+  </header>
+  <main>
+    <section id="order">
+      <h2>Order Your Coffee</h2>
+      <p class="highlight"><em>If you can tell a joke that makes Yuhan laugh out loud, your coffee is free!</em></p>
+      <form id="coffee-form">
+        <label for="coffee-type">Choose your coffee:</label>
+        <select id="coffee-type" name="coffee-type">
+          <option value="Espresso">Espresso - $1.1</option>
+          <option value="Americano">Americano - $1.1</option>
+          <option value="DecafEspresso">Decaf Espresso - $1.1</option>
+          <option value="DecafAmericano">Decaf Americano - $1.1</option>
+          <option value="HandDrip">Hand Drip Coffee - $1.4</option>
+          <option value="Omakase">Omakase - $1.5</option>
+        </select>
+        <br>
+        <label for="coffee-temp">Ice?</label>
+        <select id="coffee-temp" name="coffee-temp">
+          <option value="Cold">ICED!!!</option>
+          <option value="Hot">Nope! Absolutely Hot</option>
+        </select>
+        <br>
+        <label for="milk-type">Choose your milk:</label>
+        <select id="milk-type" name="milk-type">
+          <option value="None">None</option>
+          <option value="Whole Milk">Whole Milk - $0.2</option>
+          <option value="2%Milk">2% Milk - $0.2</option>
+          <option value="Oat Milk">Oat Milk - $0.3</option>
+          <option value="Almond Milk">Almond Milk - $0.3</option>
+          <option value="Lactose Free Milk">Lactose Free Milk - $0.4</option>
+          <option value="Coconut Milk">Coconut Milk - $0.4</option>
+        </select>
+        <br>
+        <label for="quantity">Quantity:</label>
+        <input type="number" id="quantity" name="quantity" value="1" min="1">
+        <br>
+        <button type="button" onclick="calculatePrice()">Calculate Price</button>
+      </form>
+      <p id="price"></p>
+      <div id="joke-section" style="display:none;">
+        <label for="joke">Can you guarantee a happy and joyful day?</label>
+        <select id="joke" name="joke">
+          <option value="yes">Yes, I will have a joyful day!</option>
+          <option value="positive">I will spread positivity!</option>
+          <option value="smile">I will smile and make others smile!</option>
+          <option value="gratitude">I will show gratitude to others!</option>
+          <option value="pay">No joke, just take my money!</option>
+        </select>
+        <br>
+        <button type="button" onclick="handleJoke()">Submit</button>
+      </div>
+      <div id="payment-buttons" style="display:none;">
+        <!-- Venmo Button -->
+        <button id="venmo-button">Pay with Venmo</button>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <p class="footer-text">© 1998 YuYu.</p>
+    <p class="footer-text">Buy Yuhan A Oolong Milk Tea🧋: <a href="venmo://paycharge?txn=pay&recipients=Yuhan-Zhu-1&amount=5&note=Oolong%20Milk%20Tea%20Yuhan's%20Favorit!">Venmo</a></p>
+  </footer>
+  <script src="assets/js/scripts.js" defer></script>
+</body>
+</html>
+
