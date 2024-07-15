@@ -4,76 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yuhan Zhu's Personal Website</title>
-    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/assets/css/styles.css">
     <link rel="icon" href="/assets/img/logo.png" type="image/png">
     <link rel="apple-touch-icon" href="/assets/img/logo.png">
 </head>
 <body>
     <header>
-        <nav>
-            <div class="logo">
-                <img src="/assets/img/logo.png" alt="Logo">
-            </div>
-            <ul>
-                <li><a href="#" onclick="showPage('home')">Home</a></li>
-                <li><a href="#" onclick="showPage('music')">Music</a></li>
-                <li><a href="#" onclick="showPage('travel')">Travel</a></li>
-                <li><a href="#" onclick="showPage('photography')">Photography</a></li>
-                <li><a href="#" onclick="showPage('cars')">Cars</a></li>
-                <li><a href="#" onclick="showPage('physics')">Physics</a></li>
-                <li><a href="#" onclick="showPage('data_science')">Data Science</a></li>
-                <li><a href="#" onclick="showPage('projects')">Projects</a></li>
-                <li><a href="/coffee">YuYu Coffee</a></li>
-                <li><a href="#" onclick="showPage('contact')">Contact</a></li>
-            </ul>
-        </nav>
+        <h1>Welcome to Yuhan Zhu's Personal Website</h1>
     </header>
     <main>
         <section id="home">
-            <div class="hero">
-                <img src="/assets/img/profile.jpg" alt="Yuhan Zhu" class="profile-pic">
-                <h1>Yuhan Zhu</h1>
-                <p>"For to me to live is Christ, and to die is gain." - Philippians 1:21</p>
-                <p>Welcome to my personal website! I am passionate about music, travel, photography, cars, physics, and data science. Explore my interests and projects below.</p>
-            </div>
-            <div class="interests">
-                <div class="interest">
-                    <img src="/assets/img/music.jpg" alt="Music">
-                    <h2>Music</h2>
-                    <p>Explore my musical journey and favorite compositions.</p>
-                    <a href="#" onclick="showPage('music')">Learn more</a>
-                </div>
-                <div class="interest">
-                    <img src="/assets/img/travel.jpg" alt="Travel">
-                    <h2>Travel</h2>
-                    <p>Discover the places I've been and my travel experiences.</p>
-                    <a href="#" onclick="showPage('travel')">Learn more</a>
-                </div>
-                <div class="interest">
-                    <img src="/assets/img/photography.jpg" alt="Photography">
-                    <h2>Photography</h2>
-                    <p>Check out my photography work and favorite shots.</p>
-                    <a href="#" onclick="showPage('photography')">Learn more</a>
-                </div>
-                <div class="interest">
-                    <img src="/assets/img/cars.jpg" alt="Cars">
-                    <h2>Cars</h2>
-                    <p>Read about my love for cars and the automotive industry.</p>
-                    <a href="#" onclick="showPage('cars')">Learn more</a>
-                </div>
-                <div class="interest">
-                    <img src="/assets/img/physics.jpg" alt="Physics">
-                    <h2>Physics</h2>
-                    <p>Explore my studies and projects in the field of physics.</p>
-                    <a href="#" onclick="showPage('physics')">Learn more</a>
-                </div>
-                <div class="interest">
-                    <img src="/assets/img/data_science.jpg" alt="Data Science">
-                    <h2>Data Science</h2>
-                    <p>Dive into my data science projects and research.</p>
-                    <a href="#" onclick="showPage('data_science')">Learn more</a>
-                </div>
-            </div>
+            <h2>About Me</h2>
+            <p class="highlight"><em>Passionate about music, travel, photography, cars, physics, and data science.</em></p>
+            <p>Explore my interests and projects below:</p>
+            <nav>
+                <ul>
+                    <li><a href="#" onclick="showPage('music')">Music</a></li>
+                    <li><a href="#" onclick="showPage('travel')">Travel</a></li>
+                    <li><a href="#" onclick="showPage('photography')">Photography</a></li>
+                    <li><a href="#" onclick="showPage('cars')">Cars</a></li>
+                    <li><a href="#" onclick="showPage('physics')">Physics</a></li>
+                    <li><a href="#" onclick="showPage('data_science')">Data Science</a></li>
+                    <li><a href="#" onclick="showPage('projects')">Projects</a></li>
+                    <li><a href="/coffee">YuYu Coffee</a></li>
+                </ul>
+            </nav>
         </section>
         <section id="music" class="hidden">
             <h2>Music</h2>
@@ -103,20 +58,11 @@
             <h2>Projects</h2>
             <p>Here is some content about my projects.</p>
         </section>
-        <section id="contact" class="hidden">
-            <h2>Contact</h2>
-            <p>Email: <a href="mailto:zhuyuha3@msu.edu">zhuyuha3@msu.edu</a></p>
-            <p>Phone: XXX-XXX-XXXX</p>
-            <p>GitHub: <a href="https://github.com/YuhanZhu1" target="_blank">YuhanZhu1</a></p>
-            <p>Facebook: <a href="https://www.facebook.com/yourprofile" target="_blank">Your Facebook Profile</a></p>
-            <p>TikTok: <a href="https://www.tiktok.com/@yourprofile" target="_blank">Your TikTok Profile</a></p>
-            <p>X (formerly Twitter): <a href="https://twitter.com/yourprofile" target="_blank">Your Twitter Profile</a></p>
-        </section>
     </main>
     <footer>
-        <p>Contact: zhuyuha3@msu.edu</p>
+        <p class="footer-text">© 2023 Yuhan Zhu. Contact: zhuyuha3@msu.edu</p>
     </footer>
-    <script src="/assets/js/script.js"></script>
+    <script src="/assets/js/scripts.js"></script>
 </body>
 </html>
 
