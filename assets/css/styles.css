@@ -1,4 +1,4 @@
-/* General styles for all pages */
+/* 通用样式 */
 body {
     font-family: Arial, sans-serif;
     text-align: center;
@@ -93,25 +93,6 @@ section h2 {
     display: none;
 }
 
-.gallery {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
-}
-
-.gallery img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s;
-}
-
-.gallery img:hover {
-    transform: scale(1.05);
-}
-
 footer {
     background-color: #333;
     color: white;
@@ -125,7 +106,7 @@ footer {
     margin: 5px 0;
 }
 
-/* Media queries for mobile optimization */
+/* 媒体查询用于移动设备优化 */
 @media (max-width: 600px) {
     body {
         font-size: 16px;
