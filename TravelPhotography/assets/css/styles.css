@@ -28,7 +28,7 @@ header {
 }
 
 .menu-icon {
-    display: none;
+    display: block;
     font-size: 2em;
     cursor: pointer;
     color: #333;
@@ -42,6 +42,23 @@ nav ul {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
+    position: absolute;
+    top: 50px;
+    left: 0;
+    width: 100%;
+    background-color: #fff;
+    flex-direction: column;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: none;
+}
+
+nav ul.nav-menu {
+    display: flex;
+    flex-direction: row;
+    position: static;
+    box-shadow: none;
+    width: auto;
+    background-color: transparent;
 }
 
 nav ul li {
@@ -93,14 +110,13 @@ section h2 {
 }
 
 .gallery {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 10px;
 }
 
 .gallery img {
-    max-width: 100%;
+    width: 100%;
     height: auto;
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -124,7 +140,6 @@ footer {
     margin: 5px 0;
 }
 
-/* Media queries for mobile optimization */
 @media (max-width: 600px) {
     body {
         font-size: 16px;
@@ -141,27 +156,8 @@ footer {
     section h2 {
         font-size: 1.5em;
     }
-    nav ul {
-        display: none;
-        flex-direction: column;
-        background-color: #fff;
-        position: absolute;
-        top: 50px;
-        left: 0;
-        width: 100%;
-        padding: 0;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-    nav ul li {
-        margin: 5px 0;
-        text-align: left;
-        padding-left: 20px;
-    }
-    nav ul.menu-active {
-        display: flex;
-    }
-    .menu-icon {
-        display: block;
+    .gallery {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
     }
 }
 
