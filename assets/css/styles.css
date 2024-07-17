@@ -10,7 +10,7 @@ body {
 
 header {
     background-color: #FFD54F;
-    padding: 20px;
+    padding: 10px;
     position: fixed;
     width: 100%;
     top: 0;
@@ -24,18 +24,19 @@ nav ul {
     margin: 0;
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
 }
 
 nav ul li {
-    margin: 0 15px;
+    margin: 5px 10px;
 }
 
 nav ul li a {
     text-decoration: none;
     color: #fff;
-    font-size: 1.2em;
+    font-size: 1em;
     font-weight: bold;
-    padding: 10px 15px;
+    padding: 8px 12px;
     background-color: #E64A19;
     border-radius: 5px;
     transition: background-color 0.3s;
@@ -45,30 +46,37 @@ nav ul li a:hover {
     background-color: #d84315;
 }
 
+.menu-icon {
+    display: none;
+    font-size: 2em;
+    cursor: pointer;
+    color: #fff;
+}
+
 h1 {
     color: #333;
-    font-size: 2.5em;
+    font-size: 2em;
     font-weight: bold;
-    margin-top: 80px; /* Adjust for fixed header */
+    margin-top: 70px; /* Adjust for fixed header */
 }
 
 .highlight {
     color: #E64A19;
-    font-size: 1.5em;
+    font-size: 1.2em;
     font-weight: bold;
     margin-bottom: 20px;
     font-style: italic;
 }
 
 main {
-    padding: 100px 20px 20px; /* Adjust for fixed header */
+    padding: 80px 10px 20px; /* Adjust for fixed header */
 }
 
 section h2 {
     color: #555;
-    font-size: 2em;
+    font-size: 1.8em;
     font-weight: bold;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
 .hidden {
@@ -78,8 +86,8 @@ section h2 {
 footer {
     background-color: #333;
     color: white;
-    padding: 2px;
-    font-size: 0.6em;
+    padding: 10px;
+    font-size: 0.8em;
     width: 100%;
     bottom: 0;
 }
@@ -93,20 +101,36 @@ footer {
     body {
         font-size: 16px;
     }
+    header {
+        padding: 10px 5px;
+    }
     h1 {
-        font-size: 2em;
+        font-size: 1.8em;
     }
     .highlight {
-        font-size: 1.2em;
+        font-size: 1em;
     }
     section h2 {
         font-size: 1.5em;
     }
     nav ul {
+        display: none;
         flex-direction: column;
+        background-color: #FFD54F;
+        position: absolute;
+        top: 50px;
+        left: 0;
+        width: 100%;
+        padding: 0;
     }
     nav ul li {
         margin: 5px 0;
+    }
+    nav ul.menu-active {
+        display: flex;
+    }
+    .menu-icon {
+        display: block;
     }
 }
 
