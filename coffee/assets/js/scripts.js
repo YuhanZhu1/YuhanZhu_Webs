@@ -1,10 +1,10 @@
- import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
 import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-database.js";
 
-// Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyBAjNZJAzRejznIPeai1QQ2ZFOTCNWO8Ic",
   authDomain: "yuyu-coffee.firebaseapp.com",
+  databaseURL: "https://yuyu-coffee-default-rtdb.firebaseio.com",
   projectId: "yuyu-coffee",
   storageBucket: "yuyu-coffee.appspot.com",
   messagingSenderId: "701846772347",
@@ -12,7 +12,6 @@ const firebaseConfig = {
   measurementId: "G-HNV1C3YXWD"
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 
@@ -75,9 +74,18 @@ function handleJoke() {
   alert(responseMessage);
 
   const totalPrice = parseFloat(document.getElementById('price').innerText.replace('Total Price: $', ''));
-  if (totalPrice > 0) {
+  if (totalPrice > 0 && jokeResponse === 'pay') {
+    const userName = document.getElementById('user-name').value;
+    const coffeeType = document.getElementById('coffee-type').value;
+    const coffeeTemp = document.getElementById('coffee-temp').value;
+    const milkType = document.getElementById('milk-type').value;
+    const quantity = document.getElementById('quantity').value;
+    const note = `Order: ${coffeeType} (${coffeeTemp}), Milk: ${milkType}, Quantity: ${quantity}, Name: ${userName}`;
+
+    document.getElementById('venmo-button').setAttribute('href', `venmo://paycharge?txn=pay&recipients=Yuhan-Zhu-1&amount=${totalPrice}&note=${encodeURIComponent(note)}`);
     document.getElementById('payment-buttons').style.display = 'block';
   } else {
+    document.getElementById('payment-buttons').style.display = 'none';
     handleFormSubmission();
   }
 }
@@ -93,7 +101,6 @@ function getJokeResponseMessage(jokeResponse) {
   }
 }
 
-// Function to handle form submission
 window.handleFormSubmission = function() {
   const userName = document.getElementById('user-name').value;
   const coffeeType = document.getElementById('coffee-type').value;
