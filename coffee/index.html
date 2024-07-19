@@ -39,6 +39,75 @@
       });
     }
 
+    // Function to calculate price
+    function calculatePrice() {
+      const coffeeType = document.getElementById('coffee-type').value;
+      const milkType = document.getElementById('milk-type').value;
+      const quantity = parseInt(document.getElementById('quantity').value, 10);
+
+      let pricePerCup = 0;
+      switch (coffeeType) {
+        case 'Espresso':
+        case 'Americano':
+        case 'DecafEspresso':
+        case 'DecafAmericano':
+          pricePerCup = 1.1;
+          break;
+        case 'HandDrip':
+          pricePerCup = 1.4;
+          break;
+        case 'Omakase':
+          pricePerCup = 1.5;
+          break;
+      }
+
+      const milkPrice = calculateMilkPrice(milkType);
+      const totalPrice = (pricePerCup + milkPrice) * quantity;
+
+      document.getElementById('price').innerText = `Total Price: $${totalPrice.toFixed(2)}`;
+      document.getElementById('joke-section').style.display = 'block';
+    }
+
+    function calculateMilkPrice(milkType) {
+      switch (milkType) {
+        case 'Whole Milk':
+        case '2%Milk':
+          return 0.2;
+        case 'Oat Milk':
+        case 'Almond Milk':
+          return 0.3;
+        case 'Lactose Free Milk':
+        case 'Coconut Milk':
+          return 0.4;
+        default:
+          return 0;
+      }
+    }
+
+    function handleJoke() {
+      const jokeResponse = document.getElementById('joke').value;
+      const responseMessage = getJokeResponseMessage(jokeResponse);
+      alert(responseMessage);
+
+      const totalPrice = parseFloat(document.getElementById('price').innerText.replace('Total Price: $', ''));
+      if (totalPrice > 0) {
+        document.getElementById('payment-buttons').style.display = 'block';
+      } else {
+        handleFormSubmission();
+      }
+    }
+
+    function getJokeResponseMessage(jokeResponse) {
+      switch (jokeResponse) {
+        case 'yes': return '☀️ Have a joyful day! Your coffee is free!';
+        case 'positive': return 'Keep spreading positivity🫰 Your coffee is free!';
+        case 'smile': return '😊 Keep smiling and make others smile! Your coffee is free!';
+        case 'gratitude': return 'Thank you for showing gratitude❤️ Your coffee is free!';
+        case 'pay': return 'Money 💵 for me!!!🤩🤩🤩 THANK YOU!!!';
+        default: return '';
+      }
+    }
+
     // Function to handle form submission
     window.handleFormSubmission = function() {
       const userName = document.getElementById('user-name').value;
@@ -55,6 +124,9 @@
       };
       saveOrderToFirebase(orderData);
     }
+
+    document.getElementById('calculate-price-button').addEventListener('click', calculatePrice);
+    document.getElementById('joke-button').addEventListener('click', handleJoke);
   </script>
 </head>
 <body>
@@ -100,9 +172,25 @@
         <label for="quantity">Quantity:</label>
         <input type="number" id="quantity" name="quantity" value="1" min="1">
         <br>
-        <button type="submit">Submit Order</button>
+        <button type="button" id="calculate-price-button">Calculate Price</button>
       </form>
       <p id="price"></p>
+      <div id="joke-section" style="display:none;">
+        <label for="joke">Can you guarantee a happy and joyful day?</label>
+        <select id="joke" name="joke">
+          <option value="yes">Yes, I will have a joyful day!</option>
+          <option value="positive">I will spread positivity!</option>
+          <option value="smile">I will smile and make others smile!</option>
+          <option value="gratitude">I will show gratitude to others!</option>
+          <option value="pay">No joke, just take my money!</option>
+        </select>
+        <br>
+        <button type="button" id="joke-button">Submit</button>
+      </div>
+      <div id="payment-buttons" style="display:none;">
+        <!-- Venmo Button -->
+        <button id="venmo-button" onclick="window.location.href='venmo://paycharge?txn=pay&recipients=Yuhan-Zhu-1&amount=your-amount&note=your-note'">Pay with Venmo</button>
+      </div>
     </section>
   </main>
   <footer>
@@ -110,6 +198,7 @@
     <p class="footer-text">Buy Yuhan A Oolong Milk Tea🧋: <a href="venmo://paycharge?txn=pay&recipients=Yuhan-Zhu-1&amount=5&note=Oolong%20Milk%20Tea%20Yuhan's%20Favorit!">Venmo</a></p>
     <p class="footer-text">Visit my homepage: <a href="/index.html">link</a></p>
   </footer>
+  <script src="assets/js/scripts.js" defer></script>
 </body>
 </html>
 
