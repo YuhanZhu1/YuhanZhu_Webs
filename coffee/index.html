@@ -7,6 +7,55 @@
   <link rel="stylesheet" href="assets/css/styles.css">
   <link rel="icon" href="assets/img/logo.png" type="image/png">
   <link rel="apple-touch-icon" href="assets/img/logo.png">
+  <script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-analytics.js";
+    import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-database.js";
+
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyBAjNZJAzRejznIPeai1QQ2ZFOTCNWO8Ic",
+      authDomain: "yuyu-coffee.firebaseapp.com",
+      projectId: "yuyu-coffee",
+      storageBucket: "yuyu-coffee.appspot.com",
+      messagingSenderId: "701846772347",
+      appId: "1:701846772347:web:1dbf3bd94f74e47135a0de",
+      measurementId: "G-HNV1C3YXWD"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const database = getDatabase(app);
+
+    // Function to save order to Firebase
+    function saveOrderToFirebase(orderData) {
+      const ordersRef = ref(database, 'orders');
+      push(ordersRef, orderData).then(() => {
+        alert('Order submitted successfully!');
+      }).catch((error) => {
+        console.error('Error submitting order:', error);
+      });
+    }
+
+    // Function to handle form submission
+    window.handleFormSubmission = function() {
+      const userName = document.getElementById('user-name').value;
+      const coffeeType = document.getElementById('coffee-type').value;
+      const coffeeTemp = document.getElementById('coffee-temp').value;
+      const milkType = document.getElementById('milk-type').value;
+      const quantity = document.getElementById('quantity').value;
+      const orderData = {
+        userName,
+        coffeeType,
+        coffeeTemp,
+        milkType,
+        quantity
+      };
+      saveOrderToFirebase(orderData);
+    }
+  </script>
 </head>
 <body>
   <header>
@@ -17,7 +66,10 @@
     <section id="order">
       <h2>Order Your Coffee</h2>
       <p class="highlight"><em>If you can tell a joke that makes Yuhan laugh out loud, your coffee is free!</em></p>
-      <form id="coffee-form">
+      <form id="coffee-form" onsubmit="event.preventDefault(); handleFormSubmission();">
+        <label for="user-name">What's your name? (Optional):</label>
+        <input type="text" id="user-name" name="user-name">
+        <br>
         <label for="coffee-type">Choose your coffee:</label>
         <select id="coffee-type" name="coffee-type">
           <option value="Espresso">Espresso - $1.1</option>
@@ -48,25 +100,9 @@
         <label for="quantity">Quantity:</label>
         <input type="number" id="quantity" name="quantity" value="1" min="1">
         <br>
-        <button type="button" onclick="calculatePrice()">Calculate Price</button>
+        <button type="submit">Submit Order</button>
       </form>
       <p id="price"></p>
-      <div id="joke-section" style="display:none;">
-        <label for="joke">Can you guarantee a happy and joyful day?</label>
-        <select id="joke" name="joke">
-          <option value="yes">Yes, I will have a joyful day!</option>
-          <option value="positive">I will spread positivity!</option>
-          <option value="smile">I will smile and make others smile!</option>
-          <option value="gratitude">I will show gratitude to others!</option>
-          <option value="pay">No joke, just take my money!</option>
-        </select>
-        <br>
-        <button type="button" onclick="handleJoke()">Submit</button>
-      </div>
-      <div id="payment-buttons" style="display:none;">
-        <!-- Venmo Button -->
-        <button id="venmo-button">Pay with Venmo</button>
-      </div>
     </section>
   </main>
   <footer>
@@ -74,7 +110,6 @@
     <p class="footer-text">Buy Yuhan A Oolong Milk Tea🧋: <a href="venmo://paycharge?txn=pay&recipients=Yuhan-Zhu-1&amount=5&note=Oolong%20Milk%20Tea%20Yuhan's%20Favorit!">Venmo</a></p>
     <p class="footer-text">Visit my homepage: <a href="/index.html">link</a></p>
   </footer>
-  <script src="assets/js/scripts.js" defer></script>
 </body>
 </html>
 
