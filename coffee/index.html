@@ -45,6 +45,7 @@
       switch (coffeeType) {
         case 'Espresso':
         case 'Americano':
+        case 'Latte':
         case 'DecafEspresso':
         case 'DecafAmericano':
           pricePerCup = 1.1;
@@ -60,8 +61,14 @@
       const milkPrice = calculateMilkPrice(milkType);
       const totalPrice = (pricePerCup + milkPrice) * quantity;
 
-      document.getElementById('price').innerText = `Total Price: $${totalPrice.toFixed(2)}`;
-      document.getElementById('joke-section').style.display = 'block';
+      if (totalPrice > 25 || quantity > 15) {
+        document.getElementById('price').innerText = `Wow, ${quantity} cups of coffee, Yuhan can't have that much coffee at this moment.`;
+        document.getElementById('joke-section').style.display = 'none';
+        document.getElementById('payment-buttons').style.display = 'none';
+      } else {
+        document.getElementById('price').innerText = `Total Price: $${totalPrice.toFixed(2)}`;
+        document.getElementById('joke-section').style.display = 'block';
+      }
     }
 
     function calculateMilkPrice(milkType) {
@@ -92,9 +99,10 @@
         const coffeeTemp = document.getElementById('coffee-temp').value;
         const milkType = document.getElementById('milk-type').value;
         const quantity = document.getElementById('quantity').value;
-        const note = `Order: ${coffeeType} (${coffeeTemp}), Milk: ${milkType}, Quantity: ${quantity}, Name: ${userName}`;
+        const note = document.getElementById('note').value;
+        const orderNote = `Order: ${coffeeType} (${coffeeTemp}), Milk: ${milkType}, Quantity: ${quantity}, Note: ${note}, Name: ${userName}`;
         
-        document.getElementById('venmo-button').setAttribute('href', `venmo://paycharge?txn=pay&recipients=Yuhan-Zhu-1&amount=${totalPrice}&note=${encodeURIComponent(note)}`);
+        document.getElementById('venmo-button').setAttribute('href', `venmo://paycharge?txn=pay&recipients=Yuhan-Zhu-1&amount=${totalPrice}&note=${encodeURIComponent(orderNote)}`);
         document.getElementById('payment-buttons').style.display = 'block';
       } else {
         document.getElementById('payment-buttons').style.display = 'none';
@@ -119,12 +127,14 @@
       const coffeeTemp = document.getElementById('coffee-temp').value;
       const milkType = document.getElementById('milk-type').value;
       const quantity = document.getElementById('quantity').value;
+      const note = document.getElementById('note').value;
       const orderData = {
         userName,
         coffeeType,
         coffeeTemp,
         milkType,
-        quantity
+        quantity,
+        note
       };
       saveOrderToFirebase(orderData);
     }
@@ -150,16 +160,9 @@
         <select id="coffee-type" name="coffee-type">
           <option value="Espresso">Espresso - $1.1</option>
           <option value="Americano">Americano - $1.1</option>
-          <option value="DecafEspresso">Decaf Espresso - $1.1</option>
-          <option value="DecafAmericano">Decaf Americano - $1.1</option>
+          <option value="Latte">Latte - $1.1</option>
           <option value="HandDrip">Hand Drip Coffee - $1.4</option>
           <option value="Omakase">Omakase - $1.5</option>
-        </select>
-        <br>
-        <label for="coffee-temp">Ice?</label>
-        <select id="coffee-temp" name="coffee-temp">
-          <option value="Cold">ICED!!!</option>
-          <option value="Hot">Nope! Absolutely Hot</option>
         </select>
         <br>
         <label for="milk-type">Choose your milk:</label>
@@ -172,6 +175,21 @@
           <option value="Lactose Free Milk">Lactose Free Milk - $0.4</option>
           <option value="Coconut Milk">Coconut Milk - $0.4</option>
         </select>
+        <br>
+        <label for="coffee-temp">Ice?</label>
+        <select id="coffee-temp" name="coffee-temp">
+          <option value="Hot">Nope! Absolutely Hot</option>
+          <option value="Cold">ICED!!!</option>
+        </select>
+        <br>
+        <label for="decaf">Decaf?</label>
+        <select id="decaf" name="decaf">
+          <option value="Caffeinated">Caffeinated</option>
+          <option value="Decaf">Decaf</option>
+        </select>
+        <br>
+        <label for="note">Note to Yuhan:</label>
+        <input type="text" id="note" name="note">
         <br>
         <label for="quantity">Quantity:</label>
         <input type="number" id="quantity" name="quantity" value="1" min="1">
@@ -191,9 +209,9 @@
         <br>
         <button type="button" id="joke-button">Submit</button>
       </div>
-      <div id="venmo-button" style="display:none;">
-      <!-- Venmo Button -->
-      <button id="venmo-button">Pay with Venmo</button>
+      <div id="payment-buttons" style="display:none;">
+        <!-- Venmo Button -->
+        <a id="venmo-button" href="#"><button>Pay with Venmo</button></a>
       </div>
     </section>
   </main>

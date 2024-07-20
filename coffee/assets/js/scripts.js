@@ -33,6 +33,7 @@ function calculatePrice() {
   switch (coffeeType) {
     case 'Espresso':
     case 'Americano':
+    case 'Latte':
     case 'DecafEspresso':
     case 'DecafAmericano':
       pricePerCup = 1.1;
@@ -48,8 +49,14 @@ function calculatePrice() {
   const milkPrice = calculateMilkPrice(milkType);
   const totalPrice = (pricePerCup + milkPrice) * quantity;
 
-  document.getElementById('price').innerText = `Total Price: $${totalPrice.toFixed(2)}`;
-  document.getElementById('joke-section').style.display = 'block';
+  if (totalPrice > 25 || quantity > 15) {
+    document.getElementById('price').innerText = `Wow, ${quantity} cups of coffee, Yuhan can't have that much coffee at this moment.`;
+    document.getElementById('joke-section').style.display = 'none';
+    document.getElementById('payment-buttons').style.display = 'none';
+  } else {
+    document.getElementById('price').innerText = `Total Price: $${totalPrice.toFixed(2)}`;
+    document.getElementById('joke-section').style.display = 'block';
+  }
 }
 
 function calculateMilkPrice(milkType) {
@@ -80,9 +87,10 @@ function handleJoke() {
     const coffeeTemp = document.getElementById('coffee-temp').value;
     const milkType = document.getElementById('milk-type').value;
     const quantity = document.getElementById('quantity').value;
-    const note = `Order: ${coffeeType} (${coffeeTemp}), Milk: ${milkType}, Quantity: ${quantity}, Name: ${userName}`;
-
-    document.getElementById('venmo-button').setAttribute('href', `venmo://paycharge?txn=pay&recipients=Yuhan-Zhu-1&amount=${totalPrice}&note=${encodeURIComponent(note)}`);
+    const note = document.getElementById('note').value;
+    const orderNote = `Order: ${coffeeType} (${coffeeTemp}), Milk: ${milkType}, Quantity: ${quantity}, Note: ${note}, Name: ${userName}`;
+    
+    document.getElementById('venmo-button').setAttribute('href', `venmo://paycharge?txn=pay&recipients=Yuhan-Zhu-1&amount=${totalPrice}&note=${encodeURIComponent(orderNote)}`);
     document.getElementById('payment-buttons').style.display = 'block';
   } else {
     document.getElementById('payment-buttons').style.display = 'none';
@@ -107,12 +115,14 @@ window.handleFormSubmission = function() {
   const coffeeTemp = document.getElementById('coffee-temp').value;
   const milkType = document.getElementById('milk-type').value;
   const quantity = document.getElementById('quantity').value;
+  const note = document.getElementById('note').value;
   const orderData = {
     userName,
     coffeeType,
     coffeeTemp,
     milkType,
-    quantity
+    quantity,
+    note
   };
   saveOrderToFirebase(orderData);
 }
