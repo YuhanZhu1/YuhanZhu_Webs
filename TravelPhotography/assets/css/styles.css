@@ -1,4 +1,4 @@
-/* 通用样式 */
+/* General styles */
 body {
     font-family: Arial, sans-serif;
     text-align: center;
@@ -141,7 +141,7 @@ footer {
     margin: 5px 0;
 }
 
-/* 媒体查询用于移动设备优化 */
+/* Media queries for mobile optimization */
 @media (max-width: 600px) {
     body {
         font-size: 16px;
