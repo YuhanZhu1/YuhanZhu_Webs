@@ -7,87 +7,89 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Compare Your Ride: Cost Calculator for ICE, Hybrid, and EV</h1>
-    <button id="toggle-instructions">How to Use This Calculator</button>
-    <section id="instructions" style="display: none;">
-        <h2>How to Use This Calculator</h2>
-        <p>
-            Welcome to the "Is It Worth It Calculator by Yuhan"!
-        </p>
-        <p>
-            This website calculator helps you determine the most cost-effective vehicle option for your needs, comparing Internal Combustion Engine (ICE) cars, Hybrid cars, and Electric Vehicles (EV). Here's how to use the calculator:
-        </p>
-        <ol>
-            <li><strong>Select Unit:</strong> Choose the unit for distance and fuel efficiency (Miles & MPG, KM & L/100KM, or KM & KM/L).</li>
-            <li><strong>Enter Annual Mileage:</strong> Input your expected annual mileage. If left blank, a default value of 14,000 miles (or 22,531 km) will be used.</li>
-            <li><strong>Enter Years of Use:</strong> Specify the number of years you plan to use the vehicle. If left blank, a default value of 8 years will be used.</li>
-            <li><strong>Input Fuel Efficiencies:</strong> Provide the fuel efficiencies for the vehicles you are comparing. You can enter multiple values separated by commas (e.g. 25, 27, 35).</li>
-            <li><strong>Enter Car Prices:</strong> Input the purchase prices for the vehicles. Correspond these with the fuel efficiencies provided, separated by commas (e.g. 20000, 25000, 30000).</li>
-            <li><strong>Compare with EV:</strong> Check this option if you want to include EV in the comparison. You will need to input the EV purchase price, electricity price per kWh, and electric efficiency. If left blank, default values of $30,000, $0.16 per kWh, and 30 kWh/100 miles will be used.</li>
-            <li><strong>Calculate:</strong> Click the "Calculate" button to see the results.</li>
-        </ol>
-        <p>
-            The calculator will display the total cost of each vehicle option over the specified period and annual mileage, along with a comparison chart. The chart will allow you to see at which mileage each vehicle becomes the most cost-effective option.
-        </p>
-        <p>
-            Use this tool to make an informed decision about which type of vehicle best suits your financial and driving needs. Enjoy exploring your options!
-        </p>
-    </section>
-    <form id="calculator-form">
-        <label for="unit">Unit:</label>
-        <select id="unit" name="unit" required>
-            <option value="miles-mpg">Miles & MPG</option>
-            <option value="km-lkm">KM & L/100KM</option>
-            <option value="km-kml">KM & KM/L</option>
-        </select>
-        
-        <label for="mileage">Annual Mileage (Default value = 14000 miles or 22531 km):</label>
-        <input type="number" id="mileage" name="mileage">
-        
-        <label for="years">Years of Use (Default value = 8):</label>
-        <input type="number" id="years" name="years">
-        
-        <label for="fuel-efficiency">Fuel Efficiencies (e.g. 25,27,35):</label>
-        <input type="text" id="fuel-efficiency" name="fuel-efficiency" required>
-        
-        <label for="car-prices">Car Prices (e.g. 20000,25000,30000):</label>
-        <input type="text" id="car-prices" name="car-prices" required>
-        
-        <label for="compare-ev">Compare with EV:</label>
-        <input type="checkbox" id="compare-ev" name="compare-ev">
-        
-        <div id="ev-options" style="display: none;">
-            <label for="ev-price">EV Purchase Price (default value = 30000):</label>
-            <input type="number" step="0.01" id="ev-price" name="ev-price">
+    <div class="wave-background">
+        <h1>Compare Your Ride: Cost Calculator for ICE, Hybrid, and EV</h1>
+        <button id="toggle-instructions">How to Use This Calculator</button>
+        <section id="instructions" style="display: none;">
+            <h2>How to Use This Calculator</h2>
+            <p>
+                Welcome to the "Is It Worth It Calculator by Yuhan"!
+            </p>
+            <p>
+                This website calculator helps you determine the most cost-effective vehicle option for your needs, comparing Internal Combustion Engine (ICE) cars, Hybrid cars, and Electric Vehicles (EV). Here's how to use the calculator:
+            </p>
+            <ol>
+                <li><strong>Select Unit:</strong> Choose the unit for distance and fuel efficiency (Miles & MPG, KM & L/100KM, or KM & KM/L).</li>
+                <li><strong>Enter Annual Mileage:</strong> Input your expected annual mileage. If left blank, a default value of 14,000 miles (or 22,531 km) will be used.</li>
+                <li><strong>Enter Years of Use:</strong> Specify the number of years you plan to use the vehicle. If left blank, a default value of 8 years will be used.</li>
+                <li><strong>Input Fuel Efficiencies:</strong> Provide the fuel efficiencies for the vehicles you are comparing. You can enter multiple values separated by commas (e.g. 25, 27, 35).</li>
+                <li><strong>Enter Car Prices:</strong> Input the purchase prices for the vehicles. Correspond these with the fuel efficiencies provided, separated by commas (e.g. 20000, 25000, 30000).</li>
+                <li><strong>Compare with EV:</strong> Check this option if you want to include EV in the comparison. You will need to input the EV purchase price, electricity price per kWh, and electric efficiency. If left blank, default values of $30,000, $0.16 per kWh, and 30 kWh/100 miles will be used.</li>
+                <li><strong>Calculate:</strong> Click the "Calculate" button to see the results.</li>
+            </ol>
+            <p>
+                The calculator will display the total cost of each vehicle option over the specified period and annual mileage, along with a comparison chart. The chart will allow you to see at which mileage each vehicle becomes the most cost-effective option.
+            </p>
+            <p>
+                Use this tool to make an informed decision about which type of vehicle best suits your financial and driving needs. Enjoy exploring your options!
+            </p>
+        </section>
+        <form id="calculator-form">
+            <label for="unit">Unit:</label>
+            <select id="unit" name="unit" required>
+                <option value="miles-mpg">Miles & MPG</option>
+                <option value="km-lkm">KM & L/100KM</option>
+                <option value="km-kml">KM & KM/L</option>
+            </select>
             
-            <label for="electricity-price">Electricity Price (per kWh, default value = 0.16):</label>
-            <input type="number" step="0.01" id="electricity-price" name="electricity-price">
+            <label for="mileage">Annual Mileage (Default value = 14000 miles or 22531 km):</label>
+            <input type="number" id="mileage" name="mileage">
             
-            <label for="electric-efficiency">Electric Efficiency (default value = 30 kWh/100 miles):</label>
-            <input type="number" id="electric-efficiency" name="electric-efficiency">
+            <label for="years">Years of Use (Default value = 8):</label>
+            <input type="number" id="years" name="years">
+            
+            <label for="fuel-efficiency">Fuel Efficiencies (e.g. 25,27,35):</label>
+            <input type="text" id="fuel-efficiency" name="fuel-efficiency" required>
+            
+            <label for="car-prices">Car Prices (e.g. 20000,25000,30000):</label>
+            <input type="text" id="car-prices" name="car-prices" required>
+            
+            <label for="compare-ev">Compare with EV:</label>
+            <input type="checkbox" id="compare-ev" name="compare-ev">
+            
+            <div id="ev-options" style="display: none;">
+                <label for="ev-price">EV Purchase Price (default value = 30000):</label>
+                <input type="number" step="0.01" id="ev-price" name="ev-price">
+                
+                <label for="electricity-price">Electricity Price (per kWh, default value = 0.16):</label>
+                <input type="number" step="0.01" id="electricity-price" name="electricity-price">
+                
+                <label for="electric-efficiency">Electric Efficiency (default value = 30 kWh/100 miles):</label>
+                <input type="number" id="electric-efficiency" name="electric-efficiency">
+            </div>
+            
+            <button type="submit">Calculate</button>
+        </form>
+        
+        <div id="results"></div>
+        <div id="chart-container">
+            <canvas id="cost-chart"></canvas>
         </div>
-        
-        <button type="submit">Calculate</button>
-    </form>
-    
-    <div id="results"></div>
-    <div id="chart-container">
-        <canvas id="cost-chart"></canvas>
-    </div>
 
-    <div class="wave-container">
-        <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-             viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
-            <defs>
-                <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"/>
-            </defs>
-            <g class="parallax">
-                <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(255,255,255,0.7"/>
-                <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(255,255,255,0.5)"/>
-                <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(255,255,255,0.3)"/>
-                <use xlink:href="#gentle-wave" x="48" y="7" fill="#fff"/>
-            </g>
-        </svg>
+        <div class="wave-container">
+            <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+                <defs>
+                    <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"/>
+                </defs>
+                <g class="parallax">
+                    <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(255,255,255,0.7)"/>
+                    <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(255,255,255,0.5)"/>
+                    <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(255,255,255,0.3)"/>
+                    <use xlink:href="#gentle-wave" x="48" y="7" fill="#fff"/>
+                </g>
+            </svg>
+        </div>
     </div>
     
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

@@ -104,7 +104,12 @@ document.getElementById('calculator-form').addEventListener('submit', function(e
                         callbacks: {
                             label: function(context) {
                                 const index = context.dataIndex;
-                                return `${context.dataset.label}: $${context.dataset.data[index].toFixed(2)}`;
+                                const mileage = context.chart.data.labels[index];
+                                const costs = context.chart.data.datasets.map(dataset => ({
+                                    label: dataset.label,
+                                    cost: dataset.data[index]
+                                }));
+                                return costs.map(cost => `${cost.label}: $${cost.cost.toFixed(2)}`).join('\n');
                             }
                         }
                     }

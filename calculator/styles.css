@@ -5,6 +5,32 @@ body {
     background-color: #f4f4f9;
 }
 
+.wave-background {
+    position: relative;
+    z-index: 1;
+}
+
+.wave-container {
+    position: relative;
+    width: 100%;
+    height: 150px;
+    overflow: hidden;
+    background-color: #007bff;
+}
+
+.waves {
+    position: absolute;
+    bottom: 0;
+    width: 200%;
+    height: 100px;
+    animation: move-waves 10s linear infinite;
+}
+
+@keyframes move-waves {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
 h1 {
     text-align: center;
     font-size: 2em;
@@ -81,20 +107,5 @@ button:hover {
 canvas {
     width: 100%;
     height: 400px;
-}
-
-.wave-container {
-    position: relative;
-    width: 100%;
-    height: 150px;
-    overflow: hidden;
-    background-color: #007bff;
-}
-
-.waves {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 100px;
 }
 
