@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Is it worth calculator: ICE, Hybrid, or EV</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Is it worth calculator: ICE, Hybrid, or EV</h1>
+    <form id="calculator-form">
+        <label for="unit">Unit:</label>
+        <select id="unit" name="unit" required>
+            <option value="miles-mpg">Miles & MPG</option>
+            <option value="km-lkm">KM & L/100KM</option>
+            <option value="km-kml">KM & KM/L</option>
+        </select>
+        
+        <label for="mileage">Annual Mileage (optional):</label>
+        <input type="number" id="mileage" name="mileage">
+        
+        <label for="years">Years of Use (optional):</label>
+        <input type="number" id="years" name="years">
+        
+        <label for="fuel-efficiency">Fuel Efficiencies (CSV):</label>
+        <input type="text" id="fuel-efficiency" name="fuel-efficiency" required>
+        
+        <label for="car-prices">Car Prices (CSV):</label>
+        <input type="text" id="car-prices" name="car-prices" required>
+        
+        <label for="compare-ev">Compare with EV:</label>
+        <input type="checkbox" id="compare-ev" name="compare-ev">
+        
+        <div id="ev-options" style="display: none;">
+            <label for="electricity-price">Electricity Price (per kWh, optional):</label>
+            <input type="number" step="0.01" id="electricity-price" name="electricity-price">
+            
+            <label for="electric-efficiency">Electric Efficiency (optional):</label>
+            <input type="number" id="electric-efficiency" name="electric-efficiency">
+        </div>
+        
+        <button type="submit">Calculate</button>
+    </form>
+    
+    <div id="results"></div>
+    <div id="chart-container">
+        <canvas id="cost-chart"></canvas>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="scripts.js"></script>
+</body>
+</html>
+
