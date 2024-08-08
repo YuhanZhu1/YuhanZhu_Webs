@@ -7,19 +7,15 @@ document.getElementById('calculator-form').addEventListener('submit', function(e
     event.preventDefault();
 
     const unit = document.getElementById('unit').value;
-    let mileage = parseFloat(document.getElementById('mileage').value) || (unit.includes('miles') ? 12000 : 20000);
-    const years = parseFloat(document.getElementById('years').value) || 10;
+    let mileage = parseFloat(document.getElementById('mileage').value) || (unit.includes('miles') ? 14000 : 22531);
+    const years = parseFloat(document.getElementById('years').value) || 8;
     const fuelEfficiencies = document.getElementById('fuel-efficiency').value.split(',').map(parseFloat);
     const carPrices = document.getElementById('car-prices').value.split(',').map(parseFloat);
     const compareEv = document.getElementById('compare-ev').checked;
 
-    let electricityPrice = 0.13;
-    let electricEfficiency = 15;
-
-    if (compareEv) {
-        electricityPrice = parseFloat(document.getElementById('electricity-price').value) || electricityPrice;
-        electricEfficiency = parseFloat(document.getElementById('electric-efficiency').value) || electricEfficiency;
-    }
+    let evPrice = parseFloat(document.getElementById('ev-price').value) || 30000;
+    let electricityPrice = parseFloat(document.getElementById('electricity-price').value) || 0.16;
+    let electricEfficiency = parseFloat(document.getElementById('electric-efficiency').value) || 30;
 
     const fuelPrice = unit.includes('miles') ? 3.5 : 0.9;  // Default values, can be customized
 
@@ -41,31 +37,31 @@ document.getElementById('calculator-form').addEventListener('submit', function(e
         fuelEfficiencies = fuelEfficiencies.map(eff => convertUnits(eff, 'kml', 'mpg'));
     }
 
-    function calculateCosts(mileagePerYear, years, fuelPrice, electricityPrice, carPrices, fuelEfficiencies, electricEfficiency) {
+    function calculateCosts(mileagePerYear, years, fuelPrice, electricityPrice, carPrices, fuelEfficiencies, electricEfficiency, evPrice) {
         const fuelCosts = fuelEfficiencies.map(eff => (mileagePerYear / eff) * fuelPrice);
         const electricCostEv = (mileagePerYear / 100) * electricEfficiency * electricityPrice;
 
         const totalCosts = carPrices.map((price, index) => price + (fuelCosts[index] * years));
-        const evCost = carPrices[2] + (electricCostEv * years);
+        const evTotalCost = evPrice + (electricCostEv * years);
 
-        return { totalCosts, evCost };
+        return { totalCosts, evTotalCost };
     }
 
-    function getBestCost(totalCosts, evCost) {
-        const minCost = Math.min(...totalCosts);
+    function getBestCost(totalCosts, evTotalCost) {
+        const minCost = Math.min(...totalCosts, evTotalCost);
         const bestCarIndex = totalCosts.indexOf(minCost);
         const bestCarCost = minCost;
-        const evIsBest = evCost < bestCarCost;
+        const evIsBest = evTotalCost < bestCarCost;
 
-        return evIsBest ? { bestCar: 'EV', cost: evCost } : { bestCar: `Car with ${fuelEfficiencies[bestCarIndex]} MPG`, cost: bestCarCost };
+        return evIsBest ? { bestCar: 'EV', cost: evTotalCost } : { bestCar: `Car with ${fuelEfficiencies[bestCarIndex]} MPG`, cost: bestCarCost };
     }
 
-    function plotCostCurves(mileagePerYear, years, fuelPrice, electricityPrice, carPrices, fuelEfficiencies, electricEfficiency) {
+    function plotCostCurves(mileagePerYear, years, fuelPrice, electricityPrice, carPrices, fuelEfficiencies, electricEfficiency, evPrice) {
         const mileages = Array.from({ length: 19 }, (_, i) => (i + 1) * 5000);
-        const costCurves = mileages.map(mileage => calculateCosts(mileage, years, fuelPrice, electricityPrice, carPrices, fuelEfficiencies, electricEfficiency));
+        const costCurves = mileages.map(mileage => calculateCosts(mileage, years, fuelPrice, electricityPrice, carPrices, fuelEfficiencies, electricEfficiency, evPrice));
         const standardCosts = costCurves.map(curve => curve.totalCosts[0]);
         const hybridCosts = costCurves.map(curve => curve.totalCosts[1]);
-        const evCosts = costCurves.map(curve => curve.evCost);
+        const evCosts = costCurves.map(curve => curve.evTotalCost);
 
         const ctx = document.getElementById('cost-chart').getContext('2d');
         new Chart(ctx, {
@@ -83,16 +79,30 @@ document.getElementById('calculator-form').addEventListener('submit', function(e
                 scales: {
                     x: { title: { display: true, text: unit.includes('miles') ? 'Mileage (miles)' : 'Mileage (km)' } },
                     y: { title: { display: true, text: 'Total Cost ($)' } }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const index = context.dataIndex;
+                                return [
+                                    `Standard Fuel Car: $${standardCosts[index].toFixed(2)}`,
+                                    `Hybrid Car: $${hybridCosts[index].toFixed(2)}`,
+                                    `Electric Car: $${evCosts[index].toFixed(2)}`
+                                ];
+                            }
+                        }
+                    }
                 }
             }
         });
     }
 
-    const { totalCosts, evCost } = calculateCosts(mileage, years, fuelPrice, electricityPrice, carPrices, fuelEfficiencies, electricEfficiency);
-    const bestCost = getBestCost(totalCosts, evCost);
+    const { totalCosts, evTotalCost } = calculateCosts(mileage, years, fuelPrice, electricityPrice, carPrices, fuelEfficiencies, electricEfficiency, evPrice);
+    const bestCost = getBestCost(totalCosts, evTotalCost);
 
     document.getElementById('results').innerText = `The most cost-effective option is ${bestCost.bestCar} with a total cost of $${bestCost.cost.toFixed(2)} over ${years} years and ${mileage} miles per year.`;
 
-    plotCostCurves(mileage, years, fuelPrice, electricityPrice, carPrices, fuelEfficiencies, electricEfficiency);
+    plotCostCurves(mileage, years, fuelPrice, electricityPrice, carPrices, fuelEfficiencies, electricEfficiency, evPrice);
 });
 
