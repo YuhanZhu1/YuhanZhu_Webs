@@ -14,7 +14,7 @@ document.getElementById('calculator-form').addEventListener('submit', function(e
     const unit = document.getElementById('unit').value;
     let annualMileage = parseFloat(document.getElementById('mileage').value) || (unit.includes('miles') ? 14000 : 22531);
     const years = parseFloat(document.getElementById('years').value) || 8;
-    const fuelEfficiencies = document.getElementById('fuel-efficiency').value.split(',').map(parseFloat);
+    let fuelEfficiencies = document.getElementById('fuel-efficiency').value.split(',').map(parseFloat);
     const carPrices = document.getElementById('car-prices').value.split(',').map(parseFloat);
     const compareEv = document.getElementById('compare-ev').checked;
 
