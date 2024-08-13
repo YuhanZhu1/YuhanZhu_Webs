@@ -6,7 +6,7 @@
     align-items: center;
     justify-content: space-between;
     position: flex;
-    width: flex;
+    width: 100%;
     top: 0;
     left: 0;
     z-index: 1000;
@@ -19,7 +19,7 @@
     text-align: left;
     background-color: #fff;
     border-radius: 10px;
-    max-width: 60px;
+    max-width: 600px;
 }
 
 .product h3 {
@@ -28,7 +28,7 @@
 }
 
 .product img {
-    width: flex;
+    max-width: 100%;
     height: auto;
     border-radius: 5px;
     margin-bottom: 10px;
@@ -47,3 +47,4 @@
     color: #0288d1;
     font-weight: bold;
 }
+

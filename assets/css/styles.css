@@ -16,7 +16,7 @@ header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    position: fiex;
+    position: fixed;
     width: 100%;
     top: 0;
     left: 0;
@@ -102,10 +102,6 @@ footer {
     bottom: 0;
 }
 
-.footer-text {
-    margin: 5px 0;
-}
-
 /* Media queries for mobile optimization */
 @media (max-width: 600px) {
     body {
@@ -146,3 +142,12 @@ footer {
         display: block;
     }
 }
+
+/* Ensure images are responsive */
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
