@@ -79,7 +79,7 @@ h1 {
 }
 
 main {
-    padding: 120px 20px 20px; /* Adjust for fixed header */
+    padding: 100px 20px 20px; /* Adjust for fixed header */
 }
 
 section h2 {
@@ -145,7 +145,7 @@ footer {
 
 /* Ensure images are responsive */
 img {
-    max-width: 90%;
+    max-width: 100%;
     max-height: 70vh;
     height: auto;
     display: block;
