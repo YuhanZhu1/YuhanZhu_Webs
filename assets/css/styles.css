@@ -79,7 +79,7 @@ h1 {
 }
 
 main {
-    padding: 100px 20px 20px; /* Adjust for fixed header */
+    padding: 120px 20px 20px; /* Adjust for fixed header */
 }
 
 section h2 {
@@ -103,7 +103,7 @@ footer {
 }
 
 /* Media queries for mobile optimization */
-@media (max-width: 300px) {
+@media (max-width: 600px) {
     body {
         font-size: 16px;
     }
