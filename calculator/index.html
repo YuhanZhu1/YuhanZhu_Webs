@@ -24,6 +24,8 @@
                 <li><strong>Enter Years of Use:</strong> Specify the number of years you plan to use the vehicle. If left blank, a default value of 8 years will be used.</li>
                 <li><strong>Input Fuel Efficiencies:</strong> Provide the fuel efficiencies for the vehicles you are comparing. You can enter multiple values separated by commas (e.g. 25, 27, 35).</li>
                 <li><strong>Enter Car Prices:</strong> Input the purchase prices for the vehicles. Correspond these with the fuel efficiencies provided, separated by commas (e.g. 20000, 25000, 30000).</li>
+                <li><strong>Input Fuel Price:</strong> Specify the fuel price per gallon or liter.</li>
+                <li><strong>Enter Maintenance and Insurance Costs:</strong> Input annual maintenance and insurance costs.</li>
                 <li><strong>Compare with EV:</strong> Check this option if you want to include EV in the comparison. You will need to input the EV purchase price, electricity price per kWh, and electric efficiency. If left blank, default values of $30,000, $0.16 per kWh, and 30 kWh/100 miles will be used.</li>
                 <li><strong>Calculate:</strong> Click the "Calculate" button to see the results.</li>
             </ol>
@@ -54,6 +56,15 @@
             <label for="car-prices">Car Prices (e.g. 20000,25000,30000):</label>
             <input type="text" id="car-prices" name="car-prices" required>
             
+            <label for="fuel-price">Fuel Price (Default value = 3.5/gallon):</label>
+            <input type="number" step="0.01" id="fuel-price" name="fuel-price" value="3.5">
+
+            <label for="maintenance-cost">Annual Maintenance Cost (Default value = 650/year):</label>
+            <input type="number" step="0.01" id="maintenance-cost" name="maintenance-cost" value="650">
+
+            <label for="insurance-cost">Annual Insurance Cost (Default value = 2200/year):</label>
+            <input type="number" step="0.01" id="insurance-cost" name="insurance-cost" value="2200">
+
             <label for="compare-ev">Compare with EV:</label>
             <input type="checkbox" id="compare-ev" name="compare-ev">
             
@@ -98,4 +109,3 @@
     <script src="scripts.js"></script>
 </body>
 </html>
-

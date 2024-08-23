@@ -21,8 +21,9 @@ document.getElementById('calculator-form').addEventListener('submit', function(e
     let evPrice = parseFloat(document.getElementById('ev-price').value) || 30000;
     let electricityPrice = parseFloat(document.getElementById('electricity-price').value) || 0.16;
     let electricEfficiency = parseFloat(document.getElementById('electric-efficiency').value) || 30;
-
-    const fuelPrice = unit.includes('miles') ? 3.5 : 0.9;  // Default values, can be customized
+    const fuelPrice = parseFloat(document.getElementById('fuel-price').value) || (unit.includes('miles') ? 3.5 : 0.9);
+    const maintenanceCost = parseFloat(document.getElementById('maintenance-cost').value) || 650;
+    const insuranceCost = parseFloat(document.getElementById('insurance-cost').value) || 2200;
 
     function convertUnits(value, from, to) {
         const conversions = {
@@ -44,30 +45,38 @@ document.getElementById('calculator-form').addEventListener('submit', function(e
         electricEfficiency *= 0.621371;  // Convert kWh/100 km to kWh/100 miles
     }
 
-    function calculateCosts(annualMileage, years, fuelPrice, electricityPrice, carPrices, fuelEfficiencies, electricEfficiency, evPrice) {
+    function calculateCosts(annualMileage, years, fuelPrice, electricityPrice, carPrices, fuelEfficiencies, electricEfficiency, evPrice, includeEv) {
         const totalMileage = annualMileage * years;
         const fuelCosts = fuelEfficiencies.map(eff => (totalMileage / eff) * fuelPrice);
-        const electricCostEv = (totalMileage / 100) * electricEfficiency * electricityPrice;
+        const maintenanceTotal = maintenanceCost * years;
+        const insuranceTotal = insuranceCost * years;
+        
+        let evTotalCost = Infinity; // Set to a high value by default
+        if (includeEv) {
+            const electricCostEv = (totalMileage / 100) * electricEfficiency * electricityPrice;
+            evTotalCost = evPrice + electricCostEv + maintenanceTotal + insuranceTotal;
+        }
 
-        const totalCosts = carPrices.map((price, index) => price + fuelCosts[index]);
-        const evTotalCost = evPrice + electricCostEv;
+        const totalCosts = carPrices.map((price, index) => price + fuelCosts[index] + maintenanceTotal + insuranceTotal);
 
         return { totalCosts, evTotalCost };
     }
 
-    function getBestCost(totalCosts, evTotalCost) {
-        const minCost = Math.min(...totalCosts, evTotalCost);
-        const bestCarIndex = totalCosts.indexOf(minCost);
-        const bestCarCost = minCost;
-        const evIsBest = evTotalCost < bestCarCost;
+    function getBestCost(totalCosts, evTotalCost, includeEv) {
+        let minCost = Math.min(...totalCosts);
+        let bestCarIndex = totalCosts.indexOf(minCost);
 
-        return evIsBest ? { bestCar: 'EV', cost: evTotalCost } : { bestCar: `Car with ${fuelEfficiencies[bestCarIndex]} MPG`, cost: bestCarCost };
+        if (includeEv && evTotalCost < minCost) {
+            return { bestCar: 'EV', cost: evTotalCost };
+        } else {
+            return { bestCar: `Car with ${fuelEfficiencies[bestCarIndex]} MPG`, cost: minCost };
+        }
     }
 
     function plotCostCurves(annualMileage, years, fuelPrice, electricityPrice, carPrices, fuelEfficiencies, electricEfficiency, evPrice) {
         const totalMileage = annualMileage * years;
         const mileages = Array.from({ length: 19 }, (_, i) => (i + 1) * (totalMileage / 19));
-        const costCurves = mileages.map(mileage => calculateCosts(mileage / years, years, fuelPrice, electricityPrice, carPrices, fuelEfficiencies, electricEfficiency, evPrice));
+        const costCurves = mileages.map(mileage => calculateCosts(mileage / years, years, fuelPrice, electricityPrice, carPrices, fuelEfficiencies, electricEfficiency, evPrice, compareEv));
         const datasets = fuelEfficiencies.map((eff, index) => {
             return {
                 label: `${eff} ${unit.includes('miles') ? 'MPG' : unit === 'km-lkm' ? 'L/100KM' : 'KM/L'}`,
@@ -120,11 +129,14 @@ document.getElementById('calculator-form').addEventListener('submit', function(e
         });
     }
 
-    const { totalCosts, evTotalCost } = calculateCosts(annualMileage, years, fuelPrice, electricityPrice, carPrices, fuelEfficiencies, electricEfficiency, evPrice);
-    const bestCost = getBestCost(totalCosts, evTotalCost);
+    const { totalCosts, evTotalCost } = calculateCosts(annualMileage, years, fuelPrice, electricityPrice, carPrices, fuelEfficiencies, electricEfficiency, evPrice, compareEv);
+    const bestCost = getBestCost(totalCosts, evTotalCost, compareEv);
 
-    document.getElementById('results').innerText = `The most cost-effective option is ${bestCost.bestCar} with a total cost of $${bestCost.cost.toFixed(2)} over ${years} years and ${annualMileage * years} ${unit.includes('miles') ? 'miles' : 'km'}.`;
+    if (bestCost.cost && !isNaN(bestCost.cost)) {
+        document.getElementById('results').innerText = `The most cost-effective option is ${bestCost.bestCar} with a total cost of $${bestCost.cost.toFixed(2)} over ${years} years and ${annualMileage * years} ${unit.includes('miles') ? 'miles' : 'km'}.`;
+    } else {
+        document.getElementById('results').innerText = "There was an error calculating the cost. Please check your inputs.";
+    }
 
     plotCostCurves(annualMileage, years, fuelPrice, electricityPrice, carPrices, fuelEfficiencies, electricEfficiency, evPrice);
 });
-
