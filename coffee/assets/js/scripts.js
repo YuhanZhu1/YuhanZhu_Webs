@@ -110,14 +110,20 @@ function getJokeResponseMessage(jokeResponse) {
 }
 
 window.handleFormSubmission = function() {
+  const orderTime = new Date().toISOString();
   const userName = document.getElementById('user-name').value;
+  const note = document.getElementById('note').value;
+  const decaf = document.getElementById('decaf').value;
   const coffeeType = document.getElementById('coffee-type').value;
   const coffeeTemp = document.getElementById('coffee-temp').value;
   const milkType = document.getElementById('milk-type').value;
   const quantity = document.getElementById('quantity').value;
-  const note = document.getElementById('note').value;
+  
   const orderData = {
+    orderTime,
     userName,
+    note,
+    caffeine,
     coffeeType,
     coffeeTemp,
     milkType,
