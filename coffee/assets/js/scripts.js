@@ -1,7 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
 import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-database.js";
 
-// Firebase configuration and initialization
 const firebaseConfig = {
   apiKey: "AIzaSyBAjNZJAzRejznIPeai1QQ2ZFOTCNWO8Ic",
   authDomain: "yuyu-coffee.firebaseapp.com",
@@ -16,7 +15,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 
-// Function to save order data to Firebase
 function saveOrderToFirebase(orderData) {
   const ordersRef = ref(database, 'orders');
   push(ordersRef, orderData).then(() => {
@@ -26,7 +24,6 @@ function saveOrderToFirebase(orderData) {
   });
 }
 
-// Function to calculate price
 function calculatePrice() {
   const coffeeType = document.getElementById('coffee-type').value;
   const milkType = document.getElementById('milk-type').value;
@@ -37,6 +34,8 @@ function calculatePrice() {
     case 'Espresso':
     case 'Americano':
     case 'Latte':
+    case 'DecafEspresso':
+    case 'DecafAmericano':
       pricePerCup = 1.1;
       break;
     case 'HandDrip':
@@ -51,7 +50,7 @@ function calculatePrice() {
   const totalPrice = (pricePerCup + milkPrice) * quantity;
 
   if (totalPrice > 25 || quantity > 15) {
-    document.getElementById('price').innerText = `Whoa, ${quantity} cups of coffee with total $ ${totalPrice}. Yuhan might need an extra pair of hands to brew all that! Let's dial it back a bit. ☕️😄`;
+    document.getElementById('price').innerText = `Whoa, ${quantity} cups of coffee? Yuhan might need an extra pair of hands to brew all that! Let's dial it back a bit. ☕️😄`;
     document.getElementById('joke-section').style.display = 'none';
     document.getElementById('payment-buttons').style.display = 'none';
   } else {
@@ -60,7 +59,6 @@ function calculatePrice() {
   }
 }
 
-// Helper function to calculate milk price
 function calculateMilkPrice(milkType) {
   switch (milkType) {
     case 'Whole Milk':
@@ -77,7 +75,6 @@ function calculateMilkPrice(milkType) {
   }
 }
 
-// Function to handle joke submission and payment setup
 function handleJoke() {
   const jokeResponse = document.getElementById('joke').value;
   const responseMessage = getJokeResponseMessage(jokeResponse);
@@ -103,7 +100,6 @@ function handleJoke() {
   }
 }
 
-// Helper function to get joke response message
 function getJokeResponseMessage(jokeResponse) {
   switch (jokeResponse) {
     case 'yes': return '☀️ Have a joyful day! Your coffee is free!';
@@ -115,7 +111,6 @@ function getJokeResponseMessage(jokeResponse) {
   }
 }
 
-// Function to handle form submission
 window.handleFormSubmission = function() {
   const userName = document.getElementById('user-name').value;
   const coffeeType = document.getElementById('coffee-type').value;
@@ -124,17 +119,17 @@ window.handleFormSubmission = function() {
   const decaf = document.getElementById('decaf').value;
   const quantity = document.getElementById('quantity').value;
   const note = document.getElementById('note').value;
-  const orderTime = new Date().toISOString();
+  const orderTime = new Date().toLocaleString('en-US', { timeZone: 'America/New_York' });
 
   const orderData = {
-    orderTime,
     userName,
-    note,
-    decaf,
-    coffeeTemp,
     coffeeType,
+    coffeeTemp,
     milkType,
-    quantity
+    decaf,
+    quantity,
+    note,
+    orderTime
   };
 
   saveOrderToFirebase(orderData);
