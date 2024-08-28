@@ -50,7 +50,7 @@ function calculatePrice() {
   const totalPrice = (pricePerCup + milkPrice) * quantity;
 
   if (totalPrice > 25 || quantity > 15) {
-    document.getElementById('price').innerText = `Wow, ${quantity} cups of coffee, Yuhan can't have that much coffee at this moment.`;
+    document.getElementById('price').innerText = `Whoa, ${quantity} cups of coffee? Yuhan might need an extra pair of hands to brew all that! Let's dial it back a bit. ☕️😄`;
     document.getElementById('joke-section').style.display = 'none';
     document.getElementById('payment-buttons').style.display = 'none';
   } else {
@@ -110,29 +110,28 @@ function getJokeResponseMessage(jokeResponse) {
 }
 
 window.handleFormSubmission = function() {
-  const orderTime = new Date().toISOString();
   const userName = document.getElementById('user-name').value;
-  const note = document.getElementById('note').value;
-  const decaf = document.getElementById('decaf').value;
   const coffeeType = document.getElementById('coffee-type').value;
   const coffeeTemp = document.getElementById('coffee-temp').value;
   const milkType = document.getElementById('milk-type').value;
+  const decaf = document.getElementById('decaf').value;
   const quantity = document.getElementById('quantity').value;
-  
+  const note = document.getElementById('note').value;
+  const orderTime = new Date().toISOString();
+
   const orderData = {
-    orderTime,
     userName,
-    note,
-    caffeine,
     coffeeType,
     coffeeTemp,
     milkType,
+    decaf,
     quantity,
-    note
+    note,
+    orderTime
   };
+
   saveOrderToFirebase(orderData);
 }
 
 document.getElementById('calculate-price-button').addEventListener('click', calculatePrice);
 document.getElementById('joke-button').addEventListener('click', handleJoke);
-
