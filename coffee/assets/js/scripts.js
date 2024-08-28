@@ -82,13 +82,15 @@ function handleJoke() {
 
   const totalPrice = parseFloat(document.getElementById('price').innerText.replace('Total Price: $', ''));
   if (totalPrice > 0 && jokeResponse === 'pay') {
+    const orderTime = new Date().toISOString();
     const userName = document.getElementById('user-name').value;
+    const note = document.getElementById('note').value;
+    const decaf = document.getElementById('decaf').value;
     const coffeeType = document.getElementById('coffee-type').value;
     const coffeeTemp = document.getElementById('coffee-temp').value;
     const milkType = document.getElementById('milk-type').value;
     const quantity = document.getElementById('quantity').value;
-    const note = document.getElementById('note').value;
-    const orderNote = `Order: ${coffeeType} (${coffeeTemp}), Milk: ${milkType}, Quantity: ${quantity}, Note: ${note}, Name: ${userName}`;
+    const orderNote = `Time: ${orderTime}, Name: ${userName}, Note: ${note}, Order: ${decaf} ${coffeeType} (${coffeeTemp}), Milk: ${milkType}, Quantity: ${quantity}`;
     
     document.getElementById('venmo-button').setAttribute('href', `venmo://paycharge?txn=pay&recipients=Yuhan-Zhu-1&amount=${totalPrice}&note=${encodeURIComponent(orderNote)}`);
     document.getElementById('payment-buttons').style.display = 'block';
