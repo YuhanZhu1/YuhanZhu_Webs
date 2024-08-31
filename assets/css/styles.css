@@ -1,6 +1,6 @@
 /* General styles */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     text-align: center;
     background-color: #f5f5f5;
     margin: 0;
@@ -9,10 +9,10 @@ body {
     font-size: 20px;
 }
 
+/* Header and navigation */
 header {
-    background-color: #fff;
+    background-color: rgba(255, 255, 255, 0.8); /* 修改透明度，确保导航栏不会完全透明 */
     padding: 10px 15px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -21,19 +21,23 @@ header {
     top: 0;
     left: 0;
     z-index: 1000;
+    transition: background-color 0.5s ease, transform 0.5s ease;
 }
 
-.header-content {
-    display: flex;
-    align-items: center;
+header.scrolled {
+    background-color: rgba(255, 255, 255, 0.6); /* 调整透明度，避免与内容重叠 */
 }
 
 .menu-icon {
-    display: none;
+    display: none; /* 默认隐藏 */
     font-size: 2em;
     cursor: pointer;
     color: #333;
     margin-right: 15px;
+    position: fixed;
+    top: 10px;
+    left: 15px;
+    z-index: 1001;
 }
 
 nav ul {
@@ -45,102 +49,35 @@ nav ul {
     flex-wrap: wrap;
 }
 
-nav ul li {
-    margin: 5px 6px;
-}
-
 nav ul li a {
     text-decoration: none;
-    color: #ff7948;
+    color: #333;
     font-size: 1em;
     font-weight: bold;
     padding: 2px 6px;
-    background-color: #468cee;
-    border-radius: 5px;
-    transition: background-color 0.3s;
+    transition: color 0.3s, border-bottom 0.3s;
+    border-bottom: 2px solid transparent;
 }
 
 nav ul li a:hover {
-    background-color: #bdbdbd;
+    color: #468cee;
+    border-bottom: 2px solid #468cee;
 }
 
-h1 {
-    color: #333;
-    font-size: 1.5em;
-    font-weight: bold;
-}
-
-.highlight {
-    color: #00a6ff;
-    font-size: 1.2em;
-    font-weight: bold;
+/* Paragraph and Section Styling */
+p {
     margin-bottom: 20px;
-    font-style: italic;
-}
-
-main {
-    padding: 100px 20px 20px; /* Adjust for fixed header */
 }
 
 section h2 {
     color: #333;
     font-size: 1.8em;
     font-weight: bold;
-    margin-bottom: 15px;
+    margin-bottom: 25px;
 }
 
-.hidden {
-    display: none;
-}
-
-footer {
-    background-color: #333;
-    color: white;
-    padding: 10px;
-    font-size: 0.8em;
-    width: 100%;
-    bottom: 0;
-}
-
-/* Media queries for mobile optimization */
-@media (max-width: 600px) {
-    body {
-        font-size: 16px;
-    }
-    header {
-        padding: 10px 10px;
-    }
-    h1 {
-        font-size: 1.2em;
-    }
-    .highlight {
-        font-size: 1em;
-    }
-    section h2 {
-        font-size: 1.5em;
-    }
-    nav ul {
-        display: none;
-        flex-direction: column;
-        background-color: #fff;
-        position: absolute;
-        top: 50px;
-        left: 0;
-        width: 50%;
-        padding: 0;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-    nav ul li {
-        margin: 5px 0;
-        text-align: left;
-        padding-left: 20px;
-    }
-    nav ul.menu-active {
-        display: flex;
-    }
-    .menu-icon {
-        display: block;
-    }
+main {
+    padding: 120px 20px 20px;
 }
 
 /* Ensure images are responsive */
@@ -150,5 +87,36 @@ img {
     height: auto;
     display: block;
     margin: 0 auto;
+}
+
+/* Media queries for mobile optimization */
+@media (max-width: 800px) {
+    .menu-icon {
+        display: block; /* 仅在屏幕尺寸不足时显示menu-icon */
+    }
+    nav ul {
+        display: none;
+    }
+    nav ul.menu-active {
+        display: flex;
+        flex-direction: column;
+        background-color: #fff;
+        position: absolute;
+        top: 50px;
+        left: 0;
+        width: 100%;
+        padding: 0;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+}
+
+@media (min-width: 800px) {
+    .menu-icon {
+        display: none; /* 屏幕尺寸足够时隐藏menu-icon */
+    }
+
+    header.hidden + .menu-icon {
+        display: block;
+    }
 }
 
