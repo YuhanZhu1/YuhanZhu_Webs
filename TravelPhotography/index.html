@@ -3,57 +3,156 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Travel & Photography</title>
+    <title>Photography</title>
     <link rel="stylesheet" href="assets/css/styles.css">
-    <link rel="icon" href="assets/img/logo.png" type="image/png">
-    <link rel="apple-touch-icon" href="assets/img/logo.png">
+    <link rel="icon" href="../assets/img/logo.png" type="image/png">
+    <link rel="apple-touch-icon" href="../assets/img/logo.png">
+    <style>
+        .masonry-gallery {
+            column-count: 3;
+            column-gap: 1em;
+        }
+        .masonry-gallery img {
+            width: 100%;
+            margin-bottom: 1em;
+            display: block;
+        }
+    </style>
 </head>
 <body>
     <header>
         <div class="header-content">
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="../index.html#milestones">Milestones</a></li>
+                    <li><a href="../coffee/index.html">YuYu Coffee</a></li>
+                    <li><a href="../calculator/index.html">Calculator</a></li>
+                    <li><a href="../recomendation/index.html">Yuhan's Pick</a></li>
+                </ul>
+                <div class="menu-icon" onclick="toggleMenu()">☰</div>
+            </nav>
         </div>
-        <nav>
-            <ul class="nav-menu">
-                <li><a href="../index.html" onclick="showPage('home')">Home</a></li>
-                <li><a href="../index.html#music_books" onclick="showPage('music_books')">Music & Books</a></li>
-                <li><a href="../index.html#physics_data_projects" onclick="showPage('physics_data_projects')">Physics, Data Science & Projects</a></li>
-                <li><a href="../coffee/index.html">YuYu Coffee</a></li>
-                <li><a href="../calculator/index.html">Calculator</a></li>
-                <li><a href="../recomendation/index.html">Yuhan's Pick</a></li>
-            </ul>
-        </nav>
     </header>
+
     <main>
-        <section id="travel_photography">
-            <h2>Travel & Photography</h2>
-            <p>I love road trips (though I don't like long boring drives). I've had many cross-country road trip experiences, such as from Michigan to Denver, San Francisco to Las Vegas, Las Vegas to the Grand Canyon, Michigan to Florida, and Michigan to DC, DC to New York. I've even done a one day round trip to Niagara Falls. I love nature and nature photography, and I want to explore our world in depth.</p>
-            <div class="gallery">
-                <img src="assets/img/IMG_0789.jpg" alt="Travel Photo 1">
-                <img src="assets/img/IMG_3001.JPG" alt="Travel Photo 2">
-                <img src="assets/img/IMG_3222.JPG" alt="Travel Photo 3">
-                <img src="assets/img/IMG_3637.jpg" alt="Travel Photo 4">
-                <img src="assets/img/IMG_5671.jpg" alt="Travel Photo 5">
-                <img src="assets/img/IMG_6233.jpg" alt="Travel Photo 6">
-                <img src="assets/img/IMG_6237.jpg" alt="Travel Photo 7">
-                <img src="assets/img/IMG_6238.jpg" alt="Travel Photo 8">
-                <img src="assets/img/IMG_6240.jpg" alt="Travel Photo 9">
-                <img src="assets/img/IMG_6242.jpg" alt="Travel Photo 10">
-                <img src="assets/img/IMG_6245.jpg" alt="Travel Photo 11">
-                <img src="assets/img/IMG_6274.JPG" alt="Travel Photo 12">
-                <img src="assets/img/IMG_7407.jpg" alt="Travel Photo 13">
-                <img src="assets/img/IMG_7410.jpg" alt="Travel Photo 14">
-                <img src="assets/img/IMG_7471.jpg" alt="Travel Photo 15">
-                <img src="assets/img/IMG_7887.JPG" alt="Travel Photo 16">
-                <img src="assets/img/IMG_7888.JPG" alt="Travel Photo 17">
-                <img src="assets/img/IMG_7900.JPG" alt="Travel Photo 18">
-                <img src="assets/img/IMG_7932.JPG" alt="Travel Photo 19">
-                <img src="assets/img/IMG_7934.JPG" alt="Travel Photo 20">
-                <img src="assets/img/IMG_7937.JPG" alt="Travel Photo 21">
-                <img src="assets/img/IMG_7938.JPG" alt="Travel Photo 22">
-                <img src="assets/img/IMG_7939.JPG" alt="Travel Photo 23">
+        <section id="photography">
+            <h2><strong>Photography</strong></h2>
+            <!-- <p>I love road trips and capturing the beauty of nature through photography. My adventures have taken me across various scenic landscapes, from the Grand Canyon to Niagara Falls, each offering a unique photographic opportunity.</p> -->
+            <div class="masonry-gallery">
+                <img src="assets/img/IMG_0789.jpg" alt="Travel Photo 1" loading="lazy">
+                <img src="assets/img/IMG_0917.jpg" alt="Travel Photo 2" loading="lazy">
+                <img src="assets/img/IMG_0951.jpg" alt="Travel Photo 3" loading="lazy">
+                <img src="assets/img/IMG_0961.jpg" alt="Travel Photo 4" loading="lazy">
+                <img src="assets/img/IMG_0062.jpg" alt="Night 1" loading="lazy">
+                <img src="assets/img/IMG_0966.jpg" alt="Travel Photo 5" loading="lazy">
+                <img src="assets/img/IMG_0976.jpg" alt="Travel Photo 6" loading="lazy">
+                <img src="assets/img/IMG_1012.jpg" alt="Travel Photo 7" loading="lazy">
+                <img src="assets/img/IMG_1963.JPG" alt="Travel Photo 8" loading="lazy">
+                <img src="assets/img/IMG_2267.jpg" alt="Travel Photo 9" loading="lazy">
+                <img src="assets/img/IMG_2940.jpg" alt="Travel Photo 10" loading="lazy">
+                <img src="assets/img/IMG_2941.jpg" alt="Travel Photo 11" loading="lazy">
+                <img src="assets/img/IMG_2948.jpg" alt="Travel Photo 12" loading="lazy">
+                <img src="assets/img/IMG_2973.jpg" alt="Travel Photo 13" loading="lazy">
+                <img src="assets/img/IMG_3001.JPG" alt="Travel Photo 14" loading="lazy">
+                <img src="assets/img/IMG_3013.jpg" alt="Travel Photo 15" loading="lazy">
+                <img src="assets/img/IMG_3020.jpg" alt="Travel Photo 16" loading="lazy">
+                <img src="assets/img/IMG_3144.jpg" alt="Travel Photo 17" loading="lazy">
+                <img src="assets/img/IMG_3155.jpg" alt="Travel Photo 18" loading="lazy">
+                <img src="assets/img/IMG_3172.jpg" alt="Travel Photo 19" loading="lazy">
+                <img src="assets/img/IMG_3200.jpg" alt="Travel Photo 20" loading="lazy">
+                <img src="assets/img/IMG_3222.JPG" alt="Travel Photo 21" loading="lazy">
+                <img src="assets/img/IMG_3226.jpg" alt="Travel Photo 22" loading="lazy">
+                <img src="assets/img/IMG_3254.jpg" alt="Travel Photo 23" loading="lazy">
+                <img src="assets/img/IMG_3256.jpg" alt="Travel Photo 24" loading="lazy">
+                <img src="assets/img/IMG_3264.jpg" alt="Travel Photo 25" loading="lazy">
+                <img src="assets/img/IMG_3278.jpg" alt="Travel Photo 26" loading="lazy">
+                <img src="assets/img/IMG_0080.jpg" alt="Night 2" loading="lazy">
+                <img src="assets/img/IMG_3281.jpg" alt="Travel Photo 27" loading="lazy">
+                <img src="assets/img/IMG_3291.jpg" alt="Travel Photo 28" loading="lazy">
+                <img src="assets/img/IMG_3295.jpg" alt="Travel Photo 29" loading="lazy">
+                <img src="assets/img/IMG_3298.jpg" alt="Travel Photo 30" loading="lazy">
+                <img src="assets/img/IMG_3330.jpg" alt="Travel Photo 31" loading="lazy">
+                <img src="assets/img/IMG_3389.JPG" alt="Travel Photo 32" loading="lazy">
+                <img src="assets/img/IMG_3637.jpg" alt="Travel Photo 33" loading="lazy">
+                <img src="assets/img/IMG_5188.JPG" alt="Travel Photo 34" loading="lazy">
+                <img src="assets/img/IMG_5671.jpg" alt="Travel Photo 35" loading="lazy">
+                <img src="assets/img/IMG_5764 copy.jpg" alt="extra1" loading="lazy">
+                <img src="assets/img/IMG_5870.jpg" alt="Travel Photo 36" loading="lazy">
+                <img src="assets/img/IMG_5841 copy.jpg" alt="extra2" loading="lazy">
+                <img src="assets/img/IMG_5998.jpg" alt="Travel Photo 37" loading="lazy">
+                <img src="assets/img/IMG_5888 copy.jpg" alt="extra2" loading="lazy">
+                <img src="assets/img/IMG_6003.jpg" alt="Travel Photo 38" loading="lazy">
+                <img src="assets/img/IMG_6025.jpg" alt="Travel Photo 39" loading="lazy">
+                <img src="assets/img/IMG_6041.jpg" alt="Travel Photo 40" loading="lazy">
+                <img src="assets/img/IMG_6233.jpg" alt="Travel Photo 41" loading="lazy">
+                <img src="assets/img/IMG_6237.jpg" alt="Travel Photo 42" loading="lazy">
+                <img src="assets/img/IMG_6238.jpg" alt="Travel Photo 43" loading="lazy">
+                <img src="assets/img/IMG_6240.jpg" alt="Travel Photo 44" loading="lazy">
+                <img src="assets/img/IMG_6242.jpg" alt="Travel Photo 45" loading="lazy">
+                <img src="assets/img/IMG_6245.jpg" alt="Travel Photo 46" loading="lazy">
+                <img src="assets/img/IMG_6274.JPG" alt="Travel Photo 47" loading="lazy">
+                <img src="assets/img/IMG_6871.JPG" alt="Travel Photo 48" loading="lazy">
+                <img src="assets/img/IMG_6872.JPG" alt="Travel Photo 49" loading="lazy">
+                <img src="assets/img/IMG_6873.JPG" alt="Travel Photo 50" loading="lazy">
+                <img src="assets/img/IMG_6874.JPG" alt="Travel Photo 51" loading="lazy">
+                <img src="assets/img/IMG_6875.JPG" alt="Travel Photo 52" loading="lazy">
+                <img src="assets/img/IMG_6876.JPG" alt="Travel Photo 53" loading="lazy">
+                <img src="assets/img/IMG_6877.JPG" alt="Travel Photo 54" loading="lazy">
+                <img src="assets/img/IMG_6878.JPG" alt="Travel Photo 55" loading="lazy">
+                <img src="assets/img/IMG_6879.JPG" alt="Travel Photo 56" loading="lazy">
+                <img src="assets/img/IMG_6880.JPG" alt="Travel Photo 57" loading="lazy">
+                <img src="assets/img/IMG_6881.JPG" alt="Travel Photo 58" loading="lazy">
+                <img src="assets/img/IMG_6882.JPG" alt="Travel Photo 59" loading="lazy">
+                <img src="assets/img/IMG_6883.JPG" alt="Travel Photo 60" loading="lazy">
+                <img src="assets/img/IMG_6884.JPG" alt="Travel Photo 61" loading="lazy">
+                <img src="assets/img/IMG_6885.JPG" alt="Travel Photo 62" loading="lazy">
+                <img src="assets/img/IMG_6886.JPG" alt="Travel Photo 63" loading="lazy">
+                <img src="assets/img/IMG_6887.JPG" alt="Travel Photo 64" loading="lazy">
+                <img src="assets/img/IMG_0081.jpg" alt="Night 3" loading="lazy">
+                <img src="assets/img/IMG_6888.JPG" alt="Travel Photo 65" loading="lazy">
+                <img src="assets/img/IMG_6889.JPG" alt="Travel Photo 66" loading="lazy">
+                <img src="assets/img/IMG_6890.JPG" alt="Travel Photo 67" loading="lazy">
+                <img src="assets/img/IMG_6891.JPG" alt="Travel Photo 68" loading="lazy">
+                <img src="assets/img/IMG_6892.JPG" alt="Travel Photo 69" loading="lazy">
+                <img src="assets/img/IMG_6893.JPG" alt="Travel Photo 70" loading="lazy">
+                <img src="assets/img/IMG_6894.JPG" alt="Travel Photo 71" loading="lazy">
+                <img src="assets/img/IMG_6895.JPG" alt="Travel Photo 72" loading="lazy">
+                <img src="assets/img/IMG_6896.JPG" alt="Travel Photo 73" loading="lazy">
+                <img src="assets/img/IMG_6897.JPG" alt="Travel Photo 74" loading="lazy">
+                <img src="assets/img/IMG_6898.JPG" alt="Travel Photo 75" loading="lazy">
+                <img src="assets/img/IMG_6899.JPG" alt="Travel Photo 76" loading="lazy">
+                <img src="assets/img/IMG_6900.JPG" alt="Travel Photo 77" loading="lazy">
+                <img src="assets/img/IMG_6901.JPG" alt="Travel Photo 78" loading="lazy">
+                <img src="assets/img/IMG_6902.JPG" alt="Travel Photo 79" loading="lazy">
+                <img src="assets/img/IMG_6903.JPG" alt="Travel Photo 80" loading="lazy">
+                <img src="assets/img/IMG_6904.JPG" alt="Travel Photo 81" loading="lazy">
+                <img src="assets/img/IMG_6905.JPG" alt="Travel Photo 82" loading="lazy">
+                <img src="assets/img/IMG_6906.JPG" alt="Travel Photo 83" loading="lazy">
+                <img src="assets/img/IMG_6907.JPG" alt="Travel Photo 84" loading="lazy">
+                <img src="assets/img/IMG_6908.JPG" alt="Travel Photo 85" loading="lazy">
+                <img src="assets/img/IMG_6909.JPG" alt="Travel Photo 86" loading="lazy">
+                <img src="assets/img/IMG_6910.JPG" alt="Travel Photo 87" loading="lazy">
+                <img src="assets/img/IMG_6911.JPG" alt="Travel Photo 88" loading="lazy">
+                <img src="assets/img/IMG_6912.JPG" alt="Travel Photo 89" loading="lazy">
+                <img src="assets/img/IMG_6913.JPG" alt="Travel Photo 90" loading="lazy">
+                <img src="assets/img/IMG_7407.jpg" alt="Travel Photo 91" loading="lazy">
+                <img src="assets/img/IMG_7410.jpg" alt="Travel Photo 92" loading="lazy">
+                <img src="assets/img/IMG_7471.jpg" alt="Travel Photo 93" loading="lazy">
+                <img src="assets/img/IMG_7541.JPG" alt="Travel Photo 94" loading="lazy">
+                <img src="assets/img/IMG_7847.JPG" alt="Travel Photo 95" loading="lazy">
+                <img src="assets/img/IMG_7887.JPG" alt="Travel Photo 96" loading="lazy">
+                <img src="assets/img/IMG_7888.JPG" alt="Travel Photo 97" loading="lazy">
+                <img src="assets/img/IMG_7900.JPG" alt="Travel Photo 98" loading="lazy">
+                <img src="assets/img/IMG_7932.JPG" alt="Travel Photo 99" loading="lazy">
+                <img src="assets/img/IMG_7934.JPG" alt="Travel Photo 100" loading="lazy">
+                <img src="assets/img/IMG_7937.JPG" alt="Travel Photo 101" loading="lazy">
+                <img src="assets/img/IMG_7938.JPG" alt="Travel Photo 102" loading="lazy">
+                <img src="assets/img/IMG_7939.JPG" alt="Travel Photo 103" loading="lazy">
             </div>
         </section>
     </main>
+
     <footer>
         <p class="footer-text">© 1998 Yuhan Zhu. Contact: zhuyuha3@apetail.msu.edu</p>
     </footer>
