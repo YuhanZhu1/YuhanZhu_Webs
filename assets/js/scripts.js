@@ -46,4 +46,45 @@ function toggleMenu() {
     menu.classList.toggle('menu-active');
 }
 
+function showPage(pageId) {
+    // Prevent the default anchor behavior
+    event.preventDefault();
+
+    // Get the target element by its ID
+    var targetElement = document.getElementById(pageId);
+
+    // Get the height of the navigation bar to offset the scroll
+    var navBarHeight = document.querySelector('header').offsetHeight;
+
+    // Calculate the top position of the target element with the offset
+    var targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - navBarHeight;
+
+    // Scroll to the target position smoothly
+    window.scrollTo({
+        top: targetPosition,
+        behavior: 'smooth'
+    });
+}
+
+
+
+// Function to toggle the visibility of the 'Learn More' sections
+function toggleDetails(id) {
+    var element = document.getElementById(id);
+    
+    // Prevent the default anchor link behavior
+    event.preventDefault();
+
+    // Check the current scroll position
+    var currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+
+    if (element.style.display === "block") {
+        element.style.display = "none";
+    } else {
+        element.style.display = "block";
+        // Restore the original scroll position to prevent jumping
+        window.scrollTo({ top: currentScroll, behavior: 'smooth' });
+    }
+}
+
 
