@@ -86,3 +86,4 @@ function toggleDetails(id) {
     }
 }
 
+
