@@ -1,6 +1,13 @@
-document.getElementById('compare-ev').addEventListener('change', function() {
-    const evOptions = document.getElementById('ev-options');
-    evOptions.style.display = this.checked ? 'block' : 'none';
+let carIndex = 0;
+
+document.addEventListener("DOMContentLoaded", function() {
+    console.log("DOMContentLoaded event fired, setting up event listeners...");
+    document.getElementById('addCarBtn').addEventListener('click', addCarForm);
+    document.getElementById('calculateBtn').addEventListener('click', function() {
+        console.log("Calculate button clicked");
+        calculateCosts();
+    });
+    addCarForm();  // Add the first car form automatically on load
 });
 
 document.getElementById('toggle-instructions').addEventListener('click', function() {
@@ -8,135 +15,188 @@ document.getElementById('toggle-instructions').addEventListener('click', functio
     instructions.style.display = instructions.style.display === 'none' ? 'block' : 'none';
 });
 
-document.getElementById('calculator-form').addEventListener('submit', function(event) {
-    event.preventDefault();
+function addCarForm() {
+    console.log(`Adding form for Car ${carIndex + 1}`);
+    const container = document.getElementById('carFormsContainer');
+    const formHtml = `
+        <div class="carForm" id="carForm${carIndex}">
+            <h3>Car ${carIndex + 1}</h3>
+            <label for="purchasePrice${carIndex}">Purchase Price (USD):</label>
+            <input type="number" id="purchasePrice${carIndex}" required><br>
 
-    const unit = document.getElementById('unit').value;
-    let annualMileage = parseFloat(document.getElementById('mileage').value) || (unit.includes('miles') ? 14000 : 22531);
-    const years = parseFloat(document.getElementById('years').value) || 8;
-    let fuelEfficiencies = document.getElementById('fuel-efficiency').value.split(',').map(parseFloat);
-    const carPrices = document.getElementById('car-prices').value.split(',').map(parseFloat);
-    const compareEv = document.getElementById('compare-ev').checked;
+            <label for="fuelPrice${carIndex}">Fuel Price (USD per gallon):</label>
+            <input type="number" step="0.01" id="fuelPrice${carIndex}" required><br>
 
-    let evPrice = parseFloat(document.getElementById('ev-price').value) || 30000;
-    let electricityPrice = parseFloat(document.getElementById('electricity-price').value) || 0.16;
-    let electricEfficiency = parseFloat(document.getElementById('electric-efficiency').value) || 30;
-    const fuelPrice = parseFloat(document.getElementById('fuel-price').value) || (unit.includes('miles') ? 3.5 : 0.9);
-    const maintenanceCost = parseFloat(document.getElementById('maintenance-cost').value) || 650;
-    const insuranceCost = parseFloat(document.getElementById('insurance-cost').value) || 2200;
+            <label for="mpg${carIndex}">Miles per Gallon (MPG):</label>
+            <input type="number" step="0.1" id="mpg${carIndex}" required><br>
 
-    function convertUnits(value, from, to) {
-        const conversions = {
-            'mpg-lkm': value => 235.21 / value,
-            'mpg-kml': value => value * 0.425144,
-            'lkm-mpg': value => 235.21 / value,
-            'kml-mpg': value => value / 0.425144,
-        };
-        return conversions[`${from}-${to}`](value);
-    }
+            <label for="annualMileage${carIndex}">Annual Mileage (miles):</label>
+            <input type="number" id="annualMileage${carIndex}" required><br>
 
-    if (unit === 'km-lkm') {
-        annualMileage *= 0.621371;  // Convert km to miles
-        fuelEfficiencies = fuelEfficiencies.map(eff => convertUnits(eff, 'lkm', 'mpg'));
-        electricEfficiency *= 0.621371;  // Convert kWh/100 km to kWh/100 miles
-    } else if (unit === 'km-kml') {
-        annualMileage *= 0.621371;  // Convert km to miles
-        fuelEfficiencies = fuelEfficiencies.map(eff => convertUnits(eff, 'kml', 'mpg'));
-        electricEfficiency *= 0.621371;  // Convert kWh/100 km to kWh/100 miles
-    }
+            <label for="insuranceCost${carIndex}">Insurance Cost (USD per year):</label>
+            <input type="number" id="insuranceCost${carIndex}" required><br>
 
-    function calculateCosts(annualMileage, years, fuelPrice, electricityPrice, carPrices, fuelEfficiencies, electricEfficiency, evPrice, includeEv) {
-        const totalMileage = annualMileage * years;
-        const fuelCosts = fuelEfficiencies.map(eff => (totalMileage / eff) * fuelPrice);
-        const maintenanceTotal = maintenanceCost * years;
-        const insuranceTotal = insuranceCost * years;
-        
-        let evTotalCost = Infinity; // Set to a high value by default
-        if (includeEv) {
-            const electricCostEv = (totalMileage / 100) * electricEfficiency * electricityPrice;
-            evTotalCost = evPrice + electricCostEv + maintenanceTotal + insuranceTotal;
+            <label for="maintenanceCost${carIndex}">Maintenance Cost (USD per year):</label>
+            <input type="number" id="maintenanceCost${carIndex}" required><br>
+
+            <label for="resaleValue${carIndex}">Resale Value (USD):</label>
+            <input type="number" id="resaleValue${carIndex}" required><br>
+
+            <label for="yearsOfUse${carIndex}">Years of Use:</label>
+            <input type="number" id="yearsOfUse${carIndex}" required><br>
+            <hr />
+        </div>
+    `;
+
+    container.insertAdjacentHTML('beforeend', formHtml);
+    carIndex++;
+}
+
+function calculateCosts() {
+    console.log("Starting cost calculations...");
+    const carData = [];
+    let lowestCostCar = { name: '', totalCost: Infinity };
+
+    for (let i = 0; i < carIndex; i++) {
+        console.log(`Calculating costs for Car ${i + 1}`);
+        const purchasePrice = parseFloat(document.getElementById(`purchasePrice${i}`).value) || 0;
+        const fuelPrice = parseFloat(document.getElementById(`fuelPrice${i}`).value) || 0;
+        const mpg = parseFloat(document.getElementById(`mpg${i}`).value) || 0;
+        const annualMileage = parseFloat(document.getElementById(`annualMileage${i}`).value) || 0;
+        const insuranceCost = parseFloat(document.getElementById(`insuranceCost${i}`).value) || 0;
+        const maintenanceCost = parseFloat(document.getElementById(`maintenanceCost${i}`).value) || 0;
+        const resaleValue = parseFloat(document.getElementById(`resaleValue${i}`).value) || 0;
+        const yearsOfUse = parseInt(document.getElementById(`yearsOfUse${i}`).value) || 1;
+
+        if (mpg === 0) {
+            console.log("MPG is zero, stopping calculation.");
+            alert("MPG cannot be zero");
+            return;
         }
 
-        const totalCosts = carPrices.map((price, index) => price + fuelCosts[index] + maintenanceTotal + insuranceTotal);
+        const fuelCost = (annualMileage / mpg) * fuelPrice * yearsOfUse;
+        const depreciation = purchasePrice - resaleValue; // Not used in yearly cost, but calculated for total cost
+        const totalInsurance = insuranceCost * yearsOfUse;
+        const totalMaintenance = maintenanceCost * yearsOfUse;
+        const totalCost = fuelCost + depreciation + totalInsurance + totalMaintenance;
 
-        return { totalCosts, evTotalCost };
-    }
-
-    function getBestCost(totalCosts, evTotalCost, includeEv) {
-        let minCost = Math.min(...totalCosts);
-        let bestCarIndex = totalCosts.indexOf(minCost);
-
-        if (includeEv && evTotalCost < minCost) {
-            return { bestCar: 'EV', cost: evTotalCost };
-        } else {
-            return { bestCar: `Car with ${fuelEfficiencies[bestCarIndex]} MPG`, cost: minCost };
-        }
-    }
-
-    function plotCostCurves(annualMileage, years, fuelPrice, electricityPrice, carPrices, fuelEfficiencies, electricEfficiency, evPrice) {
-        const totalMileage = annualMileage * years;
-        const mileages = Array.from({ length: 19 }, (_, i) => (i + 1) * (totalMileage / 19));
-        const costCurves = mileages.map(mileage => calculateCosts(mileage / years, years, fuelPrice, electricityPrice, carPrices, fuelEfficiencies, electricEfficiency, evPrice, compareEv));
-        const datasets = fuelEfficiencies.map((eff, index) => {
-            return {
-                label: `${eff} ${unit.includes('miles') ? 'MPG' : unit === 'km-lkm' ? 'L/100KM' : 'KM/L'}`,
-                data: costCurves.map(curve => curve.totalCosts[index]),
-                borderColor: `hsl(${(index * 60) % 360}, 70%, 50%)`,
-                fill: false
-            };
+        carData.push({
+            name: `Car ${i + 1}`,
+            purchasePrice,
+            totalCost,
+            fuelCost,
+            depreciation,
+            totalInsurance,
+            totalMaintenance,
+            yearsOfUse
         });
-        if (compareEv) {
-            datasets.push({
-                label: 'EV',
-                data: costCurves.map(curve => curve.evTotalCost),
-                borderColor: 'green',
-                fill: false
-            });
-        }
 
-        const ctx = document.getElementById('cost-chart').getContext('2d');
-        if (window.costChart) {
-            window.costChart.destroy();
+        if (totalCost < lowestCostCar.totalCost) {
+            lowestCostCar = { name: `Car ${i + 1}`, totalCost };
         }
-        window.costChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: mileages,
-                datasets: datasets
-            },
-            options: {
-                responsive: true,
-                scales: {
-                    x: { title: { display: true, text: 'Total Mileage' } },
-                    y: { title: { display: true, text: 'Total Cost ($)' } }
-                },
-                plugins: {
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                const index = context.dataIndex;
-                                const mileage = context.chart.data.labels[index];
-                                const costs = context.chart.data.datasets.map(dataset => ({
-                                    label: dataset.label,
-                                    cost: dataset.data[index]
-                                }));
-                                return costs.map(cost => `${cost.label}: $${cost.cost.toFixed(2)}`).join('\n');
-                            }
-                        }
-                    }
+    }
+
+    displayComparisonChart(carData);
+    displayYearlyCosts(carData);  // Call to update yearly cost chart
+    document.getElementById('lowestCostCar').innerHTML = `The car with the lowest total cost over ${carData[0].yearsOfUse} years is ${lowestCostCar.name} with a total cost of $${lowestCostCar.totalCost.toFixed(2)}.`;
+}
+
+function calculateYearlyCosts(car) {
+    const yearlyCosts = [];
+    let cumulativeCost = car.purchasePrice;  // Start with purchase price in the first year
+
+    // Fuel cost remains constant each year based on mileage
+    const yearlyFuelCost = car.fuelCost / car.yearsOfUse;
+    
+    // Insurance and maintenance costs are constant each year
+    const yearlyInsurance = car.totalInsurance / car.yearsOfUse;
+    const yearlyMaintenance = car.totalMaintenance / car.yearsOfUse;
+
+    for (let year = 1; year <= car.yearsOfUse; year++) {
+        // Add yearly fuel, insurance, and maintenance costs to cumulative cost
+        cumulativeCost += yearlyFuelCost + yearlyInsurance + yearlyMaintenance;
+        
+        // Push the cumulative cost for each year
+        yearlyCosts.push(cumulativeCost);
+    }
+
+    return yearlyCosts;
+}
+
+function displayComparisonChart(carData) {
+    console.log("Displaying comparison chart...");
+    const ctx = document.getElementById('comparisonChart').getContext('2d');
+    const labels = carData.map(car => car.name);
+    const data = carData.map(car => car.totalCost);
+
+    // Check if comparisonChart exists and is an instance of Chart before destroying
+    if (window.comparisonChart && typeof window.comparisonChart.destroy === 'function') {
+        window.comparisonChart.destroy();
+    }
+
+    window.comparisonChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Total Cost (USD)',
+                data: data,
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
                 }
             }
-        });
+        }
+    });
+}
+
+function displayYearlyCosts(carData) {
+    console.log("Displaying yearly cost chart...");
+    const ctx = document.getElementById('yearlyCostChart').getContext('2d');
+    const labels = [...Array(carData[0].yearsOfUse).keys()].map(i => `Year ${i + 1}`);
+    const datasets = carData.map(car => ({
+        label: car.name,
+        data: calculateYearlyCosts(car),
+        fill: false,
+        borderColor: getRandomColor(),
+        tension: 0.1
+    }));
+
+    // Check if yearlyCostChart exists and is an instance of Chart before destroying
+    if (window.yearlyCostChart && typeof window.yearlyCostChart.destroy === 'function') {
+        window.yearlyCostChart.destroy();
     }
 
-    const { totalCosts, evTotalCost } = calculateCosts(annualMileage, years, fuelPrice, electricityPrice, carPrices, fuelEfficiencies, electricEfficiency, evPrice, compareEv);
-    const bestCost = getBestCost(totalCosts, evTotalCost, compareEv);
+    window.yearlyCostChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: datasets
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+}
 
-    if (bestCost.cost && !isNaN(bestCost.cost)) {
-        document.getElementById('results').innerText = `The most cost-effective option is ${bestCost.bestCar} with a total cost of $${bestCost.cost.toFixed(2)} over ${years} years and ${annualMileage * years} ${unit.includes('miles') ? 'miles' : 'km'}.`;
-    } else {
-        document.getElementById('results').innerText = "There was an error calculating the cost. Please check your inputs.";
+
+function getRandomColor() {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
     }
-
-    plotCostCurves(annualMileage, years, fuelPrice, electricityPrice, carPrices, fuelEfficiencies, electricEfficiency, evPrice);
-});
+    return color;
+}
