@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -8,7 +10,11 @@
 </head>
 <body>
   <div class="container">
-    <h1>FaithTalk</h1>
+    <div class="header">
+      <h1>🕊️ FaithTalk </h1>
+      <p class="subtitle">“A quiet and safe space to explore faith, ask questions, and be gently guided by truth and grace.”</p>
+      <p class="verse">"The Lord is close to the brokenhearted and saves those who are crushed in spirit." Psalm 34:18</p>
+    </div>
     <div id="chatbox"></div>
     <textarea id="userInput" placeholder="Ask a question..."></textarea>
     <button onclick="sendMessage()">Send</button>
@@ -16,4 +22,5 @@
   <script src="script.js"></script>
 </body>
 </html>
+
 
