@@ -3,10 +3,16 @@ const cors = require('cors');
 require('dotenv').config();
 
 const app = express();
-app.use(cors());
+
+// ✅ Allow requests from your custom domain
+app.use(cors({
+  origin: 'https://yuhanzhu.com',
+  methods: ['GET', 'POST'],
+}));
+
 app.use(express.json());
 
-// ✅ Just echo back the request to test Render + frontend + fetch
+// ✅ Echo the request to confirm frontend connection
 app.post('/chat', (req, res) => {
   console.log("🟢 Received request to /chat:", req.body);
 
@@ -16,7 +22,7 @@ app.post('/chat', (req, res) => {
   });
 });
 
-// 🧪 Add simple GET route for browser testing
+// 🧪 Simple test route
 app.get('/ping', (req, res) => {
   console.log("🟡 Ping route hit");
   res.send("pong ✅");
@@ -24,5 +30,5 @@ app.get('/ping', (req, res) => {
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`🟢 FaithTalk TEST backend running on port ${PORT}`);
+  console.log(`🟢 FaithTalk backend running on port ${PORT}`);
 });
