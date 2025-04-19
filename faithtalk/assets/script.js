@@ -4,21 +4,32 @@ let chatHistory = [];
 
 // Show welcome message on first load
 window.addEventListener("DOMContentLoaded", () => {
-  const welcome = `**Welcome to FaithTalk!**  
-This is a quiet space to explore your questions about life, faith, and God.  
-You’re free to ask anything — I’m here to walk with you, gently and truthfully. 🙏`;
+  const welcome = `**👋 Welcome to *FaithTalk*.**  
+This is a **quiet, safe space** to ask questions, explore truth, and reflect on faith.  
+🕊️ Your conversation is *private*, and not stored.  
+You’re free to be **honest**, **curious**, or even **skeptical** — every question matters here.
+
+> ✨ *"Trust in the Lord with all your heart  
+> and lean not on your own understanding;  
+> in all your ways submit to him,  
+> and he will make your paths straight."*  
+> — *Proverbs 3:5–6*`;
+
   displayMessage(welcome, "bot");
 });
+
 
 function displayMessage(message, sender) {
   const msg = document.createElement("div");
   msg.className = "message " + sender;
   msg.innerHTML = sender === "bot" ? marked.parse(message) : message;
   chatbox.appendChild(msg);
-  chatbox.scrollTop = chatbox.scrollHeight;
+
+  if (sender === "bot") {
+    chatbox.scrollTop = chatbox.scrollHeight;
+  }
 }
 
-// Allow Enter to send message, Shift+Enter creates new line
 userInput.addEventListener("keydown", function (e) {
   if (e.key === "Enter" && !e.shiftKey) {
     e.preventDefault();
@@ -50,6 +61,12 @@ async function maybeSummarizeHistory() {
 }
 
 async function sendMessage() {
+  // Hide footer on first message
+  const footer = document.getElementById("footer");
+  if (footer && !footer.classList.contains("hidden")) {
+    footer.classList.add("hidden");
+  }
+
   const message = userInput.value.trim();
   if (!message) return;
 
@@ -57,7 +74,12 @@ async function sendMessage() {
   chatHistory.push({ role: "user", content: message });
   userInput.value = "";
 
-  displayMessage("Thinking...", "bot");
+  // Show typing message
+  const thinkingBubble = document.createElement("div");
+  thinkingBubble.className = "message bot";
+  thinkingBubble.textContent = "FaithTalk is typing…";
+  chatbox.appendChild(thinkingBubble);
+  chatbox.scrollTop = chatbox.scrollHeight;
 
   await maybeSummarizeHistory();
 
@@ -120,11 +142,17 @@ Would you be open to sharing more about what’s weighing on your heart right no
 
     const data = await response.json();
     const reply = data.choices[0].message.content;
+
+    // Remove "FaithTalk is typing…" and show real reply
+    chatbox.removeChild(thinkingBubble);
     displayMessage(reply, "bot");
     chatHistory.push({ role: "assistant", content: reply });
+
   } catch (error) {
+    chatbox.removeChild(thinkingBubble);
     displayMessage("Something went wrong. Please try again.", "bot");
     console.error(error);
   }
 }
+
 
