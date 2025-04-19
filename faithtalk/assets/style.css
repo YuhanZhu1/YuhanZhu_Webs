@@ -6,7 +6,7 @@
 }
 
 body {
-  font-family: 'Georgia', serif;
+  font-family: Arial, sans-serif;
   background: linear-gradient(to bottom right, #f9f7f1, #e9f0ea);
   display: flex;
   flex-direction: column;
@@ -70,6 +70,7 @@ h1 {
   background-color: #fdfdfd;
   padding: 15px;
   border-radius: 10px;
+  overscroll-behavior: contain;
 }
 
 .message {

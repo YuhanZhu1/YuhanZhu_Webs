@@ -25,10 +25,17 @@ function displayMessage(message, sender) {
   msg.innerHTML = sender === "bot" ? marked.parse(message) : message;
   chatbox.appendChild(msg);
 
+  if (sender === "user") {
+    msg.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
   if (sender === "bot") {
-    chatbox.scrollTop = chatbox.scrollHeight;
+    setTimeout(() => {
+      msg.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 150); // 延迟一下，确保 markdown 渲染完
   }
 }
+
 
 userInput.addEventListener("keydown", function (e) {
   if (e.key === "Enter" && !e.shiftKey) {
@@ -221,4 +228,5 @@ document.addEventListener("click", function (event) {
     aboutPanel.classList.add("hidden");
   }
 });
+
 
