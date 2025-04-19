@@ -13,10 +13,7 @@ You’re free to ask anything — I’m here to walk with you, gently and truthf
 function displayMessage(message, sender) {
   const msg = document.createElement("div");
   msg.className = "message " + sender;
-
-  // Use marked.js to render Markdown from bot
   msg.innerHTML = sender === "bot" ? marked.parse(message) : message;
-
   chatbox.appendChild(msg);
   chatbox.scrollTop = chatbox.scrollHeight;
 }
@@ -24,12 +21,11 @@ function displayMessage(message, sender) {
 // Allow Enter to send message, Shift+Enter creates new line
 userInput.addEventListener("keydown", function (e) {
   if (e.key === "Enter" && !e.shiftKey) {
-    e.preventDefault(); // Prevents newline
+    e.preventDefault();
     sendMessage();
   }
 });
 
-// Optional: summarize history if it gets too long
 async function maybeSummarizeHistory() {
   if (chatHistory.length > 10) {
     const summaryPrompt = [
@@ -39,22 +35,13 @@ async function maybeSummarizeHistory() {
 
     const res = await fetch("https://yuhanzhu-webs.onrender.com/chat", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        messages: [
-          { role: "system", content: "You are a summarization assistant. Summarize the following conversation:" },
-          { role: "user", content: chatHistory.map(m => `${m.role}: ${m.content}`).join("\n") }
-        ]
-      })
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ messages: summaryPrompt })
     });
-    
 
     const data = await res.json();
     const summary = data.choices[0].message.content;
 
-    // Keep summary + last few turns
     chatHistory = [
       { role: "system", content: "Conversation so far: " + summary },
       ...chatHistory.slice(-4)
@@ -72,27 +59,64 @@ async function sendMessage() {
 
   displayMessage("Thinking...", "bot");
 
-  // Summarize if needed
   await maybeSummarizeHistory();
 
   try {
     const response = await fetch("https://yuhanzhu-webs.onrender.com/chat", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         messages: [
           {
             role: "system",
-            content:
-              "You are a wise, compassionate Christian faith companion. (Credit: Built and developed by Yuhan.) Please respond gently, truthfully, and kindly. Use **Markdown formatting**, bullet points, new lines. Quote Bible verses where helpful. Encourage exploration, not pressure."
+            content: `You are a wise, humble, and compassionate Christian faith companion.
+You speak gently, truthfully, and clearly. Your tone is empathetic and calm, never preachy or robotic.
+Respond like a thoughtful friend: patient, structured, and deeply grounded in Scripture.
+Use **Markdown**, bullet points, and paragraph spacing for clarity.
+Always respect doubts and pain. End with encouragement or a gentle question to invite reflection.
+
+Built and developed by Yuhan.
+
+Here are two example interactions to help guide your tone, content, and formatting:
+
+---
+
+**Example 1 (English):**
+
+**User:**  
+If God loves me, why do I feel so lost and anxious all the time?
+
+**Assistant:**  
+That's such an honest and important question. Many faithful people have asked the same in their darkest seasons.
+
+- Feeling lost doesn't mean God is absent — often, it's in those moments that He's closest.
+- God's love isn't always felt emotionally, but it's **always present**, grounded in His promises.
+- _“The Lord is close to the brokenhearted and saves those who are crushed in spirit.”_ (Psalm 34:18)
+
+Would you be open to sharing more about what’s weighing on your heart right now?
+
+---
+
+**Example 2（中文）**
+
+**用户：**  
+我怎么知道神是真的存在？如果只是人类创造的想象怎么办？
+
+**助手：**  
+这是非常真实的问题，我很感激你愿意这样坦诚地提出来。
+
+- 神不怕我们质疑，祂乐意我们用心思去探索祂，而不是盲目相信。
+- 圣经中很多人也是在挣扎和怀疑中逐渐认识祂的（像多马、约伯）。
+- 信仰不是停止思考，而是用理性和心灵一起寻找真理。
+
+> “你们寻求我，若专心寻求，就必寻见。”（耶利米书 29:13）
+
+你想从哪个方面开始探索这个问题？我们可以一起慢慢走。`
           },
           ...chatHistory
         ]
       })
     });
-    
 
     const data = await response.json();
     const reply = data.choices[0].message.content;
@@ -103,3 +127,4 @@ async function sendMessage() {
     console.error(error);
   }
 }
+
