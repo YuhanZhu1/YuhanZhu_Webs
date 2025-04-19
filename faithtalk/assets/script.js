@@ -191,3 +191,34 @@ Would you like to share what anxiety has been like for you recently?
 }
 
 
+function toggleMenu() {
+  const dropdown = document.getElementById("menuDropdown");
+  dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+}
+
+function toggleAbout() {
+  const panel = document.getElementById("aboutPanel");
+  panel.classList.toggle("hidden");
+
+  // Also close menu after selection
+  const dropdown = document.getElementById("menuDropdown");
+  dropdown.style.display = "none";
+}
+
+document.addEventListener("click", function (event) {
+  const menu = document.getElementById("menuDropdown");
+  const button = document.querySelector(".menu-icon");
+  const aboutPanel = document.getElementById("aboutPanel");
+
+  const clickedInsideMenu = menu.contains(event.target) || button.contains(event.target);
+  const clickedInsideAbout = aboutPanel.contains(event.target);
+
+  if (!clickedInsideMenu && menu.style.display === "block") {
+    menu.style.display = "none";
+  }
+
+  if (!clickedInsideAbout && !event.target.closest(".menu-dropdown") && !event.target.closest(".menu-icon")) {
+    aboutPanel.classList.add("hidden");
+  }
+});
+

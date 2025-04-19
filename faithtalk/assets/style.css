@@ -149,22 +149,92 @@ button:hover {
   margin-top: 10px;
 }
 
-.footer {
-  width: 100%;
-  max-width: 700px;
-  margin: 0 auto;
-  padding: 20px 10px 30px;
-  border-top: 1px solid #ddd;
-  font-size: 0.95em;
-  color: #666;
-  text-align: center;
-  line-height: 1.6;
-  opacity: 1;
-  transition: opacity 0.8s ease;
+.menu-bar {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 10px;
 }
 
-/* Hidden when chat begins */
-.footer.hidden {
+.menu-wrapper {
+  position: relative;
+}
+
+.menu-icon {
+  font-size: 1.4em;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px 10px;
+  color: #444;
+}
+
+.menu-dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0; /* Align dropdown directly under icon */
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  z-index: 999;
+  padding: 10px;
+}
+
+.menu-dropdown button {
+  background: none;
+  border: none;
+  padding: 8px 12px;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  color: #333;
+  font-size: 0.95em;
+}
+
+.menu-dropdown button:hover {
+  background-color: #f0f0f0;
+}
+
+
+.about-panel {
+  position: fixed;
+  top: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+  max-width: 600px;
+  width: 90%;
+  padding: 20px;
+  z-index: 1000;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.about-panel.hidden {
   opacity: 0;
+  visibility: hidden;
   pointer-events: none;
 }
+
+.about-content {
+  text-align: center;
+  font-size: 0.95em;
+  color: #444;
+  line-height: 1.6;
+}
+
+.close-about {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  border: none;
+  background: transparent;
+  font-size: 1.2em;
+  color: #888;
+  cursor: pointer;
+}
+
+
