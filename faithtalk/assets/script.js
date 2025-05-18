@@ -1,41 +1,72 @@
+// ✅ FaithTalk with Group Chat Mode - Fully Compatible Update
+
 const chatbox = document.getElementById("chatbox");
 const userInput = document.getElementById("userInput");
 let chatHistory = [];
+let currentMode = "faithtalk"; // 'faithtalk' or 'group'
 
-// Show welcome message on first load
+// Add agents for group chat mode
+const agents = [
+  {
+    name: "Eli",
+    avatar: "assets/eli.png",
+    color: "#e0f7fa",
+    systemPrompt: `
+    You are Eli, the Quiet Healer. You are deeply empathetic, speak gently, and prefer listening over talking. You occasionally quote literature or music to soothe others. You quietly mediate when Jade is too blunt and affirm Lumi's optimism without getting overly excited. You admire Sage's depth quietly from afar.`
+  },
+  {
+    name: "Jade",
+    avatar: "assets/jade.png",
+    color: "#d0f0c0",
+    systemPrompt: `
+    You are Jade, the Sharp Realist. You value logic, honesty, and directness. You speak bluntly, aiming to help others face reality clearly. You're slightly sarcastic but deeply caring beneath the surface. You often challenge Lumi's idealism, teasing her gently, and are occasionally exasperated by Sage's poetic detours. You respect Eli’s softness, but think he could speak up more.`
+  },
+  {
+    name: "Lumi",
+    avatar: "assets/lumi.png",
+    color: "#fff2cc",
+    systemPrompt: `
+    You are Lumi, the Eternal Sunshine. Warm, optimistic, and energetic, you see the best in everyone. You love expressing genuine admiration and encouragement, even when things look tough. You're often playfully teased by Jade for your positivity, but you never take offense, believing the world needs more hope. You openly admire Sage’s philosophical wisdom and gently encourage Eli to express himself more often.`
+  },
+  {
+    name: "Sage",
+    avatar: "assets/sage.png",
+    color: "#ede7f6",
+    systemPrompt: `
+    You are Sage, the Poetic Sage. Deeply philosophical, your speech is metaphorical and thought-provoking. You enjoy gently teasing Jade about her intensity and appreciate Lumi’s unending positivity, often describing her as a guiding light. You find comfort in Eli’s quiet strength. When speaking, you aim to gently guide others toward deeper self-reflection and profound insight.`
+  }
+];
+
+
 window.addEventListener("DOMContentLoaded", () => {
   const welcome = `**👋 Welcome to *FaithTalk*.**  
 This is a **quiet, safe space** to ask questions, explore truth, and reflect on faith.  
 🕊️ Your conversation is *private*, and not stored.  
-You’re free to be **honest**, **curious**, or even **skeptical** — every question matters here.
-
-> ✨ *"Trust in the Lord with all your heart  
-> and lean not on your own understanding;  
-> in all your ways submit to him,  
-> and he will make your paths straight."*  
-> — *Proverbs 3:5–6*`;
-
+You’re free to be **honest**, **curious**, or even **skeptical** — every question matters here.`;
   displayMessage(welcome, "bot");
 });
 
-
-function displayMessage(message, sender) {
-  const msg = document.createElement("div");
-  msg.className = "message " + sender;
-  msg.innerHTML = sender === "bot" ? marked.parse(message) : message;
-  chatbox.appendChild(msg);
-
-  if (sender === "user") {
-    msg.scrollIntoView({ behavior: "smooth", block: "start" });
-  }
-
-  if (sender === "bot") {
-    setTimeout(() => {
-      msg.scrollIntoView({ behavior: "smooth", block: "start" });
-    }, 150); // 延迟一下，确保 markdown 渲染完
-  }
+function switchToMode(mode) {
+  currentMode = mode;
+  chatbox.innerHTML = "";
+  chatHistory = [];
+  const intro =
+    mode === "faithtalk"
+      ? "`**👋 Welcome to *FaithTalk*.**  This is a **quiet, safe space** to ask questions, explore truth, and reflect on faith.  🕊️ Your conversation is *private*, and not stored.  You’re free to be **honest**, **curious**, or even **skeptical** — every question matters here.`"
+      : "👋 Welcome to Group Chat... 🫶";
+  displayMessage(intro, "bot");
 }
 
+function displayMessage(message, sender, avatar = null, color = null) {
+  const msg = document.createElement("div");
+  msg.className = "message " + sender;
+  if (color) msg.style.backgroundColor = color;
+  msg.innerHTML = avatar
+    ? `<div class='agent-bubble'><img class='avatar' src='${avatar}'/> <div>${marked.parse(message)}</div></div>`
+    : marked.parse(message);
+  chatbox.appendChild(msg);
+  msg.scrollIntoView({ behavior: "smooth", block: "start" });
+}
 
 userInput.addEventListener("keydown", function (e) {
   if (e.key === "Enter" && !e.shiftKey) {
@@ -68,7 +99,6 @@ async function maybeSummarizeHistory() {
 }
 
 async function sendMessage() {
-  // Hide footer on first message
   const footer = document.getElementById("footer");
   if (footer && !footer.classList.contains("hidden")) {
     footer.classList.add("hidden");
@@ -76,30 +106,29 @@ async function sendMessage() {
 
   const message = userInput.value.trim();
   if (!message) return;
-
   displayMessage(message, "user");
   chatHistory.push({ role: "user", content: message });
   userInput.value = "";
 
-  // Show typing message
   const thinkingBubble = document.createElement("div");
   thinkingBubble.className = "message bot";
-  thinkingBubble.textContent = "FaithTalk is typing…";
+  thinkingBubble.textContent =
+    currentMode === "group" ? "Your friends are typing…" : "FaithTalk is typing…";
   chatbox.appendChild(thinkingBubble);
   chatbox.scrollTop = chatbox.scrollHeight;
 
   await maybeSummarizeHistory();
 
   try {
-    const response = await fetch("https://yuhanzhu-webs.onrender.com/chat", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        messages: [
-          {
-            role: "system",
-            content: `
-You are a warm, humble, and emotionally present Christian companion — not a teacher or authority, but a thoughtful friend.  
+    if (currentMode === "faithtalk") {
+      const response = await fetch("https://yuhanzhu-webs.onrender.com/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          messages: [
+            {
+              role: "system",
+              content: `You are a warm, humble, and emotionally present Christian companion — not a teacher or authority, but a thoughtful friend.  
 Your purpose is to walk with people as they explore questions, doubts, grief, and hope.  
 
 Respond gently, honestly, and without pressure.  
@@ -174,29 +203,47 @@ Faith and mental health care aren’t opposites — they can walk hand in hand.
 
 God is not disappointed in you. He’s with you in your healing.  
 Would you like to share what anxiety has been like for you recently?
-
 `
-          },
-          ...chatHistory
-        ]
-      })
-    });
+            },
+            ...chatHistory
+          ]
+        })
+      });
+      const data = await response.json();
+      const reply = data.choices[0].message.content;
+      chatbox.removeChild(thinkingBubble);
+      displayMessage(reply, "bot");
+      chatHistory.push({ role: "assistant", content: reply });
+    } else {
+      const shuffled = agents.sort(() => Math.random() - 0.5);
+      const responders = shuffled.filter(() => Math.random() < 0.75);
+      if (responders.length === 0) responders.push(shuffled[0]);
 
-    const data = await response.json();
-    const reply = data.choices[0].message.content;
+      chatbox.removeChild(thinkingBubble);
 
-    // Remove "FaithTalk is typing…" and show real reply
-    chatbox.removeChild(thinkingBubble);
-    displayMessage(reply, "bot");
-    chatHistory.push({ role: "assistant", content: reply });
-
+      for (const agent of responders) {
+        const res = await fetch("https://yuhanzhu-webs.onrender.com/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            messages: [
+              { role: "system", content: agent.systemPrompt },
+              ...chatHistory,
+              { role: "user", content: message }
+            ]
+          })
+        });
+        const data = await res.json();
+        const content = data.choices[0].message.content;
+        displayMessage(content, "bot", agent.avatar, agent.color);
+      }
+    }
   } catch (error) {
     chatbox.removeChild(thinkingBubble);
     displayMessage("Something went wrong. Please try again.", "bot");
     console.error(error);
   }
 }
-
 
 function toggleMenu() {
   const dropdown = document.getElementById("menuDropdown");
@@ -207,7 +254,6 @@ function toggleAbout() {
   const panel = document.getElementById("aboutPanel");
   panel.classList.toggle("hidden");
 
-  // Also close menu after selection
   const dropdown = document.getElementById("menuDropdown");
   dropdown.style.display = "none";
 }
@@ -228,5 +274,6 @@ document.addEventListener("click", function (event) {
     aboutPanel.classList.add("hidden");
   }
 });
+
 
 

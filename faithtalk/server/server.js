@@ -1,3 +1,4 @@
+// server.js — Finalized FaithTalk backend server
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
@@ -5,20 +6,21 @@ const OpenAI = require('openai');
 
 const app = express();
 
-// ✅ Allow your domain (GitHub Pages)
+// ✅ CORS policy — allow ONLY your GitHub Pages domain
 app.use(cors({
-  origin: 'https://yuhanzhu.com',
+  origin: 'https://yuhanzhu.com', // Adjust if using a different domain or subdomain
   methods: ['GET', 'POST'],
 }));
 
+// ✅ Parse JSON body
 app.use(express.json());
 
-// ✅ OpenAI setup
+// ✅ OpenAI client setup
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-// ✅ POST /chat → GPT-4o call
+// ✅ Handle /chat → forward to GPT-4o
 app.post('/chat', async (req, res) => {
   const { messages } = req.body;
 
@@ -30,7 +32,7 @@ app.post('/chat', async (req, res) => {
 
   try {
     const completion = await openai.chat.completions.create({
-      model: "gpt-4o",
+      model: "gpt-4o", // latest multimodal model
       messages,
       temperature: 0.7,
     });
@@ -45,14 +47,16 @@ app.post('/chat', async (req, res) => {
   }
 });
 
-// Optional: simple ping
+// ✅ Optional health check
 app.get('/ping', (req, res) => {
   console.log("🟡 Ping hit");
   res.send("pong ✅");
 });
 
+// ✅ Start server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`🟢 FaithTalk live with GPT on port ${PORT}`);
+  console.log(`🟢 FaithTalk backend live at http://localhost:${PORT}`);
 });
+
 

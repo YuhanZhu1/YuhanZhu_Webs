@@ -1,3 +1,4 @@
+<!-- FaithTalk index.html with Group Chat mode integrated -->
 <!DOCTYPE html>
 <html lang="en">
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
@@ -18,6 +19,8 @@
         <button class="menu-icon" onclick="toggleMenu()">☰</button>
         <div class="menu-dropdown" id="menuDropdown">
           <button onclick="toggleAbout()">📖 About FaithTalk</button>
+          <button onclick="switchToMode('faithtalk')">💬 FaithTalk</button>
+          <button onclick="switchToMode('group')">👥 Group Chat</button>
         </div>
       </div>
     </div>        
@@ -36,13 +39,14 @@
         <br><span style="font-size: 0.9em;">— <em>John 16:13</em></span>
       </p>
     </div>
-  
+
     <div class="chat-section">
       <div id="chatbox"></div>
       <textarea id="userInput" placeholder="Ask a question..."></textarea>
       <button onclick="sendMessage()">Send</button>
     </div>
   </div>
+
   <script src="assets/script.js"></script>
 
   <div class="about-panel hidden" id="aboutPanel">
@@ -50,16 +54,17 @@
       <button class="close-about" onclick="toggleAbout()">✖</button>
       <p>You are never alone on this journey.<br>
         If you're seeking truth, you're already closer than you think.</p>
-      
+        
         <p><em>"Ask and it will be given to you; seek and you will find..."</em><br>— <em>Matthew 7:7</em></p>
-      
+        
         <p><strong>FaithTalk</strong> is a tool, not a teacher. While powered by language models, it may respond imperfectly. It may help you explore spiritual truth, but wisdom and guidance come from God alone.</p>
-      
+        
         <p>💙 Thank you for spending time here. May you walk away encouraged and never alone.</p>
     </div>
   </div>  
 </body>
 </html>
+
 
 
 

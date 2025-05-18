@@ -1,7 +1,7 @@
+/* FaithTalk style.css (final unified version with Group Chat support) */
+
 /* Box sizing fix */
-*,
-*::before,
-*::after {
+*, *::before, *::after {
   box-sizing: border-box;
 }
 
@@ -28,8 +28,6 @@ body {
   flex-direction: column;
 }
 
-
-/* ✅ Add this for width consistency */
 .chat-section {
   display: flex;
   flex-direction: column;
@@ -76,16 +74,32 @@ h1 {
 .message {
   margin: 12px 0;
   line-height: 1.6;
+  padding: 10px 14px;
+  border-radius: 16px;
+  max-width: 80%;
+  word-wrap: break-word;
 }
 
 .user {
-  text-align: right;
-  color: #3558a3;
+  background-color: #e1ebff;
+  color: #2c4a86;
+  border-radius: 16px 16px 0 16px;
+  margin-left: auto;
+  margin-right: 0;
+  text-align: left;
 }
 
 .bot {
+  background-color: #f4f4f4;
+  color: #444;
+  border-radius: 16px 16px 16px 0;
+  margin-right: auto;
+  margin-left: 0;
   text-align: left;
-  color: #39693d;
+}
+
+.message + .message {
+  margin-top: 10px;
 }
 
 textarea {
@@ -116,40 +130,6 @@ button:hover {
   background-color: #5b8a76;
 }
 
-.message {
-  margin: 12px 0;
-  line-height: 1.6;
-  padding: 10px 14px;
-  border-radius: 16px;
-  max-width: 80%;
-  word-wrap: break-word;
-}
-
-
-.message.user {
-  background-color: #e1ebff;
-  color: #2c4a86;
-  border-radius: 16px 16px 0 16px;
-  margin-left: auto;
-  margin-right: 0;
-  text-align: left;
-}
-
-/* FaithTalk */
-.message.bot {
-  background-color: #f4f4f4;
-  color: #444;
-  border-radius: 16px 16px 16px 0;
-  margin-right: auto;
-  margin-left: 0;
-  text-align: left;
-}
-
-/* Extra breathing room between messages */
-.message + .message {
-  margin-top: 10px;
-}
-
 .menu-bar {
   display: flex;
   justify-content: flex-start;
@@ -173,7 +153,7 @@ button:hover {
   display: none;
   position: absolute;
   top: 100%;
-  left: 0; /* Align dropdown directly under icon */
+  left: 0;
   background-color: #fff;
   border: 1px solid #ccc;
   border-radius: 8px;
@@ -196,7 +176,6 @@ button:hover {
 .menu-dropdown button:hover {
   background-color: #f0f0f0;
 }
-
 
 .about-panel {
   position: fixed;
@@ -237,5 +216,22 @@ button:hover {
   color: #888;
   cursor: pointer;
 }
+
+/* Avatar + Agent Bubble for Group Chat */
+.avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  vertical-align: middle;
+  margin-right: 8px;
+}
+
+.agent-bubble {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+
 
 
