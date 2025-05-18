@@ -62,6 +62,7 @@ h1 {
 
 #chatbox {
   width: 100%;
+  min-height: 200px;
   max-height: 440px;
   overflow-y: auto;
   border: 1px solid #ccc;
@@ -70,6 +71,7 @@ h1 {
   border-radius: 10px;
   overscroll-behavior: contain;
 }
+
 
 .message {
   margin: 12px 0;

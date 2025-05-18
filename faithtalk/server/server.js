@@ -32,7 +32,7 @@ app.post('/chat', async (req, res) => {
 
   try {
     const completion = await openai.chat.completions.create({
-      model: "gpt-4o", // latest multimodal model
+      model: "gpt-4o-mini", 
       messages,
       temperature: 0.7,
     });
