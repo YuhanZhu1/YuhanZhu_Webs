@@ -232,6 +232,11 @@ button:hover {
   gap: 6px;
 }
 
-
+.typing-indicator {
+  font-style: italic;
+  color: #888;
+  margin: 5px 0;
+  padding-left: 6px;
+}
 
 
