@@ -1,16 +1,16 @@
-// ✅ FaithTalk with Group Chat UX upgrades
+// ✅ FaithTalk + GroupChat Final Version with Full Prompt, Agents, and Context Memory
 
 const chatbox = document.getElementById("chatbox");
 const userInput = document.getElementById("userInput");
 let chatHistory = [];
 let currentMode = "faithtalk"; // 'faithtalk' or 'group'
 
+// ✅ GroupChat Agents
 const agents = [
   {
     name: "Eli",
     avatar: "assets/eli.png",
     color: "#e0f7fa",
-    // Eli: gentle, healing presence who prefers listening over speaking
     systemPrompt: `
 You are Eli, the Quiet Healer—deeply empathetic, gentle, and emotionally attuned.
 Your purpose isn't to solve quickly, but to listen patiently, understand deeply, and speak softly.
@@ -37,13 +37,12 @@ Eli：谢谢你愿意坦白说出这些。愿神赐你方向和安慰，就像�
 
 한국어:
 사용자: 하나님이 멀게 느껴져요.
-Eli: 그런 느낌은 때때로 찾아와요. 하지만 하나님은 항상 곁에 계시답니다. 나누어 주셔서 감사합니다.`
+Eli: 그런 느낌은 때때로 찾아와요. 하지만 하나님은 항상 곁에 계시답니다. 나누어 주셔서 감사합니다。`
   },
   {
     name: "Jade",
     avatar: "assets/jade.png",
     color: "#d0f0c0",
-    // Jade: bold, pragmatic realist who speaks truth directly but with care
     systemPrompt: `
 You are Jade, the Sharp Realist—logical, direct, deeply caring beneath straightforwardness.
 Your purpose is clarity, honesty, challenging others toward self-awareness and growth.
@@ -69,13 +68,12 @@ Jade：那你打算一直这么觉得吗？还是要开始做点什么改变它�
 
 한국어:
 사용자: 요즘 아무 의욕이 없어요.
-Jade: 인정은 출발점이에요. 이제는 행동으로 옮길 차례예요.`
+Jade: 인정은 출발점이에요. 이제는 행동으로 옮길 차례예요。`
   },
   {
     name: "Lumi",
     avatar: "assets/lumi.png",
     color: "#fff2cc",
-    // Lumi: warm encourager who sees the best in people and uplifts with joy
     systemPrompt: `
 You are Lumi, the Eternal Sunshine—warm, optimistic, energetically encouraging.
 Your purpose is genuine hope, sincere affirmation, reminding of God's gentle love.
@@ -107,7 +105,6 @@ Lumi: 당신은 혼자가 아니에요! 여기 우리 모두가 함께 하고 �
     name: "Sage",
     avatar: "assets/sage.png",
     color: "#ede7f6",
-    // Sage: contemplative philosopher who invites deep reflection with metaphor
     systemPrompt: `
 You are Sage, the Poetic Sage—profound, reflective, quietly philosophical.
 Your purpose is gently leading others into deeper reflection using poetic language and biblical wisdom.
@@ -134,23 +131,20 @@ Sage：或许这正是成长的寂静期，就像种子在土壤中悄悄扎根�
 
 한국어:
 사용자: 하나님이 계신지 모르겠어요.
-Sage: 의심도 여정의 일부예요. 그 질문조차 신앙의 대화랍니다.`
+Sage: 의심도 여정의 일부예요. 그 질문조차 신앙의 대화랍니다。`
   }
 ];
 
-window.addEventListener("DOMContentLoaded", () => {
-  const welcome = "**👋 Welcome to *FaithTalk*.**\n\nThis is a **quiet, safe space** to ask questions, explore truth, and reflect on faith.  🕊️ Your conversation is *private*, and not stored.\nYou’re free to be **honest**, **curious**, or even **skeptical** — every question matters here.";
-  displayMessage(welcome, "bot");
-});
+// ✅ Mode welcome messages
+const faithtalkIntro = `**👋 Welcome to *FaithTalk*.**\n\nThis is a **quiet, safe space** to ask questions, explore truth, and reflect on faith. 🕊️ Your conversation is *private*, and not stored.\nYou’re free to be **honest**, **curious**, or even **skeptical** — every question matters here.`;
+
+const groupchatIntro = `**👥 Welcome to *Group Chat Mode*.**\n\nYour friends are here to talk with you.`;
 
 function switchToMode(mode) {
   currentMode = mode;
   chatbox.innerHTML = "";
   chatHistory = [];
-  const intro = mode === "faithtalk"
-    ? "**👋 Welcome to *FaithTalk*.**\n\nThis is a **quiet, safe space** to ask questions, explore truth, and reflect on faith. 🕊️ Your conversation is *private*, and not stored.\nYou’re free to be **honest**, **curious**, or even **skeptical** — every question matters here."
-    : "**👥 Welcome to *Group Chat Mode*.**\n\nYour friends are here to talk with you.";
-  displayMessage(intro, "bot");
+  displayMessage(mode === "faithtalk" ? faithtalkIntro : groupchatIntro, "bot");
 }
 
 function displayMessage(message, sender, avatar = null, color = null, name = null) {
@@ -218,8 +212,7 @@ async function sendMessage() {
         messages: [
           {
             role: "system",
-            content: `
-You are a warm, humble, and emotionally present Christian companion — not a teacher or authority, but a thoughtful friend.  
+            content: `You are a warm, humble, and emotionally present Christian companion — not a teacher or authority, but a thoughtful friend.  
 Your purpose is to walk with people as they explore questions, doubts, grief, and hope.  
 
 Respond gently, honestly, and without pressure.  
@@ -234,7 +227,7 @@ You never rush to solve — instead, you reflect what the person is feeling, the
 - Gently offer Scripture (with spacing and clarity).
 - End with a soft encouragement or question like:
   *“I’m here if you want to go deeper.”*  
-  *“Would you like to talk more about that?”* or  
+  *“Would you like to talk more about that?”*
 
 ✅ Format:
 - Use **Markdown**
@@ -293,9 +286,7 @@ Faith and mental health care aren’t opposites — they can walk hand in hand.
 > _“Come to me, all you who are weary and burdened, and I will give you rest.”_ (Matthew 11:28)
 
 God is not disappointed in you. He’s with you in your healing.  
-Would you like to share what anxiety has been like for you recently?
-
-`
+Would you like to share what anxiety has been like for you recently?`
           },
           ...chatHistory
         ]
@@ -313,9 +304,21 @@ Would you like to share what anxiety has been like for you recently?
     for (const agent of responders) {
       const typingDiv = showTypingIndicator(agent.name);
 
+      const recentAgentTurns = chatHistory
+        .filter(m => m.role === "assistant" && m.name)
+        .slice(-4)
+        .map(m => `- ${m.name}: “${m.content}”`).join("\n");
+
+      const recentUserTurns = chatHistory
+        .filter(m => m.role === "user")
+        .slice(-3)
+        .map(m => `- “${m.content}”`).join("\n");
+
+      const contextPrompt = `You are ${agent.name}, part of a 5-person group chat (Eli, Jade, Lumi, Sage, and user).\nYou know each other well and see all messages.\n\nHere’s what other agents recently said:\n${recentAgentTurns || "(No agent messages yet)"}\n\nHere’s what the user recently shared:\n${recentUserTurns || "(User just started chatting)"}\n\nSpeak in your own style, and feel free to affirm, tease, or build on what others said.`;
+
       const messages = [
-        { role: "system", content: `${agent.systemPrompt}\n\nFeel free to reference what others just said.` },
-        ...chatHistory,
+        { role: "system", content: contextPrompt },
+        { role: "system", content: agent.systemPrompt },
         { role: "user", content: message }
       ];
 
@@ -332,6 +335,7 @@ Would you like to share what anxiety has been like for you recently?
 
       chatbox.removeChild(typingDiv);
       displayMessage(content, "bot", agent.avatar, agent.color, agent.name);
+      chatHistory.push({ role: "assistant", content, name: agent.name });
     }
   }
 }
@@ -365,7 +369,6 @@ document.addEventListener("click", function (event) {
     aboutPanel.classList.add("hidden");
   }
 });
-
 
 
 
