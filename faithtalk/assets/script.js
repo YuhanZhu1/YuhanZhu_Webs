@@ -106,7 +106,9 @@ Sage: You do. Lumi would throw a glitter parade to prove it. Jade would give you
 ];
 
 // ✅ Mode welcome messages
-const faithtalkIntro = `**👋 Welcome to *FaithTalk*.**\n\nThis is a **quiet, safe space** to ask questions, explore truth, and reflect on faith. 🕊️ Your conversation is *private*, and not stored.\nYou’re free to be **honest**, **curious**, or even **skeptical** — every question matters here.`;
+const faithtalkIntro = `**👋 Welcome to *FaithTalk*.**\n\nThis is a **quiet, safe space** to ask questions, explore truth, and reflect on faith. 🕊️ Your conversation is *private*, and not stored.\nYou’re free to be **honest**, **curious**, or even **skeptical** — every question matters here.
+
+\n\n ⚠️ May 2026 Construction, backend language modeld issue: \n\n"❌ OpenAI error: 429 You exceeded your current quota" will be fixing soon`;
 
 const groupchatIntro = `**👥 Welcome to *Group Chat Mode*.**\n\nYour friends are here to talk with you.`;
 
