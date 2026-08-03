@@ -12,6 +12,9 @@
     <meta property="og:image" content="./assets/images/og-image.jpg">
     <meta property="og:url" content="https://yuhanzhu.com/wedding/">
 
+    <!-- Preload Hero Image for Instant Loading -->
+    <link rel="preload" as="image" href="./assets/images/main-photo.jpg">
+
     <!-- Elegant Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -42,12 +45,10 @@
                 <span class="zh">2026年8月8日</span>
                 <span class="ko">2026년 8월 8일</span>
             </div>
-
-            <a href="#rsvp" class="btn-outline">RSVP</a>
         </div>
     </header>
 
-        <!-- Countdown Section -->
+    <!-- Countdown Section (Horizontal) -->
     <section class="countdown-section bg-white reveal">
         <div class="container text-center">
             <div id="countdown" class="countdown-container">
@@ -148,7 +149,7 @@
         </div>
     </section>
 
-    <!-- Venue Spotlight Section (Added to highlight the beautiful description) -->
+    <!-- Venue Spotlight Section -->
     <section id="venue-info" class="section bg-white reveal">
         <div class="container text-center max-w-800">
             <h2 class="section-title">
@@ -209,28 +210,40 @@
         </div>
     </section>
 
-        <!-- Contact, Gift & Messages Section -->
+    <!-- Contact, Gift & Messages Section -->
     <section id="contact-blessings" class="section bg-white reveal">
         <div class="container max-w-800 text-center">
             
-            <!-- 1. Contact Info -->
+            <!-- 1. Contact Info (Couple + Parents) -->
             <h2 class="section-title">
                 <span class="en">Get in Touch</span>
                 <span class="zh">联系我们</span>
                 <span class="ko">연락처</span>
             </h2>
             <div class="trilingual-text margin-bottom-large">
-                <p class="en">While many of you already know the date, please message us directly on WeChat or call us to confirm your attendance so we can finalize our seating arrangements.</p>
-                <p class="zh">为了方便我们排定坐席，请通过微信或电话与我们确认您的出席情况。期待您的光临！</p>
+                <p class="en">Please message us directly on WeChat or call us to confirm your attendance so we can finalize our seating arrangements.</p>
+                <p class="zh">为了方便我们排定坐席，请通过微信或电话与我们或父母确认您的出席情况。期待您的光临！</p>
+                
                 <div class="contact-details">
-                    <p><strong>Yuhan (朱昱瀚):</strong> +86 186-XXXX-XXXX | WeChat: yuhan_wx</p>
-                    <p><strong>Geunyoung (金槿瑛):</strong> +86 139-XXXX-XXXX | WeChat: gy_wx</p>
+                    <div class="contact-group">
+                        <h4 class="contact-title">The Couple / 新人</h4>
+                        <p><strong> 朱昱瀚 (Yuhan Zhu):</strong> +86 177-9265-8359 | WeChat: youcanyuhan</p>
+                        <p><strong> 金槿瑛 (김근영 Geunyoung Kim):</strong> </p>
+                    </div>
+                    <div class="contact-group">
+                        <h4 class="contact-title">Parents / 父母</h4>
+                        <p>新郎父亲 <strong> 朱剑:</strong> 13363922259 | 微信: zhujian9</p>
+                        <p>新郎母亲 <strong> 严义书:</strong> 13359295329 | 微信: yanyishu089</p>
+
+                        <p>新娘父亲 <strong> 金完善 김완선</strong> </p>
+                        <p>新娘母亲 <strong> 金恩实 김은실</strong> </p>
+                    </div>
                 </div>
             </div>
 
             <hr class="elegant-divider">
 
-            <!-- 2. Gifting / Red Envelope -->
+            <!-- 2. Gifting / Red Envelope (Lazy Loaded) -->
             <h2 class="section-title mt-5">
                 <span class="en">Registry & Gifts</span>
                 <span class="zh">承蒙厚爱</span>
@@ -242,11 +255,11 @@
                 
                 <div class="qr-container">
                     <div class="qr-box">
-                        <img src="./assets/images/wechat-pay.jpg" alt="WeChat Pay" class="qr-image">
+                        <img src="./assets/images/wechat-pay.jpg" alt="WeChat Pay" class="qr-image" loading="lazy">
                         <p class="qr-label">微信支付 WeChat Pay</p>
                     </div>
                     <div class="qr-box">
-                        <img src="./assets/images/alipay.jpg" alt="Alipay" class="qr-image">
+                        <img src="./assets/images/alipay.jpg" alt="Alipay" class="qr-image" loading="lazy">
                         <p class="qr-label">支付宝 Alipay</p>
                     </div>
                 </div>
@@ -263,19 +276,18 @@
             <div class="message-wall-container">
                 <p class="en margin-bottom-large text-muted">Leave a blessing or share a memory with us.</p>
                 
-                <!-- If you use Waline, it will inject here. Otherwise, here is a beautiful static UI -->
-                <div class="message-form">
-                    <input type="text" placeholder="Your Name / 您的姓名" class="form-input">
-                    <textarea placeholder="Write your blessings... / 写下您的祝福..." class="form-input" rows="4"></textarea>
-                    <button class="btn-outline submit-btn">Send Message / 发送</button>
+                <div class="message-form" id="messageForm">
+                    <input type="text" id="guestName" placeholder="Your Name / 您的姓名" class="form-input">
+                    <textarea id="guestMessage" placeholder="Write your blessings... / 写下您的祝福..." class="form-input" rows="4"></textarea>
+                    <button type="button" class="btn-outline submit-btn" id="sendMessageBtn">Send Message / 发送</button>
+                    <p id="formStatus" class="form-status-msg" style="display: none;"></p>
                 </div>
             </div>
 
         </div>
     </section>
 
-
-    <!-- Photo Gallery -->
+    <!-- Photo Gallery (Lazy Loaded) -->
     <section id="gallery" class="section bg-sand reveal">
         <div class="container">
             <h2 class="section-title text-center">
@@ -284,10 +296,10 @@
                 <span class="ko">갤러리</span>
             </h2>
             <div class="gallery-grid">
-                <img src="./assets/images/gallery-1.webp" alt="Yuhan and Geunyoung" class="gallery-image">
-                <img src="./assets/images/gallery-2.webp" alt="Yuhan and Geunyoung" class="gallery-image">
-                <img src="./assets/images/gallery-3.webp" alt="Yuhan and Geunyoung" class="gallery-image">
-                <img src="./assets/images/gallery-4.webp" alt="Yuhan and Geunyoung" class="gallery-image">
+                <img src="./assets/images/gallery-1.webp" alt="Yuhan and Geunyoung" class="gallery-image" loading="lazy">
+                <img src="./assets/images/gallery-2.webp" alt="Yuhan and Geunyoung" class="gallery-image" loading="lazy">
+                <img src="./assets/images/gallery-3.webp" alt="Yuhan and Geunyoung" class="gallery-image" loading="lazy">
+                <img src="./assets/images/gallery-4.webp" alt="Yuhan and Geunyoung" class="gallery-image" loading="lazy">
             </div>
         </div>
     </section>
@@ -308,3 +320,4 @@
     <script src="./script.js"></script>
 </body>
 </html>
+
