@@ -415,3 +415,162 @@ h1 .en, h2 .en, h3 .en { font-size: inherit; color: inherit; }
     
     .section { padding: 5rem 0; }
 }
+
+/* =========================================
+   Countdown Section
+   ========================================= */
+.countdown-section {
+    padding: 4rem 0 2rem 0; /* Thinner padding than regular sections */
+}
+
+.countdown-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.time-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 70px;
+}
+
+.time-box .number {
+    font-family: var(--font-en);
+    font-size: 3.5rem;
+    color: var(--color-accent);
+    line-height: 1;
+    font-weight: 300;
+}
+
+.time-box .label {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--color-text-muted);
+    margin-top: 0.5rem;
+}
+
+.separator {
+    font-size: 2.5rem;
+    color: var(--color-accent);
+    font-weight: 300;
+    transform: translateY(-15px);
+    opacity: 0.5;
+}
+
+/* =========================================
+   Contact & Registry Section
+   ========================================= */
+.mt-5 { margin-top: 5rem; }
+.text-muted { color: var(--color-text-muted); }
+
+.contact-details {
+    background-color: var(--color-bg-sand);
+    padding: 1.5rem;
+    border-radius: 4px;
+    margin-top: 2rem;
+    font-family: var(--font-en); /* Using english font for numbers */
+    font-size: 1.1rem;
+}
+
+.elegant-divider {
+    border: none;
+    height: 1px;
+    background-color: var(--color-accent);
+    opacity: 0.3;
+    width: 50%;
+    margin: 4rem auto;
+}
+
+.qr-container {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    margin-top: 2rem;
+}
+
+.qr-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.qr-image {
+    width: 180px;
+    height: 180px;
+    object-fit: contain;
+    border: 1px solid rgba(0,0,0,0.1);
+    padding: 0.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease;
+}
+
+.qr-image:hover {
+    transform: translateY(-5px);
+}
+
+.qr-label {
+    margin-top: 1rem;
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    letter-spacing: 0.05em;
+}
+
+/* =========================================
+   Message Wall UI
+   ========================================= */
+.message-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    text-align: left;
+}
+
+.form-input {
+    width: 100%;
+    padding: 1rem;
+    border: 1px solid rgba(0,0,0,0.15);
+    background-color: var(--color-bg-sand);
+    font-family: inherit;
+    font-size: 1rem;
+    border-radius: 4px;
+    transition: border-color 0.3s ease;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--color-accent);
+}
+
+.submit-btn {
+    align-self: flex-start;
+    background: transparent;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+/* Responsive adjustments for new sections */
+@media (max-width: 768px) {
+    .countdown-container {
+        gap: 0.5rem;
+    }
+    .time-box .number {
+        font-size: 2.2rem;
+    }
+    .time-box {
+        min-width: 50px;
+    }
+    .separator {
+        font-size: 1.5rem;
+        transform: translateY(-10px);
+    }
+    .qr-container {
+        flex-direction: column;
+        gap: 2rem;
+        align-items: center;
+    }
+}

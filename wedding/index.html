@@ -47,6 +47,37 @@
         </div>
     </header>
 
+        <!-- Countdown Section -->
+    <section class="countdown-section bg-white reveal">
+        <div class="container text-center">
+            <div id="countdown" class="countdown-container">
+                <div class="time-box">
+                    <span id="days" class="number">000</span>
+                    <span class="label en">Days</span>
+                    <span class="label zh">天</span>
+                </div>
+                <span class="separator">:</span>
+                <div class="time-box">
+                    <span id="hours" class="number">00</span>
+                    <span class="label en">Hours</span>
+                    <span class="label zh">时</span>
+                </div>
+                <span class="separator">:</span>
+                <div class="time-box">
+                    <span id="minutes" class="number">00</span>
+                    <span class="label en">Mins</span>
+                    <span class="label zh">分</span>
+                </div>
+                <span class="separator">:</span>
+                <div class="time-box">
+                    <span id="seconds" class="number">00</span>
+                    <span class="label en">Secs</span>
+                    <span class="label zh">秒</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Bible Verse Section -->
     <section class="section bg-sand reveal">
         <div class="container text-center">
@@ -178,22 +209,71 @@
         </div>
     </section>
 
-    <!-- RSVP Section -->
-    <section id="rsvp" class="section bg-white reveal">
-        <div class="container text-center max-w-800">
+        <!-- Contact, Gift & Messages Section -->
+    <section id="contact-blessings" class="section bg-white reveal">
+        <div class="container max-w-800 text-center">
+            
+            <!-- 1. Contact Info -->
             <h2 class="section-title">
-                <span class="en">RSVP</span>
-                <span class="zh">敬请赐复</span>
-                <span class="ko">참석 여부 전달</span>
+                <span class="en">Get in Touch</span>
+                <span class="zh">联系我们</span>
+                <span class="ko">연락처</span>
             </h2>
             <div class="trilingual-text margin-bottom-large">
-                <p class="en">We kindly request your response by Auguest 6th, 2026. Please click the button below to fill out our digital form.</p>
-                <p class="zh">请于2026年8月6日前赐复，以方便我们为您安排。请点击下方按钮填写电子回执。</p>
-                <p class="ko">원활한 예식 준비를 위해 2026년 8월 6일까지 참석 여부를 알려주시기를 부탁드립니다. 아래 버튼을 눌러 폼을 작성해 주세요.</p>
+                <p class="en">While many of you already know the date, please message us directly on WeChat or call us to confirm your attendance so we can finalize our seating arrangements.</p>
+                <p class="zh">为了方便我们排定坐席，请通过微信或电话与我们确认您的出席情况。期待您的光临！</p>
+                <div class="contact-details">
+                    <p><strong>Yuhan (朱昱瀚):</strong> +86 186-XXXX-XXXX | WeChat: yuhan_wx</p>
+                    <p><strong>Geunyoung (金槿瑛):</strong> +86 139-XXXX-XXXX | WeChat: gy_wx</p>
+                </div>
             </div>
-            <a href="https://forms.gle/YOUR_GOOGLE_FORM_LINK" target="_blank" class="btn-outline">RSVP Form</a>
+
+            <hr class="elegant-divider">
+
+            <!-- 2. Gifting / Red Envelope -->
+            <h2 class="section-title mt-5">
+                <span class="en">Registry & Gifts</span>
+                <span class="zh">承蒙厚爱</span>
+                <span class="ko">마음 전하실 곳</span>
+            </h2>
+            <div class="trilingual-text margin-bottom-large">
+                <p class="en">Your presence at our wedding is the greatest gift of all. However, if you wish to honor us with a gift, you may use the codes below.</p>
+                <p class="zh">您的出席就是对我们最好的祝福。如您希望以礼金表达心意，可使用下方二维码，感谢您的厚爱。</p>
+                
+                <div class="qr-container">
+                    <div class="qr-box">
+                        <img src="./assets/images/wechat-pay.jpg" alt="WeChat Pay" class="qr-image">
+                        <p class="qr-label">微信支付 WeChat Pay</p>
+                    </div>
+                    <div class="qr-box">
+                        <img src="./assets/images/alipay.jpg" alt="Alipay" class="qr-image">
+                        <p class="qr-label">支付宝 Alipay</p>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="elegant-divider">
+
+            <!-- 3. Message Wall UI -->
+            <h2 class="section-title mt-5">
+                <span class="en">Message Wall</span>
+                <span class="zh">留言墙</span>
+                <span class="ko">방명록</span>
+            </h2>
+            <div class="message-wall-container">
+                <p class="en margin-bottom-large text-muted">Leave a blessing or share a memory with us.</p>
+                
+                <!-- If you use Waline, it will inject here. Otherwise, here is a beautiful static UI -->
+                <div class="message-form">
+                    <input type="text" placeholder="Your Name / 您的姓名" class="form-input">
+                    <textarea placeholder="Write your blessings... / 写下您的祝福..." class="form-input" rows="4"></textarea>
+                    <button class="btn-outline submit-btn">Send Message / 发送</button>
+                </div>
+            </div>
+
         </div>
     </section>
+
 
     <!-- Photo Gallery -->
     <section id="gallery" class="section bg-sand reveal">
@@ -204,10 +284,10 @@
                 <span class="ko">갤러리</span>
             </h2>
             <div class="gallery-grid">
-                <img src="./assets/images/gallery-1.png" alt="Yuhan and Geunyoung" class="gallery-image">
-                <img src="./assets/images/gallery-2.png" alt="Yuhan and Geunyoung" class="gallery-image">
-                <img src="./assets/images/gallery-3.png" alt="Yuhan and Geunyoung" class="gallery-image">
-                <img src="./assets/images/gallery-4.png" alt="Yuhan and Geunyoung" class="gallery-image">
+                <img src="./assets/images/gallery-1.webp" alt="Yuhan and Geunyoung" class="gallery-image">
+                <img src="./assets/images/gallery-2.webp" alt="Yuhan and Geunyoung" class="gallery-image">
+                <img src="./assets/images/gallery-3.webp" alt="Yuhan and Geunyoung" class="gallery-image">
+                <img src="./assets/images/gallery-4.webp" alt="Yuhan and Geunyoung" class="gallery-image">
             </div>
         </div>
     </section>
