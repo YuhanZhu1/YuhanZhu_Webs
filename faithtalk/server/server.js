@@ -34,7 +34,6 @@ app.post('/chat', async (req, res) => {
     const completion = await openai.chat.completions.create({
       model: "gpt-5-nano", 
       messages,
-      temperature: 0.7,
     });
 
     const reply = completion.choices[0].message.content;
