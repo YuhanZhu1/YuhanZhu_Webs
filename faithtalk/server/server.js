@@ -32,13 +32,13 @@ app.post('/chat', async (req, res) => {
 
   try {
     const completion = await openai.chat.completions.create({
-      model: "gpt-4o-mini", 
+      model: "gpt-5-nano", 
       messages,
       temperature: 0.7,
     });
 
     const reply = completion.choices[0].message.content;
-    console.log("✅ GPT-4o replied:", reply);
+    console.log("✅ GPT-5-nano replied:", reply);
 
     res.json({ choices: [{ message: { content: reply } }] });
   } catch (error) {
