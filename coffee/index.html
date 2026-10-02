@@ -1,233 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>YuYu Coffee</title>
-  <link rel="stylesheet" href="assets/css/styles.css">
-  <link rel="icon" href="assets/img/logo.png" type="image/png">
-  <link rel="apple-touch-icon" href="assets/img/logo.png">
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
-    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-analytics.js";
-    import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-database.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyBAjNZJAzRejznIPeai1QQ2ZFOTCNWO8Ic",
-      authDomain: "yuyu-coffee.firebaseapp.com",
-      databaseURL: "https://yuyu-coffee-default-rtdb.firebaseio.com",
-      projectId: "yuyu-coffee",
-      storageBucket: "yuyu-coffee.appspot.com",
-      messagingSenderId: "701846772347",
-      appId: "1:701846772347:web:1dbf3bd94f74e47135a0de",
-      measurementId: "G-HNV1C3YXWD"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const analytics = getAnalytics(app);
-    const database = getDatabase(app);
-
-    function saveOrderToFirebase(orderData) {
-      const ordersRef = ref(database, 'orders');
-      push(ordersRef, orderData).then(() => {
-        alert('Order submitted successfully!');
-      }).catch((error) => {
-        console.error('Error submitting order:', error);
-      });
-    }
-
-    function calculatePrice() {
-      const coffeeType = document.getElementById('coffee-type').value;
-      const milkType = document.getElementById('milk-type').value;
-      const quantity = parseInt(document.getElementById('quantity').value, 10);
-
-      let pricePerCup = 0;
-      switch (coffeeType) {
-        case 'Espresso':
-        case 'Americano':
-        case 'Latte':
-        case 'DecafEspresso':
-        case 'DecafAmericano':
-          pricePerCup = 1.1;
-          break;
-        case 'HandDrip':
-          pricePerCup = 1.4;
-          break;
-        case 'Omakase':
-          pricePerCup = 1.5;
-          break;
-      }
-
-      const milkPrice = calculateMilkPrice(milkType);
-      const totalPrice = (pricePerCup + milkPrice) * quantity;
-
-      if (totalPrice > 25 || quantity > 15) {
-        document.getElementById('price').innerText = `Whoa, ${quantity} cups of coffee. Yuhan might need an extra pair of hands to brew all that! Let's dial it back a bit. ☕️😄`;
-        document.getElementById('joke-section').style.display = 'none';
-        document.getElementById('payment-buttons').style.display = 'none';
-      } else {
-        document.getElementById('price').innerText = `Total Price: $${totalPrice.toFixed(2)}`;
-        document.getElementById('joke-section').style.display = 'block';
-      }
-    }
-
-    function calculateMilkPrice(milkType) {
-      switch (milkType) {
-        case 'Whole Milk':
-        case '2%Milk':
-          return 0.2;
-        case 'Oat Milk':
-        case 'Almond Milk':
-          return 0.3;
-        case 'Lactose Free Milk':
-        case 'Coconut Milk':
-          return 0.4;
-        default:
-          return 0;
-      }
-    }
-
-    function handleJoke() {
-      const jokeResponse = document.getElementById('joke').value;
-      const responseMessage = getJokeResponseMessage(jokeResponse);
-      alert(responseMessage);
-
-      const totalPrice = parseFloat(document.getElementById('price').innerText.replace('Total Price: $', ''));
-      if (totalPrice > 0 && jokeResponse === 'pay') {
-        const orderTime = new Date().toLocaleString('en-US', { timeZone: 'America/New_York' });
-        const userName = document.getElementById('user-name').value;
-        const note = document.getElementById('note').value;
-        const decaf = document.getElementById('decaf').value;
-        const coffeeType = document.getElementById('coffee-type').value;
-        const coffeeTemp = document.getElementById('coffee-temp').value;
-        const milkType = document.getElementById('milk-type').value;
-        const quantity = document.getElementById('quantity').value;
-        const orderNote = `Time: ${orderTime}, Name: ${userName}, Note: ${note}, Order: ${decaf} ${coffeeType} (${coffeeTemp}), Milk: ${milkType}, Quantity: ${quantity}`;
-        
-        document.getElementById('venmo-button').setAttribute('href', `venmo://paycharge?txn=pay&recipients=Yuhan-Zhu-1&amount=${totalPrice}&note=${encodeURIComponent(orderNote)}`);
-        document.getElementById('payment-buttons').style.display = 'block';
-      } else {
-        document.getElementById('payment-buttons').style.display = 'none';
-        handleFormSubmission();
-      }
-    }
-
-    function getJokeResponseMessage(jokeResponse) {
-      switch (jokeResponse) {
-        case 'yes': return '☀️ Have a joyful day! Your coffee is free!';
-        case 'positive': return 'Keep spreading positivity🫰 Your coffee is free!';
-        case 'smile': return '😊 Keep smiling and make others smile! Your coffee is free!';
-        case 'gratitude': return 'Thank you for showing gratitude❤️ Your coffee is free!';
-        case 'pay': return 'Money 💵 for me!!!🤩🤩🤩 THANK YOU!!!';
-        default: return '';
-      }
-    }
-
-    window.handleFormSubmission = function() {
-      const userName = document.getElementById('user-name').value;
-      const coffeeType = document.getElementById('coffee-type').value;
-      const coffeeTemp = document.getElementById('coffee-temp').value;
-      const milkType = document.getElementById('milk-type').value;
-      const decaf = document.getElementById('decaf').value;
-      const quantity = document.getElementById('quantity').value;
-      const note = document.getElementById('note').value;
-      const orderTime = new Date().toLocaleString('en-US', { timeZone: 'America/New_York' });
-
-      const orderData = {
-        orderTime,
-        userName,
-        note,
-        decaf,
-        coffeeTemp,
-        coffeeType,
-        milkType,
-        quantity
-  };
-      saveOrderToFirebase(orderData);
-    }
-
-    document.getElementById('calculate-price-button').addEventListener('click', calculatePrice);
-    document.getElementById('joke-button').addEventListener('click', handleJoke);
-  </script>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="A little coffee, a little kindness. Choose your favorite cup at YuYu Coffee, brewed by Yuhan.">
+<title>YuYu Coffee — A little cup of joy</title>
+<link rel="icon" href="assets/img/logo.png"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/lenis@1.3.26/dist/lenis.css"><link rel="stylesheet" href="assets/css/styles.css">
+<script defer src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script><script defer src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script><script defer src="https://unpkg.com/lenis@1.3.26/dist/lenis.min.js"></script>
+<script defer src="assets/js/scripts.js"></script>
 </head>
 <body>
-  <header>
-    <img src="assets/img/logo.png" alt="YuYu Coffee" class="logo">
-    <h1>Welcome to YuYu Coffee</h1>
-  </header>
-  <main>
-    <section id="order">
-      <h2>Order Your Coffee</h2>
-      <p class="highlight"><em>If you can tell a joke that makes Yuhan laugh out loud, your coffee is free!</em></p>
-      <form id="coffee-form" onsubmit="event.preventDefault(); handleFormSubmission();">
-        <label for="user-name">Got a name you'd like to share? (No worries if you want to stay mysterious!)</label>
-        <input type="text" id="user-name" name="user-name">
-        <br>
-        <label for="coffee-type">Choose your coffee:</label>
-        <select id="coffee-type" name="coffee-type">
-          <option value="Espresso">Espresso - $1.1</option>
-          <option value="Americano">Americano - $1.1</option>
-          <option value="Latte">Latte - $1.1</option>
-          <option value="HandDrip">Hand Drip Coffee - $1.4</option>
-          <option value="Omakase">Omakase - $1.5</option>
-        </select>
-        <br>
-        <label for="milk-type">Choose your milk:</label>
-        <select id="milk-type" name="milk-type">
-          <option value="None">None</option>
-          <option value="Whole Milk">Whole Milk - $0.2</option>
-          <option value="2%Milk">2% Milk - $0.2 (on a field trip, but it'll be back soon!)</option>
-          <option value="Oat Milk">Oat Milk - $0.3 (Just stepped out—restocking in progress!)</option>
-          <option value="Almond Milk">Almond Milk - $0.3</option>
-          <option value="Lactose Free Milk">Lactose Free Milk - $0.4</option>
-          <option value="Coconut Milk">Coconut Milk - $0.4</option>
-        </select>
-        <br>
-        <label for="coffee-temp">Ice?</label>
-        <select id="coffee-temp" name="coffee-temp">
-          <option value="Cold">ICED!!!</option>
-          <option value="Hot">Nope! Absolutely Hot Please</option>
-        </select>
-        <br>
-        <label for="decaf">Decaf?</label>
-        <select id="decaf" name="decaf">
-          <option value="Caffeinated">Caffeinated Please</option>
-          <option value="Decaf">Decaf</option>
-        </select>
-        <br>
-        <label for="note">Got something to say to Yuhan? Drop your witty wisdom here!</label>
-        <input type="text" id="note" name="note">
-        <br>
-        <label for="quantity">Quantity:</label>
-        <input type="number" id="quantity" name="quantity" value="1" min="1">
-        <br>
-        <button type="button" id="calculate-price-button">Calculate Price</button>
-      </form>
-      <p id="price"></p>
-      <div id="joke-section" style="display:none;">
-        <label for="joke">Can you guarantee a happy and joyful day?</label>
-        <select id="joke" name="joke">
-          <option value="yes">Yes, I will have a joyful day!</option>
-          <option value="positive">I will spread positivity!</option>
-          <option value="smile">I will smile and make others smile!</option>
-          <option value="gratitude">I will show gratitude to others!</option>
-          <option value="pay">No joke, just take my money!</option>
-        </select>
-        <br>
-        <button type="button" id="joke-button">Submit</button>
-      </div>
-      <div id="payment-buttons" style="display:none;">
-        <!-- Venmo Button -->
-        <a id="venmo-button" href="#"><button>Pay with Venmo</button></a>
-      </div>
-    </section>
-  </main>
-  <footer>
-    <p class="footer-text">© 1998 YuYu.</p>
-    <p class="footer-text">Buy Yuhan A Oolong Milk Tea🧋: <a href="venmo://paycharge?txn=pay&recipients=Yuhan-Zhu-1&amount=5&note=Oolong%20Milk%20Tea%20Yuhan's%20Favorit!">Venmo</a></p>
-    <p class="footer-text">Visit my homepage: <a href="/index.html">HOME</a></p>
-  </footer>
-  <script src="assets/js/scripts.js" defer></script>
-</body>
-</html>
-
+<a class="skip-link" href="#order">Skip to order</a>
+<header class="site-header"><a class="wordmark" href="#">yuyu<span>coffee</span></a><nav aria-label="Main navigation"><a href="#menu">The menu</a><a href="#kindness">Our little ritual</a><a class="nav-order" href="#order">Make it yours <span aria-hidden="true">↗</span></a></nav></header>
+<main>
+<section class="hero" aria-labelledby="hero-heading"><div class="hero-copy"><p class="eyebrow">BREWED BY YUHAN. SHARED WITH YOU.</p><h1 id="hero-heading">A little coffee.<br>A little <em>joy.</em></h1><p class="hero-description">Good coffee doesn't have to be complicated.<br>Just your favorite cup, made with care—and a reason to smile.</p><a class="button" href="#order">Find your happy cup <span aria-hidden="true">↗</span></a><p class="hero-footnote"><span class="dot"></span> Small prices. A whole lot of heart.</p></div><figure class="hero-media">
+<!-- Editorial coffee photograph: Unsplash photo-1511081692775-05d0f180a065, used under https://unsplash.com/license. Illustrative, not a photograph of YuYu's products or premises. -->
+<img src="https://images.unsplash.com/photo-1511081692775-05d0f180a065?auto=format&amp;fit=crop&amp;w=1200&amp;q=85" srcset="https://images.unsplash.com/photo-1511081692775-05d0f180a065?auto=format&amp;fit=crop&amp;w=600&amp;q=80 600w, https://images.unsplash.com/photo-1511081692775-05d0f180a065?auto=format&amp;fit=crop&amp;w=1200&amp;q=85 1200w" sizes="(max-width: 760px) 100vw, 50vw" width="1200" height="1500" fetchpriority="high" alt="A warm cup of coffee with delicate latte art"><div class="photo-fallback" hidden>A little cup of joy.</div><figcaption><span>THE EVERYDAY RITUAL</span><span>Take a moment. Take a sip.</span></figcaption><div class="photo-note">Made with care.<br><em>Always.</em></div></figure></section>
+<div class="ribbon"><span>Good mornings start here</span><span aria-hidden="true">✳</span><span>Coffee &amp; kindness</span><span aria-hidden="true">✳</span><span>A cup for every mood</span></div>
+<section class="menu-section section" id="menu"><div class="section-heading"><p class="eyebrow">01 / THE MENU</p><h2>Your mood.<br><em>Your brew.</em></h2><p>Keep it classic, slow things down, or leave it to Yuhan. There's a little something for every kind of day.</p></div><div class="menu-list">
+<a href="#order" class="menu-item" data-coffee="Espresso"><span class="menu-number">01</span><div><h3>Espresso</h3><p>Small cup. Bold energy.</p></div><span class="menu-price">$1.10 <span aria-hidden="true">↗</span></span></a>
+<a href="#order" class="menu-item" data-coffee="Americano"><span class="menu-number">02</span><div><h3>Americano</h3><p>A classic, with room to linger.</p></div><span class="menu-price">$1.10 <span aria-hidden="true">↗</span></span></a>
+<a href="#order" class="menu-item" data-coffee="Latte"><span class="menu-number">03</span><div><h3>Latte</h3><p>Espresso meets your favorite milk.</p></div><span class="menu-price">$1.10 <span aria-hidden="true">↗</span></span></a>
+<a href="#order" class="menu-item" data-coffee="HandDrip"><span class="menu-number">04</span><div><h3>Hand drip</h3><p>For the slow, savor-every-sip days.</p></div><span class="menu-price">$1.40 <span aria-hidden="true">↗</span></span></a>
+<a href="#order" class="menu-item" data-coffee="Omakase"><span class="menu-number">05</span><div><h3>Omakase</h3><p>A little surprise. Yuhan's choice.</p></div><span class="menu-price">$1.50 <span aria-hidden="true">↗</span></span></a><p class="menu-note">Milk additions $0.20–$0.40 · Hot or iced · Decaf available</p></div></section>
+<section class="kindness section" id="kindness"><p class="eyebrow">02 / OUR LITTLE RITUAL</p><h2>The best things<br>are <em>shared.</em></h2><div><p>Tell a joke that makes Yuhan laugh, promise to spread a little positivity, or make someone smile. Around here, kindness can cover your coffee.</p><p class="kindness-signoff">A good cup. A better day. <span>— Yuhan</span></p></div></section>
+<section class="order-section section" id="order"><div class="order-intro"><p class="eyebrow">03 / MAKE IT YOURS</p><h2>One happy cup,<br><em>coming up.</em></h2><p>A few little choices, and you're on your way.<br>How would you like your coffee?</p><div class="order-note"><span aria-hidden="true">✳</span><p>Your coffee, your way.<br>Hot, iced, decaf—we've got you.</p></div></div><div class="order-card"><form id="coffee-form"><div class="form-heading"><h3>Your coffee order</h3><span>MADE WITH CARE</span></div><div class="form-grid">
+<div class="field full"><label for="user-name">What should we call you? <span>(optional)</span></label><input id="user-name" name="user-name" autocomplete="given-name" maxlength="100" placeholder="Your name, or a little mystery"></div>
+<div class="field"><label for="coffee-type">Your brew</label><select id="coffee-type" name="coffee-type"><option value="Espresso">Espresso · $1.10</option><option value="Americano">Americano · $1.10</option><option value="Latte">Latte · $1.10</option><option value="HandDrip">Hand drip · $1.40</option><option value="Omakase">Omakase · $1.50</option></select></div>
+<div class="field"><label for="milk-type">A splash of milk?</label><select id="milk-type" name="milk-type"><option value="None">No milk</option><option value="Whole Milk">Whole milk · +$0.20</option><option value="2%Milk" disabled>2% milk · unavailable</option><option value="Oat Milk" disabled>Oat milk · unavailable</option><option value="Almond Milk">Almond milk · +$0.30</option><option value="Lactose Free Milk">Lactose-free · +$0.40</option><option value="Coconut Milk">Coconut milk · +$0.40</option></select></div>
+<div class="field"><label for="coffee-temp">Temperature</label><select id="coffee-temp" name="coffee-temp"><option value="Cold">Iced, please</option><option value="Hot">Nice and hot</option></select></div><div class="field"><label for="decaf">Caffeine</label><select id="decaf" name="decaf"><option value="Caffeinated">A little energy</option><option value="Decaf">Decaf, please</option></select></div>
+<div class="field"><label for="quantity">How many cups?</label><input type="number" id="quantity" name="quantity" value="1" min="1" max="15" step="1" required></div><div class="field"><label for="note">A note for Yuhan <span>(optional)</span></label><input id="note" name="note" maxlength="500" placeholder="A joke, a request, a hello…"></div></div>
+<div class="order-total"><span>Your total <small>Before a little kindness</small></span><strong id="price" aria-live="polite">$1.10</strong></div><p id="quantity-error" class="error" role="alert" hidden></p>
+<div class="field"><label for="joke">How will you brighten the day?</label><select id="joke" name="joke"><option value="yes">I'll have a joyful day</option><option value="positive">I'll spread some positivity</option><option value="smile">I'll make someone smile</option><option value="gratitude">I'll show a little gratitude</option><option value="pay">I'd like to pay for my coffee</option></select></div><p id="kindness-message" class="kindness-message">Your kindness covers this cup. Pass it on.</p><button class="button submit-button" id="submit-order" type="submit">Send my coffee order <span aria-hidden="true">↗</span></button><p id="order-status" role="status" aria-live="polite"></p><div id="payment-buttons" hidden><a class="button" id="venmo-button" href="#">Continue to Venmo <span aria-hidden="true">↗</span></a><p>Your order is saved. Complete payment in Venmo; opening the app does not confirm payment here.</p></div></form><noscript><p class="error">Please enable JavaScript to calculate and submit your order.</p></noscript></div></section>
+<section class="closing"><p class="eyebrow">HERE'S TO THE LITTLE THINGS.</p><h2>See you on the<br><em>bright side.</em></h2><a href="#order" class="text-link">Let's make a coffee <span aria-hidden="true">↗</span></a></section>
+</main><footer><a class="wordmark" href="#">yuyu<span>coffee</span></a><p>A little coffee. A little kindness.</p><div><a href="/index.html">Yuhan's homepage ↗</a><a href="venmo://paycharge?txn=pay&amp;recipients=Yuhan-Zhu-1&amp;amount=5&amp;note=Oolong%20Milk%20Tea">Treat Yuhan to milk tea ↗</a></div><small>© YuYu Coffee</small></footer>
+</body></html>
