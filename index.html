@@ -3,234 +3,229 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yuhan's Personal Website</title>
+    <title>Yuhan Zhu — Data, projects & photography</title>
+    <meta name="description" content="Yuhan Zhu’s personal website: data science, physics, thoughtful projects, and travel photography.">
     <link rel="stylesheet" href="assets/css/styles.css">
     <link rel="icon" href="assets/img/logo.png" type="image/png">
     <link rel="apple-touch-icon" href="assets/img/logo.png">
 </head>
 <body>
+    <a class="skip-link" href="#home">Skip to content</a>
     <header>
         <div class="header-content">
-            <nav>
-                <ul class="nav-menu">
-                    <li><a href="#" onclick="showPage('home')">Home</a></li>
-                    <li><a href="#" onclick="showPage('milestones')">Milestones</a></li>
-                    <li><a href="faithtalk/index.html">🕊️ FaithTalk</a></li>
-                    <li><a href="TravelPhotography/index.html">My Photography</a></li>
+            <a class="site-name" href="#home">Yuhan Zhu<span>Personal website</span></a>
+            <nav aria-label="Main navigation">
+                <ul class="nav-menu" id="nav-menu">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#milestones">Milestones</a></li>
+                    <li><a href="faithtalk/index.html">FaithTalk</a></li>
+                    <li><a href="TravelPhotography/index.html">Photography</a></li>
                     <li><a href="coffee/index.html">YuYu Coffee</a></li>
                     <li><a href="calculator/index.html">Calculator</a></li>
-                    <li><a href="recomendation/index.html">Yuhan's Pick</a></li>
                 </ul>
-                <div class="menu-icon" onclick="toggleMenu()">☰</div>
+                <button type="button" class="menu-icon" aria-label="Open navigation" aria-expanded="false" aria-controls="nav-menu">☰</button>
             </nav>
         </div>
     </header>
     <main>
         <section id="home">
-            <h2>Welcome to Yuhan's Website</h2>
-            <img src="assets/img/VisaPhoto.jpeg" alt="Yuhan's Photo"><br>
-            <h2> 🌎 🌍 🌏 </h2>
-            <p>
-            Hello World! I recently graduate from Data Science program. <br> I am a lover of all things tech. I live in the beautiful state of Michigan with my lovely wife. <br> I'm passionate about my work and always eager to take on new challenges.
-            </p>
-            <h2> 🧑🏻‍💻 🔬 📈 🧬 🔭 </h2>
-            <h2>About Me</h2>
-            <p class="highlight">
-            I'm passionate about physics, computational modeling, new technology, and all things cool. I love traveling, photography, music, and making coffee. I'm always excited about working on different projects across various fields and consider myself a 'solution-giver' or 'problem-solver'. I excel at using data and analytical skills to answer questions, make sense of results, and address the 'How' and 'Why'. I'm hands-on, whether it's fixing water pipes, assembling computers, simulating the solar system, or doing gamma-ray spectrum experiments. I'm constantly adding new skills to my toolkit every day.
-            </p>
-        
-            <h2><strong>Education</strong></h2>
-            <strong>Master of Science Program in Data Science</strong><br>  
-            <p>Michigan State University</p> <em>Sep 2022 – May 2024</em>
-            <p>Big Data Analysis, Data Mining, Statistical Modeling for Data Science, Computational Optimization, Applied Machine Learning, <br> Bioinformatics: "Data Handling: Unix and Python", "Intro to Genomics", "Transcriptomic Data Analysis: from Reads to Functions".</p>
-                
-            <strong>Bachelor of Science in Physics</strong><br> <em>Sep 2018 – May 2022</em>
-            <p><strong>Minor in Computational Mathematics Science and Engineering</strong><br>
-            <p>Michigan State University</p>
-            Thermal & Statistical Physics, Electricity and Magnetism I, Electronics, Advanced Laboratory, Quantum Physics I, Intro to Nuclear Physics, Intro to Elementary Particle Physics, Computational Physics, Computational Modeling and Data Analysis, Probability and Statistics</p>
+            <div class="home-intro">
+                <div><p class="eyebrow">HELLO, I'M YUHAN</p><h1>Curious by nature.<br>Hands-on by choice.</h1><p class="intro-description">I’m a data science graduate with a background in physics, living in Michigan with my wife. I enjoy making sense of things—and making things that are useful.</p><div class="intro-links"><a href="#milestones">Explore my work →</a><a href="TravelPhotography/index.html">See my photographs →</a></div></div>
+                <img class="portrait" src="assets/img/VisaPhoto.jpeg" alt="Portrait of Yuhan Zhu" width="240" height="300" fetchpriority="high">
+            </div>
+            <div class="explore-links" aria-label="Explore the website">
+                <a href="TravelPhotography/index.html"><span class="eyebrow">THROUGH MY LENS</span><h2>Photography</h2><p>Places, details, and moments from my travels.</p><span aria-hidden="true">↗</span></a>
+                <a href="faithtalk/index.html"><span class="eyebrow">A SPACE TO REFLECT</span><h2>FaithTalk</h2><p>Honest questions and conversations about faith.</p><span aria-hidden="true">↗</span></a>
+                <a href="coffee/index.html"><span class="eyebrow">A LITTLE EVERYDAY JOY</span><h2>YuYu Coffee</h2><p>A cup made with care, shared with friends.</p><span aria-hidden="true">↗</span></a>
+            </div>
+            <div class="about-copy"><p class="eyebrow">A LITTLE ABOUT ME</p><h2>Finding the how and why.</h2><p>I’m drawn to physics, computational modeling, and new technology. I like using data to answer questions, understand results, and solve practical problems—from building applications and simulating the solar system to assembling computers.</p><p>Outside of work, I enjoy traveling, photography, music, and making coffee. I’m always adding something new to my toolkit.</p></div>
+            <h2 class="section-title">Education</h2>
+            <div class="education-list">
+                <article><div><h3>Master of Science Program in Data Science</h3><p>Michigan State University</p></div><span>Sep 2022 – May 2024</span><details><summary>Selected coursework</summary><p>Big Data Analysis, Data Mining, Statistical Modeling for Data Science, Computational Optimization, Applied Machine Learning; Bioinformatics: Data Handling with Unix and Python, Intro to Genomics, and Transcriptomic Data Analysis.</p></details></article>
+                <article><div><h3>Bachelor of Science in Physics</h3><p>Michigan State University · Minor in Computational Mathematics, Science and Engineering</p></div><span>Sep 2018 – May 2022</span><details><summary>Selected coursework</summary><p>Thermal &amp; Statistical Physics, Electricity and Magnetism I, Electronics, Advanced Laboratory, Quantum Physics I, Intro to Nuclear Physics, Intro to Elementary Particle Physics, Computational Physics, Computational Modeling and Data Analysis, Probability and Statistics.</p></details></article>
+            </div>
 
         </section>
         <section id="milestones">
-            <h2><strong>Milestones</strong></h2>
-            <h2> 🚀 ✈️ 🚢 🚂 🚕 🚲 </h2>
-            <ul style="text-align: left;">
+            <p class="eyebrow">LEARNING BY MAKING</p><h2 class="section-title">Projects & milestones</h2><p class="section-intro">A selection of things I’ve built, explored, and learned along the way.</p>
+            <div class="project-list">
                 <!-- Project 1: Car Cost Calculator -->
-                
+
                 <em>August 2024</em><br>
-                <strong>Cost Calculator for Your Ride</strong> 
+                <strong>Cost Calculator for Your Ride</strong>
                 <p>Developed an interactive tool to estimate total car ownership costs, including variables like mileage, maintenance, insurance, and fuel, empowering users to make informed financial decisions by comparing different vehicles.
-                <a href="#" onclick="toggleDetails('car-cost')">[Learn More]</a></p>
+                <button type="button" class="details-toggle" aria-controls="car-cost" aria-expanded="true">Learn More</button></p>
                 <div id="car-cost" class="details">
                     <p>This tool simplifies the complex process of estimating car ownership expenses by dynamically calculating costs based on user input. It offers visualizations and customization options, making it a great resource for comparing vehicles and selecting one that fits within the budget.</p>
-                    <a href="https://yuhanzhu.com/calculator/index.html" target="_blank">Visit the Car Cost Calculator</a>
+                    <a href="https://yuhanzhu.com/calculator/index.html" target="_blank" rel="noopener noreferrer">Visit the Car Cost Calculator</a>
                 </div>
                 <hr />
-        
+
                 <!-- Project 2: Coffee Order Website -->
                 <em>August 2024</em><br>
-                <strong>My Coffee Order Website</strong> 
-                <p>Created a personalized coffee ordering platform, blending front-end and back-end technologies to deliver a seamless and efficient ordering experience for my friends stopping by my place. 
-                <a href="#" onclick="toggleDetails('coffee-order')">[Learn More]</a></p>
+                <strong>My Coffee Order Website</strong>
+                <p>Created a personalized coffee ordering platform, blending front-end and back-end technologies to deliver a seamless and efficient ordering experience for my friends stopping by my place.
+                <button type="button" class="details-toggle" aria-controls="coffee-order" aria-expanded="true">Learn More</button></p>
                 <div id="coffee-order" class="details">
                     <p>The platform integrates Firebase Realtime Database for instant order processing and allows for customization of coffee orders. Designed with a responsive interface, the site ensures a smooth user experience, demonstrating my progress toward full-stack development.</p>
-                    <a href="https://yuhanzhu.com/coffee" target="_blank">Visit My Coffee Order Website</a>
+                    <a href="https://yuhanzhu.com/coffee" target="_blank" rel="noopener noreferrer">Visit My Coffee Order Website</a>
                     <img src="assets/img/logo.png" alt="Yuyu Coffee" style="width: 100%; max-width: 400px; display: block; margin-top: 10px;">
                 </div>
                 <hr />
                 <!-- Project 3: Personal Web Development -->
                 <em>July 2024</em><br>
-                <strong>Personal Website</strong> 
-                <p>Designed and developed my personal website to showcase my fun projects and life, with a focus on responsive design and user-friendly navigation. 
-                <a href="#" onclick="toggleDetails('web-development')">[Learn More]</a></p>
+                <strong>Personal Website</strong>
+                <p>Designed and developed my personal website to showcase my fun projects and life, with a focus on responsive design and user-friendly navigation.
+                <button type="button" class="details-toggle" aria-controls="web-development" aria-expanded="true">Learn More</button></p>
                 <div id="web-development" class="details">
                     <p>It adapts to various devices, ensuring an optimal viewing experience. The site is continually updated to reflect evolving skills and new content. Future features will include more interactive elements and additional pages for deeper exploration of my work and interests. The site is a continuous work in progress, reflecting my evolving skills in web development.</p>
-                    <a href="https://yuhanzhu.com" target="_blank">Visit This Website 😛</a>
+                    <a href="https://yuhanzhu.com" target="_blank" rel="noopener noreferrer">Visit This Website 😛</a>
                 </div>
                 <hr />
-        
+
                 <!-- Project 4: Facial Recognition Pet Dog Using Machine Learning -->
                 <em>Spring 2024</em><br>
-                <strong>Facial Recognition Pet Dog Using Machine Learning</strong> 
-                <p>Developeing (yes, I am still improving and working on this) a machine learning based facial recognition system for a virtual pet dog, enhancing security by identifying familiar and unfamiliar faces. 
-                <a href="#" onclick="toggleDetails('facial-recognition')">[Learn More]</a></p>
+                <strong>Facial Recognition Pet Dog Using Machine Learning</strong>
+                <p>Developeing (yes, I am still improving and working on this) a machine learning based facial recognition system for a virtual pet dog, enhancing security by identifying familiar and unfamiliar faces.
+                <button type="button" class="details-toggle" aria-controls="facial-recognition" aria-expanded="true">Learn More</button></p>
                 <div id="facial-recognition" class="details">
                     <p>The system utilizes CNN, SVM, and KNN algorithms to differentiate between familiar and unfamiliar faces, providing added security. Trained on the Labeled Faces in the Wild dataset, the model emphasizes real-time adaptability and accuracy. The project also considers the ethical implications of integrating such technology into everyday life.</p>
-                    <a href="https://github.com/YuhanZhu1/documents/blob/18d9bee0e392ec50d12b60662504fb9fc28fccf6/FinalProjectSlides_Yuhan.pdf" target="_blank">View the Presentation Slides</a> | 
-                    <a href="https://github.com/YuhanZhu1/documents/blob/18d9bee0e392ec50d12b60662504fb9fc28fccf6/Final_Project_Proposal_Yuhan.pdf" target="_blank">Read the Project Proposal</a>
+                    <a href="https://github.com/YuhanZhu1/documents/blob/18d9bee0e392ec50d12b60662504fb9fc28fccf6/FinalProjectSlides_Yuhan.pdf" target="_blank" rel="noopener noreferrer">View the Presentation Slides</a> |
+                    <a href="https://github.com/YuhanZhu1/documents/blob/18d9bee0e392ec50d12b60662504fb9fc28fccf6/Final_Project_Proposal_Yuhan.pdf" target="_blank" rel="noopener noreferrer">Read the Project Proposal</a>
                 </div>
                 <hr />
-        
+
                 <!-- Project 5: The Impact of Digital Technology on Child Development -->
                 <em>May 2024</em><br>
-                <strong>Digital Technology's Impact on Child Development</strong> 
-                <p>As part of a parenting class I took. I want to know how digital technology affects children's development, offering practical tips for parents. 
-                <a href="#" onclick="toggleDetails('digital-impact')">[Learn More]</a></p>
+                <strong>Digital Technology's Impact on Child Development</strong>
+                <p>As part of a parenting class I took. I want to know how digital technology affects children's development, offering practical tips for parents.
+                <button type="button" class="details-toggle" aria-controls="digital-impact" aria-expanded="true">Learn More</button></p>
                 <div id="digital-impact" class="details">
                     <p>This project explored how digital screens influence children's growth and behavior. It highlighted both the positive aspects, like learning opportunities, and the potential downsides, such as too much screen time. The project provided simple strategies for parents to manage their children's screen use effectively. An infographic was also created to present the findings in a clear and easy-to-understand way.</p>
-                    <a href="https://github.com/YuhanZhu1/documents/blob/deb753542d25ea4ac1dc9fd23f6eaeb04247a6ce/A_brief_paper_Yuhan.pdf" target="_blank">Read the Brief Paper</a> | 
-                    <a href="https://github.com/YuhanZhu1/documents/blob/929d4129a7074bc94e5908b1fd4346ff5c8122c8/ThePresentation.pdf" target="_blank">View the Presentation Slides</a>
+                    <a href="https://github.com/YuhanZhu1/documents/blob/deb753542d25ea4ac1dc9fd23f6eaeb04247a6ce/A_brief_paper_Yuhan.pdf" target="_blank" rel="noopener noreferrer">Read the Brief Paper</a> |
+                    <a href="https://github.com/YuhanZhu1/documents/blob/929d4129a7074bc94e5908b1fd4346ff5c8122c8/ThePresentation.pdf" target="_blank" rel="noopener noreferrer">View the Presentation Slides</a>
                     <img src="assets/img/parenting.jpg" alt="InfoGraphic" style="width: 100%; max-width: 400px; display: block; margin-top: 10px;">
                 </div>
                 <hr />
-        
+
                 <!-- Project 6: Bioinformatics: RNA-Seq Data Analysis -->
                 <em>January - April 2024</em><br>
-                <strong>Bioinformatics Courses: Data Handling, Genomics, and RNA-Seq</strong> 
+                <strong>Bioinformatics Courses: Data Handling, Genomics, and RNA-Seq</strong>
                 <p>Completed a series of bioinformatics coursework as part of the Bioinformatics Program, focusing on data handling with Unix, Python, R, genome sequencing, and RNA-Seq analysis.
-                <a href="#" onclick="toggleDetails('rna-seq')">[Learn More]</a></p>
+                <button type="button" class="details-toggle" aria-controls="rna-seq" aria-expanded="true">Learn More</button></p>
                 <div id="rna-seq" class="details">
                     <p>The courses covered foundational skills in Unix and Python for managing large datasets, techniques for genome sequencing and data validation, and RNA-Seq analysis, including experimental design and clustering. Practical experience was gained using the MSU High Performance Computing Cluster (HPCC) to process biological data, with a strong focus on applying these skills in real-world research contexts.</p>
                     <p><strong>Tools:</strong> Python, R, HPCC, Unix/Linux</p>
-                    <a href="https://cmse.msu.edu/Academics/bioinformantics.aspx" target="_blank">The Program Website</a>
+                    <a href="https://cmse.msu.edu/Academics/bioinformantics.aspx" target="_blank" rel="noopener noreferrer">The Program Website</a>
                 </div>
                 <hr />
-        
+
                 <!-- Project 7: Optimizing for Brownfield Solar Redevelopment -->
                 <em>December 2023</em><br>
-                <strong>Optimizing for Brownfield Solar Redevelopment</strong> 
-                <p>Created an interactive tool for selecting optimal sites for solar energy projects, focusing on brownfield redevelopment. 
-                <a href="#" onclick="toggleDetails('solar-redevelopment')">[Learn More]</a></p>
+                <strong>Optimizing for Brownfield Solar Redevelopment</strong>
+                <p>Created an interactive tool for selecting optimal sites for solar energy projects, focusing on brownfield redevelopment.
+                <button type="button" class="details-toggle" aria-controls="solar-redevelopment" aria-expanded="true">Learn More</button></p>
                 <div id="solar-redevelopment" class="details">
                     <p>The project combined spatial data analysis with database management to identify the most suitable locations for solar installations. The tool assists in the decision-making process by integrating various environmental and economic factors into the site selection criteria.</p>
                     <p><strong>Tools:</strong> Python, GIS, MySQL, Database management</p>
                     <img src="assets/img/IMG_4758.jpeg" alt="Brownfield Solar Redevelopment" style="width: 100%; max-width: 400px; display: block; margin-top: 10px;">
                 </div>
                 <hr />
-        
+
                 <!-- Project 8: Optimizer Selection for CNN in MNIST Dataset -->
                 <em>April 2023</em><br>
-                <strong>CNN Optimizer Selection for MNIST Dataset</strong> 
-                <p>Optimized CNN performance for handwritten digit recognition by comparing different algorithms, achieving a balance between accuracy and computational efficiency. 
-                <a href="#" onclick="toggleDetails('mnist-cnn')">[Learn More]</a></p>
+                <strong>CNN Optimizer Selection for MNIST Dataset</strong>
+                <p>Optimized CNN performance for handwritten digit recognition by comparing different algorithms, achieving a balance between accuracy and computational efficiency.
+                <button type="button" class="details-toggle" aria-controls="mnist-cnn" aria-expanded="true">Learn More</button></p>
                 <div id="mnist-cnn" class="details">
                     <p>The project explored various optimization algorithms, such as SGD, Momentum, RMSprop, and Adam, applied to the MNIST dataset. RMSprop provided the best results, but the study also highlighted the importance of tuning hyperparameters for each algorithm. This work demonstrated a deep understanding of machine learning optimization techniques and their practical applications.</p>
-                    <a href="https://github.com/YuhanZhu1/documents/blob/deb753542d25ea4ac1dc9fd23f6eaeb04247a6ce/831%20final%20report.pdf" target="_blank">Read the Final Report</a> | 
-                    <a href="https://github.com/YuhanZhu1/documents/blob/deb753542d25ea4ac1dc9fd23f6eaeb04247a6ce/CMSE831presentation.pdf" target="_blank">View the Presentation Slides</a>
-                </div>
-                <hr />
-        
-                <!-- Project 9: Predict World Cup Champion -->
-                <em>December 2022</em><br>
-                <strong>World Cup Champion Prediction</strong> 
-                <p>Applied machine learning techniques to predict the winner of the 2022 FIFA World Cup, providing users with an interactive web-based app to have a detailed look of how each ML models does. 
-                <a href="#" onclick="toggleDetails('world-cup')">[Learn More]</a></p>
-                <div id="world-cup" class="details">
-                    <p>The model analyzed past team performance, player statistics, and other factors to generate predictions, backed by Python script and Streamlit. Users could interact with the data and explore different scenarios. This project applied machine learning to real-world problems and showcased the development of user-friendly applications.</p>
-                    <a href="https://yuhanzhu1-final-project-cmse830-final-project-yuhan-1uwcs2.streamlit.app/" target="_blank">Try the World Cup Prediction App</a>
-                </div>
-                <hr />
-        
-                <!-- Project 10: Study Investment under Inflation -->
-                <em>October 2022</em><br>
-                <strong>Investment Strategy Under Inflation</strong> 
-                <p>Developed a web-based application using Python, Streamlit, and Yahoo Finance API to analyze investment strategies in inflationary conditions, offering real-time financial insights and the data are up to date, always sync over the air.
-                <a href="#" onclick="toggleDetails('investment-inflation')">[Learn More]</a></p>
-                <div id="investment-inflation" class="details">
-                    <p>The application integrates real-time financial data from `fredapi` and `yfinance` with visulation charts using altair package in Python, helping users evaluate different scenarios under inflationary pressures. The tool allows for input customization, providing tailored advice based on current economic conditions. The project involved both front-end and back-end development, ensuring a robust and user-friendly application.</p>
-                    <a href="https://yuhanzhu1-herokuapp-830project-a52iij.streamlit.app/" target="_blank">See S&P500|Nasdaq|CPI Data</a>
-                </div>
-                <hr />
-        
-                <!-- Project 11: Visualize the Solar System with Animation -->
-                <em>Spring 2022</em><br>
-                <strong>Solar System Visualization with Python</strong> 
-                <p>Created dynamic visualizations of the solar system's planetary trajectories, making astronomical system movement visulable through animation package Turtle in Python.
-                <a href="#" onclick="toggleDetails('solar-system-animation')">[Learn More]</a></p>
-                <div id="solar-system-animation" class="details">
-                    <p>Using Python, planetary orbits were simulated with algorithms like Euler and Runge-Kutta. The resulting animations provide an engaging way to understand astronomical concepts, designed for educational purposes. The visualizations offer an interactive experience, making learning about the solar system more accessible and engaging.</p>
-                    <a href="https://youtu.be/A8t3_qqm0Fc" target="_blank">Watch the Animation</a> |
-                    <a href="https://github.com/YuhanZhu1/documents/blob/929d4129a7074bc94e5908b1fd4346ff5c8122c8/Presentation.pdf" target="_blank">View the Presentation Slides</a>
-                </div>
-                <hr />
-        
-                <!-- Project 12: Gamma Ray Spectroscopy -->
-                <em>Spring 2021</em><br>
-                <strong>Gamma Ray Spectroscopy</strong> 
-                <p>Gamma-ray spectroscopy experiments using NaI and HPGe detectors, analyzing spectra to study gumma-ray and identify unknown radioactive materials. 
-                <a href="#" onclick="toggleDetails('gamma-spectroscopy')">[Learn More]</a></p>
-                <div id="gamma-spectroscopy" class="details">
-                    <p>Experiments explored gamma-ray spectroscopy principles to identify unknown radioactive sources, using NaI and HPGe detectors. Calibration techniques ensured accurate readings, with data visualization tools used to analyze spectra, identifying specific isotopes based on their unique energy signatures. The project provided valuable insights into nuclear physics and spectroscopy applications.</p>
-                    <a href="https://github.com/YuhanZhu1/documents/blob/a99b7040ae86cf4e1b07f632537609a633ced203/Detection%20and%20Measurement%20of%20Gamma.pdf" target="_blank">Read the Project Report</a> |
-                    <a href="https://github.com/YuhanZhu1/documents/blob/4066e714f667b47217740918f5dd6eda1b411d83/Yuhan%20Gamma-Ray%20Spectroscopy%20Notebook%20.pdf" target="_blank">My Lab Notes (In case you're interested)</a>
-                </div>
-                <hr />
-        
-                <!-- Project 13: Modeling Global Sea Level Change -->
-                <em>Winter 2019</em><br>
-                <strong>Modeling Global Sea Level Change</strong> 
-                <p>Used Python to model and predict global sea level changes based on historical data and carbon dioxide levels. 
-                <a href="#" onclick="toggleDetails('sea-level-change')">[Learn More]</a></p>
-                <div id="sea-level-change" class="details">
-                    <p>The project examined the relationship between carbon dioxide levels and global sea level changes, creating predictive models to forecast future trends. Time-series analysis and curve fitting techniques were applied, with the results highlighting the impact of climate change on sea levels. The project emphasized the importance of data-driven approaches to studying environmental changes.</p>
-                    <a href="https://github.com/YuhanZhu1/documents/blob/817e9aeb9bf987585d072c257f2d2193fc383b38/SeaLevelproject%20.pdf" target="_blank">View the Presentation Slides</a>
+                    <a href="https://github.com/YuhanZhu1/documents/blob/deb753542d25ea4ac1dc9fd23f6eaeb04247a6ce/831%20final%20report.pdf" target="_blank" rel="noopener noreferrer">Read the Final Report</a> |
+                    <a href="https://github.com/YuhanZhu1/documents/blob/deb753542d25ea4ac1dc9fd23f6eaeb04247a6ce/CMSE831presentation.pdf" target="_blank" rel="noopener noreferrer">View the Presentation Slides</a>
                 </div>
                 <hr />
 
-                <a href="#" onclick="toggleDetails('many-other')">[Many other Activities]</a>
-                <div id="many-other" class="details">
-                    <a href="https://github.com/YuhanZhu1/documents/blob/c61b573778abe015d8c34a522d218b4804f304fa/STT811_PPT.pdf" target="_blank">Analysis of Annual Income (2023 Presentation Slides)</a><br>
-                    <a href="https://drive.google.com/file/d/1JeQfuJVDYlHMBlJTGvjEfpwZoIoLF-49/view?usp=drive_link" target="_blank">Modeling Traffic (2020 Video)</a><br>
-                    <a href="https://github.com/YuhanZhu1/documents/blob/44ccee2cc4825d91b0f2c03c15b25ed11065bdb3/Project%201-%20Properties%20of%20Color.pdf" target="_blank">Art Properties of Color</a><br>
-                    <a href="https://github.com/YuhanZhu1/documents/blob/44ccee2cc4825d91b0f2c03c15b25ed11065bdb3/Project%202%20Reimagining%20Shape.pdf" target="_blank">Art Reimagining Shape</a><br>
-                    <a href="https://github.com/YuhanZhu1/documents/blob/44ccee2cc4825d91b0f2c03c15b25ed11065bdb3/Project%203_%20Textual%20Movement.pdf" target="_blank">Art Textual Movement</a><br>
-                    <a href="https://youtube.com/playlist?list=PLQUPbGzK2Wh28YYy7B6WQcpiSmTKVG_NL&si=iKNo3BkBDXcqbUEg" target="_blank">American Trip Family Vlog</a><br>
-                    <a href="https://youtube.com/playlist?list=PLQUPbGzK2Wh2gQk6qdne2h4vf69youwlL&si=fV54qPcE-KVtpY-i" target="_blank">China Trip Family Vlog</a><br>
+                <!-- Project 9: Predict World Cup Champion -->
+                <em>December 2022</em><br>
+                <strong>World Cup Champion Prediction</strong>
+                <p>Applied machine learning techniques to predict the winner of the 2022 FIFA World Cup, providing users with an interactive web-based app to have a detailed look of how each ML models does.
+                <button type="button" class="details-toggle" aria-controls="world-cup" aria-expanded="true">Learn More</button></p>
+                <div id="world-cup" class="details">
+                    <p>The model analyzed past team performance, player statistics, and other factors to generate predictions, backed by Python script and Streamlit. Users could interact with the data and explore different scenarios. This project applied machine learning to real-world problems and showcased the development of user-friendly applications.</p>
+                    <a href="https://yuhanzhu1-final-project-cmse830-final-project-yuhan-1uwcs2.streamlit.app/" target="_blank" rel="noopener noreferrer">Try the World Cup Prediction App</a>
                 </div>
-                
-            </ul>
+                <hr />
+
+                <!-- Project 10: Study Investment under Inflation -->
+                <em>October 2022</em><br>
+                <strong>Investment Strategy Under Inflation</strong>
+                <p>Developed a web-based application using Python, Streamlit, and Yahoo Finance API to analyze investment strategies in inflationary conditions, offering real-time financial insights and the data are up to date, always sync over the air.
+                <button type="button" class="details-toggle" aria-controls="investment-inflation" aria-expanded="true">Learn More</button></p>
+                <div id="investment-inflation" class="details">
+                    <p>The application integrates real-time financial data from `fredapi` and `yfinance` with visulation charts using altair package in Python, helping users evaluate different scenarios under inflationary pressures. The tool allows for input customization, providing tailored advice based on current economic conditions. The project involved both front-end and back-end development, ensuring a robust and user-friendly application.</p>
+                    <a href="https://yuhanzhu1-herokuapp-830project-a52iij.streamlit.app/" target="_blank" rel="noopener noreferrer">See S&P500|Nasdaq|CPI Data</a>
+                </div>
+                <hr />
+
+                <!-- Project 11: Visualize the Solar System with Animation -->
+                <em>Spring 2022</em><br>
+                <strong>Solar System Visualization with Python</strong>
+                <p>Created dynamic visualizations of the solar system's planetary trajectories, making astronomical system movement visulable through animation package Turtle in Python.
+                <button type="button" class="details-toggle" aria-controls="solar-system-animation" aria-expanded="true">Learn More</button></p>
+                <div id="solar-system-animation" class="details">
+                    <p>Using Python, planetary orbits were simulated with algorithms like Euler and Runge-Kutta. The resulting animations provide an engaging way to understand astronomical concepts, designed for educational purposes. The visualizations offer an interactive experience, making learning about the solar system more accessible and engaging.</p>
+                    <a href="https://youtu.be/A8t3_qqm0Fc" target="_blank" rel="noopener noreferrer">Watch the Animation</a> |
+                    <a href="https://github.com/YuhanZhu1/documents/blob/929d4129a7074bc94e5908b1fd4346ff5c8122c8/Presentation.pdf" target="_blank" rel="noopener noreferrer">View the Presentation Slides</a>
+                </div>
+                <hr />
+
+                <!-- Project 12: Gamma Ray Spectroscopy -->
+                <em>Spring 2021</em><br>
+                <strong>Gamma Ray Spectroscopy</strong>
+                <p>Gamma-ray spectroscopy experiments using NaI and HPGe detectors, analyzing spectra to study gumma-ray and identify unknown radioactive materials.
+                <button type="button" class="details-toggle" aria-controls="gamma-spectroscopy" aria-expanded="true">Learn More</button></p>
+                <div id="gamma-spectroscopy" class="details">
+                    <p>Experiments explored gamma-ray spectroscopy principles to identify unknown radioactive sources, using NaI and HPGe detectors. Calibration techniques ensured accurate readings, with data visualization tools used to analyze spectra, identifying specific isotopes based on their unique energy signatures. The project provided valuable insights into nuclear physics and spectroscopy applications.</p>
+                    <a href="https://github.com/YuhanZhu1/documents/blob/a99b7040ae86cf4e1b07f632537609a633ced203/Detection%20and%20Measurement%20of%20Gamma.pdf" target="_blank" rel="noopener noreferrer">Read the Project Report</a> |
+                    <a href="https://github.com/YuhanZhu1/documents/blob/4066e714f667b47217740918f5dd6eda1b411d83/Yuhan%20Gamma-Ray%20Spectroscopy%20Notebook%20.pdf" target="_blank" rel="noopener noreferrer">My Lab Notes (In case you're interested)</a>
+                </div>
+                <hr />
+
+                <!-- Project 13: Modeling Global Sea Level Change -->
+                <em>Winter 2019</em><br>
+                <strong>Modeling Global Sea Level Change</strong>
+                <p>Used Python to model and predict global sea level changes based on historical data and carbon dioxide levels.
+                <button type="button" class="details-toggle" aria-controls="sea-level-change" aria-expanded="true">Learn More</button></p>
+                <div id="sea-level-change" class="details">
+                    <p>The project examined the relationship between carbon dioxide levels and global sea level changes, creating predictive models to forecast future trends. Time-series analysis and curve fitting techniques were applied, with the results highlighting the impact of climate change on sea levels. The project emphasized the importance of data-driven approaches to studying environmental changes.</p>
+                    <a href="https://github.com/YuhanZhu1/documents/blob/817e9aeb9bf987585d072c257f2d2193fc383b38/SeaLevelproject%20.pdf" target="_blank" rel="noopener noreferrer">View the Presentation Slides</a>
+                </div>
+                <hr />
+
+                <button type="button" class="details-toggle" aria-controls="many-other" aria-expanded="true">Many other Activities</button>
+                <div id="many-other" class="details">
+                    <a href="https://github.com/YuhanZhu1/documents/blob/c61b573778abe015d8c34a522d218b4804f304fa/STT811_PPT.pdf" target="_blank" rel="noopener noreferrer">Analysis of Annual Income (2023 Presentation Slides)</a><br>
+                    <a href="https://drive.google.com/file/d/1JeQfuJVDYlHMBlJTGvjEfpwZoIoLF-49/view?usp=drive_link" target="_blank" rel="noopener noreferrer">Modeling Traffic (2020 Video)</a><br>
+                    <a href="https://github.com/YuhanZhu1/documents/blob/44ccee2cc4825d91b0f2c03c15b25ed11065bdb3/Project%201-%20Properties%20of%20Color.pdf" target="_blank" rel="noopener noreferrer">Art Properties of Color</a><br>
+                    <a href="https://github.com/YuhanZhu1/documents/blob/44ccee2cc4825d91b0f2c03c15b25ed11065bdb3/Project%202%20Reimagining%20Shape.pdf" target="_blank" rel="noopener noreferrer">Art Reimagining Shape</a><br>
+                    <a href="https://github.com/YuhanZhu1/documents/blob/44ccee2cc4825d91b0f2c03c15b25ed11065bdb3/Project%203_%20Textual%20Movement.pdf" target="_blank" rel="noopener noreferrer">Art Textual Movement</a><br>
+                    <a href="https://youtube.com/playlist?list=PLQUPbGzK2Wh28YYy7B6WQcpiSmTKVG_NL&si=iKNo3BkBDXcqbUEg" target="_blank" rel="noopener noreferrer">American Trip Family Vlog</a><br>
+                    <a href="https://youtube.com/playlist?list=PLQUPbGzK2Wh2gQk6qdne2h4vf69youwlL&si=fV54qPcE-KVtpY-i" target="_blank" rel="noopener noreferrer">China Trip Family Vlog</a><br>
+                </div>
+
+            </div>
             <p> ♾️ </p>
             <strong>These projects are just a glimpse of what has shaped me, and many more will define my future. I'm always excited for the new challenges and opportunities ahead. 🚀</strong>
             <p> ♾️ </p>
             <hr />
         </section>
-        
 
-        <em>
-            "Love is patient, love is kind. It does not envy, it does not boast, it is not self-seeking, it is not easily angered, it keeps no record of wrongs. Love does not delight in evil but rejoices with the truth. It always protects, always trusts, always hopes, always perseveres." 1 Corinthians 13:4-6
-            </em>
+
+        <blockquote class="closing-quote">
+            "Love is patient, love is kind. It does not envy, it does not boast, it is not self-seeking, it is not easily angered, it keeps no record of wrongs. Love does not delight in evil but rejoices with the truth. It always protects, always trusts, always hopes, always perseveres." 1 Corinthians 13:4–7
+            </blockquote>
     </main>
     <footer>
-        <p class="footer-text">© 2024 Yuhan Zhu. Contact: zhuyuha3 apetail msu dot edu. Feel free to check out my wife's <a href="https://www.geunyoungviolin.com" target="_blank">website</a> as well! </p>
+        <p class="footer-text">© Yuhan Zhu. Contact: zhuyuha3 apetail msu dot edu. Feel free to check out my wife's <a href="https://www.geunyoungviolin.com" target="_blank" rel="noopener noreferrer">website</a> as well! </p>
     </footer>
     <script src="assets/js/scripts.js" defer></script>
 </body>

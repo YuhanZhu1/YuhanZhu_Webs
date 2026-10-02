@@ -55,7 +55,7 @@
     row.dataset.name = name;
     if (message.role !== 'user') {
       if (characters[name]) { const img = document.createElement('img'); img.src = characters[name].avatar; img.alt = ''; img.className = 'message-avatar'; row.append(img); }
-      else { const symbol = document.createElement('span'); symbol.className = 'message-symbol'; symbol.textContent = '✳'; symbol.setAttribute('aria-hidden', 'true'); row.append(symbol); }
+      else { const symbol = document.createElement('span'); symbol.className = 'message-symbol'; symbol.textContent = 'F'; symbol.setAttribute('aria-hidden', 'true'); row.append(symbol); }
     }
     const body = document.createElement('div'); body.className = 'message-body';
     const author = document.createElement('p'); author.className = 'message-author'; author.textContent = name;

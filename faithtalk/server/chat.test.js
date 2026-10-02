@@ -93,3 +93,35 @@ test('group output limits preserve complete replies and provider errors have use
   assert.equal(error.code, 'UPSTREAM_400');
   assert.match(error.error, /configuration/);
 });
+
+test('English default and recovery policy apply to single, group and targeted conversations', () => {
+  const messages = [
+    { role: 'user', content: 'hi' },
+    { role: 'assistant', content: 'Hai. Senang bertemu kamu.' },
+    { role: 'user', content: 'what?' },
+    { role: 'assistant', content: 'Aku di sini untuk mendengar.' },
+    { role: 'user', content: 'what is even this language?' },
+    { role: 'assistant', content: 'Ini bahasa Indonesia.' },
+    { role: 'user', content: 'but why Indonesia?' }
+  ];
+  for (const configuration of [{}, { mode: 'group' }, { mode: 'group', target: 'Jade' }]) {
+    const prepared = prepare({ ...configuration, messages });
+    const policy = prepared.messages[0].content;
+    assert.match(policy, /Default to English/);
+    assert.match(policy, /user's messages only, never from assistant messages/);
+    assert.match(policy, /these English questions require English answers/);
+    assert.match(policy, /correct course immediately/);
+    assert.match(policy, /do not claim the user chose or preferred that language/);
+    assert.equal(prepared.messages.at(-1).content, 'but why Indonesia?');
+  }
+  const chinese = prepare({ messages: [{ role: 'user', content: '请用中文回答，我想聊聊信仰。' }] });
+  assert.match(chinese.messages[0].content, /latest explicit request for a reply language/);
+  assert.equal(chinese.messages.at(-1).content, '请用中文回答，我想聊聊信仰。');
+});
+
+test('casual replies and language complaints do not require spiritual exercises', () => {
+  const prompt = prepare({ messages: [{ role: 'user', content: 'hi' }] }).messages[0].content;
+  assert.match(prompt, /A greeting needs only a brief greeting/);
+  assert.match(prompt, /A clarification or complaint needs a direct answer or correction/);
+  assert.match(prompt, /do not append unsolicited prayer/);
+});

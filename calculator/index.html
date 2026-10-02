@@ -1,62 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Car Cost Comparison</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <div class="container">
-        <h1>Compare Car Ownership Costs</h1>
-        <button id="toggle-instructions">Instructions</button>
-        <section id="instructions" style="display: none;">
-            <p>This tool allows you to compare the total cost of owning cars over time. You can input purchase price, fuel efficiency, annual mileage, insurance costs, maintenance costs, and resale value to get a cost comparison.</p>
-            <h3>Calculation Formula</h3>
-            <p><strong>Total Cost</strong> = Purchase Price + Fuel Cost + Insurance Cost + Maintenance Cost - Resale Value</p>
-            <hr />
-        </section>
-
-        <div id="carFormsContainer" >
-            <!-- First car form shown by default -->
-        </div>
-
-        <button id="addCarBtn">Add Another Car</button>
-        <button id="calculateBtn">Calculate</button>
-        
-        <div id="results">
-            <h2>Cost Comparison</h2>
-            <p id="lowestCostCar"></p>
-            <canvas id="comparisonChart"></canvas>
-            <canvas id="yearlyCostChart"></canvas>
-            <canvas id="breakdownChart"></canvas>
-        </div>
-    </div>
-
-    <!-- Wave background at the bottom -->
-    <div class="wave-background">
-        <div class="wave-container">
-            <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
-                <defs>
-                    <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"/>
-                </defs>
-                <g class="parallax">
-                    <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(255,255,255,0.7)"/>
-                    <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(255,255,255,0.5)"/>
-                    <use xlink:href="#gentle-wave" x="48" y="10" fill="rgba(255,255,255,0.3)"/>
-                    <use xlink:href="#gentle-wave" x="48" y="7" fill="rgba(255,255,255,0.1)"/>
-                    <use xlink:href="#gentle-wave" x="48" y="15" fill="#fff"/>
-                </g>
-            </svg>
-        </div>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="scripts.js"></script>
-</body>
-</html>
-
-
-
-
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Car Ownership Costs — Yuhan Zhu</title><link rel="stylesheet" href="styles.css"><script src="model.js" defer></script><script src="scripts.js" defer></script></head>
+<body><header><a href="../index.html">← Yuhan Zhu</a><span>TOOLS FOR EVERYDAY DECISIONS</span></header><main>
+<section class="intro"><p class="eyebrow">THE PRICE TAG IS JUST THE START</p><h1>What will your car<br>really cost?</h1><p>Compare the cost of owning cars over the same period, including running costs and what you expect to recover when you sell.</p></section>
+<form id="calculator"><section class="panel"><h2>1. Set your comparison</h2><div class="fields shared"><label>Years of ownership<input name="years" type="number" value="5" min="1" max="20" step="1" required></label><label>Annual miles<input name="miles" type="number" value="12000" min="0" max="200000" required></label><label>Annual running-cost increase (%)<input name="inflation" type="number" value="0" min="0" max="20" step="0.1" required></label></div><p class="hint">These assumptions apply to every car. All amounts are USD. Starting values are examples, not market quotes.</p></section>
+<section><div class="section-heading"><h2>2. Choose your cars</h2><button type="button" id="add-car" class="secondary">+ Add car</button></div><div id="cars"></div></section>
+<div class="calculate-row"><button type="submit">Compare ownership costs</button><p id="form-status" role="status"></p></div></form>
+<section id="results" hidden aria-labelledby="results-title"><p class="eyebrow">YOUR COMPARISON</p><h2 id="results-title">The cost beyond the price tag</h2><p id="winner" role="status"></p><div id="summaries" class="summaries"></div><div class="panel"><h3>Where the money goes</h3><p class="hint">Each bar shows total ownership cost over your selected period.</p><div id="legend" class="legend"></div><div id="breakdown"></div></div><div class="panel"><h3>Ownership cost over time</h3><p class="hint">Cumulative costs if you sell at each year end. Resale is interpolated linearly from purchase price to your final estimate.</p><div id="timeline"></div></div><div class="panel"><h3>Compare the details</h3><div id="table" class="table-wrap"></div></div></section>
+<details class="method"><summary>How this estimate works</summary><p>Total cost = purchase price − final resale value + sales tax + purchase fees + interest paid during ownership + fuel/charging + insurance + maintenance + registration + parking.</p><p>Financing uses a fixed-rate, monthly amortizing loan. Taxes and purchase fees are included in the amount financed after your down payment. Principal repayments are not added again: the purchase price already counts the car’s cost. Any remaining loan balance must be settled when selling.</p><p>Annual running-cost increases compound from year two. Monthly ownership cost averages total cost, including depreciation; it is not your monthly bill. Loan payment plus first-year running costs is shown separately for budgeting.</p><p>Resale, repairs, rates and fuel prices are your assumptions. Leasing, tax credits, trade-in tax adjustments, investment opportunity costs and major unexpected repairs are not modeled. Enter dealer taxes/fees and your actual insurance quotes for a closer estimate.</p><p><a href="https://www.consumerfinance.gov/ask-cfpb/how-much-can-i-afford-to-borrow-for-a-car-or-auto-loan-en-751/" target="_blank" rel="noopener noreferrer">CFPB: understanding the full cost of a car ↗</a></p></details>
+<footer>Built by Yuhan Zhu · Calculated in your browser</footer></main></body></html>

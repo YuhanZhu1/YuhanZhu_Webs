@@ -1,202 +1,23 @@
-let carIndex = 0;
-
-document.addEventListener("DOMContentLoaded", function() {
-    console.log("DOMContentLoaded event fired, setting up event listeners...");
-    document.getElementById('addCarBtn').addEventListener('click', addCarForm);
-    document.getElementById('calculateBtn').addEventListener('click', function() {
-        console.log("Calculate button clicked");
-        calculateCosts();
-    });
-    addCarForm();  // Add the first car form automatically on load
-});
-
-document.getElementById('toggle-instructions').addEventListener('click', function() {
-    const instructions = document.getElementById('instructions');
-    instructions.style.display = instructions.style.display === 'none' ? 'block' : 'none';
-});
-
-function addCarForm() {
-    console.log(`Adding form for Car ${carIndex + 1}`);
-    const container = document.getElementById('carFormsContainer');
-    const formHtml = `
-        <div class="carForm" id="carForm${carIndex}">
-            <h3>Car ${carIndex + 1}</h3>
-            <label for="purchasePrice${carIndex}">Purchase Price (USD):</label>
-            <input type="number" id="purchasePrice${carIndex}" required><br>
-
-            <label for="fuelPrice${carIndex}">Fuel Price (USD per gallon):</label>
-            <input type="number" step="0.01" id="fuelPrice${carIndex}" required><br>
-
-            <label for="mpg${carIndex}">Miles per Gallon (MPG):</label>
-            <input type="number" step="0.1" id="mpg${carIndex}" required><br>
-
-            <label for="annualMileage${carIndex}">Annual Mileage (miles):</label>
-            <input type="number" id="annualMileage${carIndex}" required><br>
-
-            <label for="insuranceCost${carIndex}">Insurance Cost (USD per year):</label>
-            <input type="number" id="insuranceCost${carIndex}" required><br>
-
-            <label for="maintenanceCost${carIndex}">Maintenance Cost (USD per year):</label>
-            <input type="number" id="maintenanceCost${carIndex}" required><br>
-
-            <label for="resaleValue${carIndex}">Resale Value (USD):</label>
-            <input type="number" id="resaleValue${carIndex}" required><br>
-
-            <label for="yearsOfUse${carIndex}">Years of Use:</label>
-            <input type="number" id="yearsOfUse${carIndex}" required><br>
-            <hr />
-        </div>
-    `;
-
-    container.insertAdjacentHTML('beforeend', formHtml);
-    carIndex++;
-}
-
-function calculateCosts() {
-    console.log("Starting cost calculations...");
-    const carData = [];
-    let lowestCostCar = { name: '', totalCost: Infinity };
-
-    for (let i = 0; i < carIndex; i++) {
-        console.log(`Calculating costs for Car ${i + 1}`);
-        const purchasePrice = parseFloat(document.getElementById(`purchasePrice${i}`).value) || 0;
-        const fuelPrice = parseFloat(document.getElementById(`fuelPrice${i}`).value) || 0;
-        const mpg = parseFloat(document.getElementById(`mpg${i}`).value) || 0;
-        const annualMileage = parseFloat(document.getElementById(`annualMileage${i}`).value) || 0;
-        const insuranceCost = parseFloat(document.getElementById(`insuranceCost${i}`).value) || 0;
-        const maintenanceCost = parseFloat(document.getElementById(`maintenanceCost${i}`).value) || 0;
-        const resaleValue = parseFloat(document.getElementById(`resaleValue${i}`).value) || 0;
-        const yearsOfUse = parseInt(document.getElementById(`yearsOfUse${i}`).value) || 1;
-
-        if (mpg === 0) {
-            console.log("MPG is zero, stopping calculation.");
-            alert("MPG cannot be zero");
-            return;
-        }
-
-        const fuelCost = (annualMileage / mpg) * fuelPrice * yearsOfUse;
-        const depreciation = purchasePrice - resaleValue; // Not used in yearly cost, but calculated for total cost
-        const totalInsurance = insuranceCost * yearsOfUse;
-        const totalMaintenance = maintenanceCost * yearsOfUse;
-        const totalCost = fuelCost + depreciation + totalInsurance + totalMaintenance;
-
-        carData.push({
-            name: `Car ${i + 1}`,
-            purchasePrice,
-            totalCost,
-            fuelCost,
-            depreciation,
-            totalInsurance,
-            totalMaintenance,
-            yearsOfUse
-        });
-
-        if (totalCost < lowestCostCar.totalCost) {
-            lowestCostCar = { name: `Car ${i + 1}`, totalCost };
-        }
-    }
-
-    displayComparisonChart(carData);
-    displayYearlyCosts(carData);  // Call to update yearly cost chart
-    document.getElementById('lowestCostCar').innerHTML = `The car with the lowest total cost over ${carData[0].yearsOfUse} years is ${lowestCostCar.name} with a total cost of $${lowestCostCar.totalCost.toFixed(2)}.`;
-}
-
-function calculateYearlyCosts(car) {
-    const yearlyCosts = [];
-    let cumulativeCost = car.purchasePrice;  // Start with purchase price in the first year
-
-    // Fuel cost remains constant each year based on mileage
-    const yearlyFuelCost = car.fuelCost / car.yearsOfUse;
-    
-    // Insurance and maintenance costs are constant each year
-    const yearlyInsurance = car.totalInsurance / car.yearsOfUse;
-    const yearlyMaintenance = car.totalMaintenance / car.yearsOfUse;
-
-    for (let year = 1; year <= car.yearsOfUse; year++) {
-        // Add yearly fuel, insurance, and maintenance costs to cumulative cost
-        cumulativeCost += yearlyFuelCost + yearlyInsurance + yearlyMaintenance;
-        
-        // Push the cumulative cost for each year
-        yearlyCosts.push(cumulativeCost);
-    }
-
-    return yearlyCosts;
-}
-
-function displayComparisonChart(carData) {
-    console.log("Displaying comparison chart...");
-    const ctx = document.getElementById('comparisonChart').getContext('2d');
-    const labels = carData.map(car => car.name);
-    const data = carData.map(car => car.totalCost);
-
-    // Check if comparisonChart exists and is an instance of Chart before destroying
-    if (window.comparisonChart && typeof window.comparisonChart.destroy === 'function') {
-        window.comparisonChart.destroy();
-    }
-
-    window.comparisonChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: labels,
-            datasets: [{
-                label: 'Total Cost (USD)',
-                data: data,
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
-}
-
-function displayYearlyCosts(carData) {
-    console.log("Displaying yearly cost chart...");
-    const ctx = document.getElementById('yearlyCostChart').getContext('2d');
-    const labels = [...Array(carData[0].yearsOfUse).keys()].map(i => `Year ${i + 1}`);
-    const datasets = carData.map(car => ({
-        label: car.name,
-        data: calculateYearlyCosts(car),
-        fill: false,
-        borderColor: getRandomColor(),
-        tension: 0.1
-    }));
-
-    // Check if yearlyCostChart exists and is an instance of Chart before destroying
-    if (window.yearlyCostChart && typeof window.yearlyCostChart.destroy === 'function') {
-        window.yearlyCostChart.destroy();
-    }
-
-    window.yearlyCostChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: labels,
-            datasets: datasets
-        },
-        options: {
-            responsive: true,
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
-}
-
-
-function getRandomColor() {
-    const letters = '0123456789ABCDEF';
-    let color = '#';
-    for (let i = 0; i < 6; i++) {
-        color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
-}
+(() => {
+const form=document.getElementById('calculator'), cars=document.getElementById('cars'), results=document.getElementById('results');
+const money=n=>new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0}).format(n);
+const colors=['#2869bb','#b4773d','#5b8272','#8d6fa8'];
+const parts={depreciation:['Depreciation','#2869bb'],taxes:['Taxes & purchase fees','#60758e'],interest:['Loan interest','#8d6fa8'],energy:['Fuel / charging','#b4773d'],insurance:['Insurance','#5b8272'],maintenance:['Maintenance','#bf6b63'],registration:['Registration','#8b8b8b'],parking:['Parking / tolls','#b9a477']};
+let id=0;
+function field(key,label,value,min=0,max=1000000,step='any'){return `<label>${label}<input name="${key}" type="number" value="${value}" min="${min}" max="${max}" step="${step}" required></label>`;}
+function addCar(){if(cars.children.length>=4)return;const n=++id; const card=document.createElement('article');card.className='car';card.innerHTML=`<div class="car-heading"><h3>Car ${n}</h3><button class="secondary remove" type="button" aria-label="Remove car ${n}">Remove</button></div><div class="fields"><label>Car name<input name="name" value="Car ${n}" maxlength="50" required></label>${field('price','Purchase price ($)',30000)}${field('resale','Resale after ownership ($)',15000)}<label>Powertrain<select name="power"><option value="gas">Gas / hybrid</option><option value="electric">Electric</option></select></label>${field('efficiency','Fuel economy (MPG)',30,0.1,1000)}${field('energyPrice','Fuel price ($ / gallon)',3.5,0,100)}${field('insurance','Insurance ($ / year)',1500)}${field('maintenance','Maintenance & tires ($ / year)',700)}${field('registration','Registration ($ / year)',200)}</div><details><summary>Taxes, fees & financing</summary><div class="fields">${field('tax','Sales tax (%)',6,0,30)}${field('fees','Purchase / title fees ($)',300)}${field('parking','Parking & tolls ($ / year)',0)}<label>How are you paying?<select name="financed"><option value="cash">Cash</option><option value="loan">Loan</option></select></label></div><div class="fields loan-fields" hidden>${field('down','Down payment ($)',5000)}${field('apr','Loan APR (%)',6,0,50)}${field('term','Loan term (months)',60,1,120,1)}</div><p class="hint">Resale is your estimated sale price at the end of the selected ownership period. Loan terms assume monthly payments and no early payoff fees.</p></details>`;
+cars.append(card);card.querySelector('.remove').addEventListener('click',()=>{card.remove();updateButtons();markDirty();});
+card.querySelector('[name=power]').addEventListener('change',event=>{const electric=event.target.value==='electric';const eff=card.querySelector('[name=efficiency]'),price=card.querySelector('[name=energyPrice]');eff.parentElement.firstChild.textContent=electric?'Consumption (kWh / 100 miles)':'Fuel economy (MPG)';price.parentElement.firstChild.textContent=electric?'Electricity ($ / kWh)':'Fuel price ($ / gallon)';eff.value=electric?28:30;price.value=electric?.16:3.5;});
+card.querySelector('[name=financed]').addEventListener('change',event=>{const hidden=event.target.value==='cash';card.querySelector('.loan-fields').hidden=hidden;card.querySelectorAll('.loan-fields input').forEach(input=>input.disabled=hidden);});card.querySelectorAll('.loan-fields input').forEach(input=>input.disabled=true);updateButtons();if(n>1)card.querySelector('[name=name]').focus();}
+function updateButtons(){cars.querySelectorAll('.remove').forEach(b=>b.disabled=cars.children.length===1);document.getElementById('add-car').disabled=cars.children.length>=4;}
+function markDirty(){if(!results.hidden){document.getElementById('form-status').textContent='Inputs changed. Compare again to refresh these results.';}}
+function read(card){const values={};card.querySelectorAll('input,select').forEach(input=>{values[input.name]=input.type==='number'?Number(input.value):input.value;});values.electric=values.power==='electric';values.financed=values.financed==='loan';return values;}
+function element(tag,text,className){const node=document.createElement(tag);node.textContent=text;if(className)node.className=className;return node;}
+function render(data,settings){results.hidden=false;document.getElementById('form-status').textContent='Comparison updated.';const sorted=[...data].sort((a,b)=>a.total-b.total);document.getElementById('winner').textContent=data.length===1?`${settings.years}-year estimated ownership cost for ${sorted[0].name}: ${money(sorted[0].total)}.`:Math.abs(sorted[1].total-sorted[0].total)<.01?`The two lowest estimates are tied at ${money(sorted[0].total)} over ${settings.years} years.`:`${sorted[0].name} has the lowest estimated cost over ${settings.years} years — ${money(sorted[1].total-sorted[0].total)} less than the next option.`;
+const summaries=document.getElementById('summaries');summaries.replaceChildren();data.forEach((car,i)=>{const card=element('article','','summary');card.style.setProperty('--car-color',colors[i]);card.append(element('h3',car.name),element('strong',money(car.total)),element('p',`${money(car.monthly)} / month · average ownership cost`),element('p',car.perMile===null?'Cost per mile unavailable with zero mileage':`$${car.perMile.toFixed(2)} / mile`),element('p',`${money(car.payment)} / month · loan payment`),element('p',`${money(car.budget)} / month · first-year running costs + loan`),element('p',`${money(car.upfrontCash)} · upfront cash`),element('p',`${money(car.balance)} · loan balance at sale`));summaries.append(card);});
+const legend=document.getElementById('legend');legend.replaceChildren();for(const [label,color] of Object.values(parts)){const item=element('span',label),key=element('i','','key');key.style.setProperty('--color',color);item.prepend(key);legend.append(item);}
+const breakdown=document.getElementById('breakdown');breakdown.replaceChildren();const max=Math.max(...data.map(c=>c.total),1);data.forEach(car=>{const row=element('div','','bar-row'),caption=element('div','','bar-caption');caption.append(element('span',car.name),element('strong',money(car.total)));const bar=element('div','','bar-track');bar.setAttribute('aria-label',`${car.name}: ${money(car.total)} total cost`);Object.entries(parts).forEach(([key,[label,color]])=>{const segment=element('span','','bar-segment');segment.style.width=`${car.parts[key]/max*100}%`;segment.style.setProperty('--color',color);segment.title=`${label}: ${money(car.parts[key])}`;bar.append(segment);});row.append(caption,bar);breakdown.append(row);});
+const rows=Object.entries(parts).map(([key,[label]])=>[label,...data.map(c=>money(c.parts[key]))]);rows.push(['Total ownership cost',...data.map(c=>money(c.total))]);const table=element('table'),head=element('thead'),tr=element('tr');['Cost category',...data.map(c=>c.name)].forEach(name=>{const th=element('th',name);th.scope='col';tr.append(th);});head.append(tr);table.append(head);const body=element('tbody');rows.forEach(([label,...values])=>{const row=element('tr'),th=element('th',label);th.scope='row';row.append(th);values.forEach(v=>row.append(element('td',v)));body.append(row);});table.append(body);document.getElementById('table').replaceChildren(table);renderTimeline(data,settings);}
+function renderTimeline(data,{years}){const ns='http://www.w3.org/2000/svg';const svg=document.createElementNS(ns,'svg');svg.setAttribute('viewBox','0 0 800 310');svg.setAttribute('role','img');svg.setAttribute('aria-label','Cumulative ownership cost by year. Exact values are listed below.');const ymax=Math.max(...data.flatMap(c=>c.timeline),1)*1.1;function node(tag,attrs,text){const n=document.createElementNS(ns,tag);for(const[k,v]of Object.entries(attrs))n.setAttribute(k,v);if(text)n.textContent=text;svg.append(n);return n;}for(let i=0;i<=4;i++){const y=250-i*52.5;node('line',{x1:75,y1:y,x2:775,y2:y,stroke:'#e5e5e5'});node('text',{x:65,y:y+4,'text-anchor':'end'},money(ymax*i/4));}const x=i=>years===1?425:75+i/(years-1)*700;data.forEach((car,i)=>{node('polyline',{points:car.timeline.map((v,j)=>`${x(j)},${250-v/ymax*210}`).join(' '),fill:'none',stroke:colors[i],'stroke-width':3});car.timeline.forEach((v,j)=>node('circle',{cx:x(j),cy:250-v/ymax*210,r:3,fill:colors[i]}));});for(let i=0;i<years;i++)if(years<=10||i%2===0||i===years-1)node('text',{x:x(i),y:275,'text-anchor':'middle'},`Year ${i+1}`);const target=document.getElementById('timeline');target.replaceChildren(svg);const legend=element('div','','legend');data.forEach((car,i)=>{const item=element('span',car.name),key=element('i','','key');key.style.setProperty('--color',colors[i]);item.prepend(key);legend.append(item);});target.append(legend);const details=element('details');details.append(element('summary','View yearly values'));const table=element('table'),head=element('tr');['Year',...data.map(c=>c.name)].forEach(v=>head.append(element('th',v)));table.append(head);for(let y=0;y<years;y++){const row=element('tr');row.append(element('th',String(y+1)));data.forEach(c=>row.append(element('td',money(c.timeline[y]))));table.append(row);}details.append(table);target.append(details);}
+form.addEventListener('input',markDirty);form.addEventListener('change',markDirty);document.getElementById('add-car').addEventListener('click',()=>{addCar();markDirty();});form.addEventListener('submit',event=>{event.preventDefault();cars.querySelectorAll('[name=resale],[name=down]').forEach(input=>input.setCustomValidity(''));const settings={years:Number(form.elements.years.value),miles:Number(form.elements.miles.value),inflation:Number(form.elements.inflation.value)};const data=[...cars.children].map(card=>{const car=read(card);if(car.resale>car.price)card.querySelector('[name=resale]').setCustomValidity('Use a resale estimate no higher than the purchase price.');if(car.financed&&car.down>car.price*(1+car.tax/100)+car.fees)card.querySelector('[name=down]').setCustomValidity('Down payment cannot exceed the price including taxes and fees.');return car;});if(!form.reportValidity())return;render(data.map(car=>estimateCar(car,settings)),settings);results.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});});form.addEventListener('input',event=>event.target.setCustomValidity?.(''));addCar();
+})();
