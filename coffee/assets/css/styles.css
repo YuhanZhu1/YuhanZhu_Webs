@@ -499,3 +499,9 @@ footer>small {
   scroll-behavior:auto!important}
 }
 
+
+/* Keep form controls legible and prevent automatic zoom on mobile Safari. */
+@media (max-width: 760px) {
+  input, select { font-size: 16px; }
+  nav a { min-height: 44px; display: inline-flex; align-items: center; }
+}

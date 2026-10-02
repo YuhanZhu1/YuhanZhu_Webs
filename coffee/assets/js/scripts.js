@@ -26,6 +26,7 @@
   form.addEventListener('input', update);
   form.addEventListener('change', update);
   document.querySelectorAll('[data-coffee]').forEach(link => link.addEventListener('click', () => {
+    if (pending) return;
     document.getElementById('coffee-type').value = link.dataset.coffee;
     update();
   }));
@@ -45,6 +46,7 @@
     const amount = total();
     pending = true;
     submit.disabled = true;
+    form.setAttribute('aria-busy', 'true');
     submit.textContent = 'Sending your order…';
     status.textContent = 'Just a moment while we save your coffee order.';
     Array.from(form.elements).forEach(control => { control.disabled = true; });
@@ -65,6 +67,7 @@
       console.error('Coffee order submission failed:', error);
     } finally {
       pending = false;
+      form.removeAttribute('aria-busy');
       Array.from(form.elements).forEach(control => { control.disabled = false; });
       // Restore unavailable options after re-enabling the form.
       document.querySelectorAll('#milk-type option[value="2%Milk"], #milk-type option[value="Oat Milk"]').forEach(option => { option.disabled = true; });
@@ -100,7 +103,9 @@
       intro.from('.hero-copy > *', { y: 24, stagger: .09 }).from('.hero-media', { y: 30, rotation: 1 }, .15);
       document.querySelectorAll('.section h2, .closing h2').forEach(heading => {
         const original = heading.innerHTML;
-        const accessibleName = heading.textContent;
+        const accessibleCopy = heading.cloneNode(true);
+        accessibleCopy.querySelectorAll('br').forEach(br => br.replaceWith(' '));
+        const accessibleName = accessibleCopy.textContent.replace(/\s+/g, ' ').trim();
         heading.setAttribute('aria-label', accessibleName);
         // Split only plain text nodes, preserving emphasis and line breaks.
         const walker = document.createTreeWalker(heading, NodeFilter.SHOW_TEXT);

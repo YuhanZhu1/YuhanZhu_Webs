@@ -1,70 +1,51 @@
-<!-- FaithTalk index.html with Group Chat mode integrated -->
 <!DOCTYPE html>
 <html lang="en">
-<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>FaithTalk</title>
-  <link rel="icon" type="image/png" href="favicon.png" />
-  <link rel="apple-touch-icon" href="favicon.png">
-  <link rel="stylesheet" href="assets/style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A little space to explore faith, ask honest questions, and reflect with AI companions.">
+  <meta name="faithtalk-api" content="https://yuhanzhu-webs.onrender.com">
+  <title>FaithTalk — Room for your questions</title>
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="stylesheet" href="assets/style.css">
+  <script defer src="assets/script.js"></script>
 </head>
-
 <body>
-  <div class="container">
-    <div class="menu-bar">
-      <div class="menu-wrapper">
-        <button class="menu-icon" onclick="toggleMenu()">☰</button>
-        <div class="menu-dropdown" id="menuDropdown">
-          <button onclick="toggleAbout()">📖 About FaithTalk</button>
-          <button onclick="switchToMode('faithtalk')">💬 FaithTalk</button>
-          <button onclick="switchToMode('group')">👥 Group Chat</button>
-        </div>
+  <a class="skip-link" href="#userInput">Skip to message</a>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="./"><span class="brand-symbol" aria-hidden="true">✳</span><span>FaithTalk<small>ROOM FOR YOUR QUESTIONS</small></span></a>
+      <p class="nav-label">YOUR SPACE</p>
+      <nav aria-label="Conversation mode" class="mode-nav">
+        <button type="button" data-mode="faithtalk" aria-pressed="true"><span>FaithTalk<small>A quiet, one-to-one reflection</small></span><span aria-hidden="true">↗</span></button>
+        <button type="button" data-mode="group" aria-pressed="false"><span>The circle<small>A conversation with four AI voices</small></span><span aria-hidden="true">↗</span></button>
+      </nav>
+      <div class="sidebar-note"><span aria-hidden="true">“</span><p>Ask, and it will be given to you; seek, and you will find.</p><small>MATTHEW 7:7</small></div>
+      <div class="sidebar-bottom"><button type="button" id="about-button">About this space</button><a href="/index.html">Made by Yuhan ↗</a></div>
+    </aside>
+    <main class="chat-main">
+      <header class="chat-header"><div><p class="eyebrow" id="mode-eyebrow">A MOMENT TO REFLECT</p><h1 id="mode-title">FaithTalk</h1></div><button type="button" class="quiet-button" id="new-chat">New conversation <span aria-hidden="true">+</span></button></header>
+      <div class="connection-banner" id="connection-banner"><span class="connection-dot" id="connection-dot" aria-hidden="true"></span><p id="connection-status" role="status">Connecting to your conversation…</p><button type="button" id="reconnect" hidden>Try again</button></div>
+      <section class="circle-members" id="circle-members" aria-label="Your AI companions" hidden>
+        <div class="member"><img src="assets/eli-avatar.png" alt="" width="36" height="36"><span>Eli<small>The gentle listener</small></span></div>
+        <div class="member"><img src="assets/jade-avatar.png" alt="" width="36" height="36"><span>Jade<small>The practical voice</small></span></div>
+        <div class="member"><img src="assets/lumi-avatar.png" alt="" width="36" height="36"><span>Lumi<small>The bright spark</small></span></div>
+        <div class="member"><img src="assets/sage-avatar.png" alt="" width="36" height="36"><span>Sage<small>The quiet observer</small></span></div>
+      </section>
+      <div class="chat-scroll" id="chat-scroll" tabindex="0" aria-label="Conversation">
+        <section class="welcome" id="welcome"><p class="eyebrow">COME AS YOU ARE</p><h2 id="welcome-title">You don't need to have<br>it all figured out.</h2><p id="welcome-description">Questions, doubts, everyday worries. There’s room for all of it here. Where would you like to start?</p><div id="starters" class="starters" aria-label="Conversation starters"></div></section>
+        <p id="reply-announcement" class="sr-only" role="status" aria-live="polite"></p>
+        <div id="chatbox" role="log" aria-label="Chat messages" aria-live="polite" aria-relevant="additions"></div>
+        <div id="reply-progress" class="reply-progress" role="status" hidden><span class="thinking-dots" aria-hidden="true"><i></i><i></i><i></i></span><span id="reply-progress-text">Thinking about your message…</span></div>
+        <div id="chat-error" class="chat-error" role="alert" hidden><p id="chat-error-text"></p><button id="retry" type="button">Retry reply</button></div>
       </div>
-    </div>        
-    
-    <div class="header">
-      <h1><span style="font-weight: 700;">FaithTalk</span> 🕊️</h1>
-      <p class="subtitle">
-        <em>“Where your questions meet grace, truth, and gentle guidance.”</em>
-      </p>
-      <p class="verse">
-        <q>
-          But when He, the Spirit of truth, comes, He will guide you into all the truth.  
-          He will not speak on His own; He will speak only what He hears,  
-          and He will tell you what is yet to come.
-        </q>  
-        <br><span style="font-size: 0.9em;">— <em>John 16:13</em></span>
-      </p>
-    </div>
-
-    <div class="chat-section">
-      <div id="chatbox"></div>
-      <textarea id="userInput" placeholder="Ask a question..."></textarea>
-      <button onclick="sendMessage()">Send</button>
-    </div>
+      <div class="composer-area">
+        <form id="composer"><div class="composer-top"><label for="userInput" id="input-label">What's on your mind?</label><div id="target-control" hidden><label for="target">Talk to</label><select id="target"><option value="">The circle</option><option>Eli</option><option>Jade</option><option>Lumi</option><option>Sage</option></select></div></div><textarea id="userInput" rows="2" maxlength="2000" required placeholder="You can start anywhere…" aria-describedby="composer-hint"></textarea><div class="composer-actions"><span id="character-count">0 / 2,000</span><div><button type="button" id="stop-button" class="quiet-button" hidden>Stop reply</button><button type="submit" id="send-button">Send message <span aria-hidden="true">↗</span></button></div></div></form>
+        <div class="composer-footer"><p id="composer-hint">Enter to send · Shift + Enter for a new line</p><button type="button" id="usage-button" aria-expanded="false" aria-controls="usage-details">Token usage</button></div><p id="usage-details" hidden>No model calls yet. Recent context is limited to keep requests small.</p>
+        <p class="ai-note">AI companions, not real people or spiritual authorities. Messages are sent to OpenAI through this server. <button type="button" id="privacy-button">How it works</button></p>
+      </div>
+    </main>
   </div>
-
-  <script src="assets/script.js"></script>
-
-  <div class="about-panel hidden" id="aboutPanel">
-    <div class="about-content">
-      <button class="close-about" onclick="toggleAbout()">✖</button>
-      <p>You are never alone on this journey.<br>
-        If you're seeking truth, you're already closer than you think.</p>
-        
-        <p><em>"Ask and it will be given to you; seek and you will find..."</em><br>— <em>Matthew 7:7</em></p>
-        
-        <p><strong>FaithTalk</strong> is a tool, not a teacher. While powered by language models, it may respond imperfectly. It may help you explore spiritual truth, but wisdom and guidance come from God alone.</p>
-        
-        <p>💙 Thank you for spending time here. May you walk away encouraged and never alone.</p>
-    </div>
-  </div>  
+  <dialog id="about-dialog"><div class="dialog-header"><p class="eyebrow">ABOUT FAITHTALK</p><button id="close-about" type="button" aria-label="Close about dialog">×</button></div><h2>A companion for<br>your questions.</h2><p>FaithTalk is a place to reflect on faith, doubt, and everyday life. In The Circle, Eli, Jade, Lumi, and Sage are fictional AI characters with different perspectives. They’re all generated by one model, not four independent people.</p><p>AI can get things wrong, including Scripture. Use your judgment, check sources, and keep trusted people involved. This space does not replace a faith community or professional care.</p><p>Your conversation stays in this tab’s memory and disappears on reload. This app does not save chat transcripts to a database or log message text. Requests still pass through the hosting service and OpenAI; their own data policies apply. Please avoid sharing sensitive personal information.</p><p>Recent messages are used as context; older details may be forgotten. Each conversation turn uses one model request. Token usage shows actual API counts when a complete reply returns.</p><small>Made with care by Yuhan.</small></dialog>
 </body>
 </html>
-
-
-
-
