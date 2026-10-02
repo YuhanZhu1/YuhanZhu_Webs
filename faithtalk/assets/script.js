@@ -41,7 +41,13 @@
     return warmup;
   }
   const nearBottom = () => $('chat-scroll').scrollHeight - $('chat-scroll').scrollTop - $('chat-scroll').clientHeight < 100;
-  function scroll(force = false) { if (force || nearBottom()) $('chat-scroll').scrollTop = $('chat-scroll').scrollHeight; }
+  function scroll(force = false) {
+    if (force || nearBottom()) $('chat-scroll').scrollTop = $('chat-scroll').scrollHeight;
+    $('jump-latest').hidden = nearBottom();
+  }
+  $('chat-scroll').addEventListener('scroll', () => { $('jump-latest').hidden = nearBottom(); }, { passive: true });
+  $('jump-latest').addEventListener('click', () => scroll(true));
+  $('write-message').addEventListener('click', () => $('userInput').focus());
   function bubble(message, live = true) {
     const row = document.createElement('article');
     row.className = 'message ' + (message.role === 'user' ? 'user' : 'bot');
@@ -78,6 +84,7 @@
     $('welcome').hidden = s.history.length > 0;
     $('chat-error').hidden = !s.error; $('chat-error-text').textContent = s.error;
     $('reply-progress').hidden = true;
+    $('reply-warning').hidden = !s.warning; $('reply-warning').textContent = s.warning || '';
     usage(); scroll(true);
   }
   function resize() {
@@ -114,7 +121,7 @@
     if (!text || text.length > 2000) return;
     const current = mode, controller = new AbortController();
     active = { controller, mode: current };
-    s.error = '';
+    s.error = ''; s.warning = ''; $('reply-warning').hidden = true;
     $('reply-announcement').textContent = '';
     if (!retry) { s.history.push({ role: 'user', content: text }); bubble(s.history.at(-1)); $('userInput').value = ''; resize(); }
     $('welcome').hidden = true; $('chat-error').hidden = true;
@@ -131,7 +138,7 @@
       deadline = setTimeout(() => controller.abort(), 95000);
       const response = await fetch(api + '/chat', {
         method: 'POST', headers: { 'Content-Type': 'application/json' }, signal: controller.signal,
-        body: JSON.stringify({ mode: current, target: target || undefined, stream: true, messages: s.history.slice(-16) })
+        body: JSON.stringify({ mode: current, target: target || undefined, stream: true, messages: s.history.slice(-16).map(({ role, content, name }) => ({ role, content, ...(current === 'group' && characters[name] ? { name } : {}) })) })
       });
       if (!response.ok) { let data; try { data = await response.json(); } catch {} throw new Error(data?.error || 'The server couldn’t reply. Please try again.'); }
       await events(response, event => {
@@ -148,7 +155,7 @@
           staged.push(message); rows.push(bubble(message));
           $('reply-progress-text').textContent = 'The circle is finishing its thoughts…';
         }
-        if (event.type === 'done') { done = true; resultUsage = event.usage; }
+        if (event.type === 'done') { done = true; resultUsage = event.usage; s.warning = event.warning || ''; }
         if (follow) scroll(true);
       });
       if (controller.signal.aborted) throw new DOMException('Stopped', 'AbortError');
@@ -156,7 +163,7 @@
       s.history.push(...staged);
       if (current === 'faithtalk' && current === mode) $('reply-announcement').textContent = 'FaithTalk: ' + staged[0].content;
       if (resultUsage) { s.usage = resultUsage; s.totalTokens += resultUsage.total_tokens || 0; }
-      if (current === mode) usage();
+      if (current === mode) { usage(); $('reply-warning').textContent = s.warning; $('reply-warning').hidden = !s.warning; }
     } catch (error) {
       rows.forEach(b => b.row.remove());
       if (sessions[current] === s && (!active || active.controller === controller)) {
@@ -174,7 +181,10 @@
   document.querySelectorAll('[data-mode]').forEach(button => button.addEventListener('click', () => {
     if (button.dataset.mode === mode) return;
     if (active) sessions[mode].error = 'Reply stopped when you changed spaces. Retry to continue.';
-    stop(); mode = button.dataset.mode; $('userInput').value = ''; resize(); render();
+    sessions[mode].draft = $('userInput').value;
+    sessions[mode].target = $('target').value;
+    stop(); mode = button.dataset.mode;
+    $('userInput').value = sessions[mode].draft || ''; $('target').value = sessions[mode].target || ''; resize(); render();
   }));
   $('composer').addEventListener('submit', event => { event.preventDefault(); send(); });
   $('userInput').addEventListener('input', resize);

@@ -20,7 +20,8 @@ test('incremental group parser handles escaped quotes, braces and arbitrary chun
   const json = JSON.stringify({ replies });
   for (let i = 0; i <= json.length; i++) { const parsed = completeReplies(json.slice(0, i)); assert.deepEqual(parsed, replies.slice(0, parsed.length)); }
   assert.deepEqual(validateReplies(JSON.parse(json)), replies);
-  assert.throws(() => validateReplies({ replies: [replies[0], replies[0]] }));
+  assert.deepEqual(validateReplies({ replies: [replies[0], replies[0]] }), [replies[0], replies[0]]);
+  assert.deepEqual(validateReplies({ replies: [replies[0]] }, undefined, true), [replies[0]]);
   assert.deepEqual(validateReplies({ replies: [replies[0]] }, 'Eli'), [replies[0]]);
   assert.throws(() => validateReplies({ replies }, 'Eli'));
 });
@@ -58,4 +59,37 @@ test('HTTP streaming uses one model call and forwards replies, usage, errors and
   assert.equal((await legacy.json()).choices[0].message.content, 'A gentle reflection.');
   assert.equal((await post({ messages: [] })).status, 400);
   assert.equal(calls, 3);
+});
+
+test('a FaithTalk follow-up accepts its display name but group history still rejects fabricated characters', () => {
+  const messages = [{ role: 'user', content: 'Hello' }, { role: 'assistant', name: 'FaithTalk', content: 'Welcome.' }, { role: 'user', content: 'Can we talk about prayer?' }];
+  assert.equal(prepare({ mode: 'faithtalk', messages }).messages.at(-1).content, 'Can we talk about prayer?');
+  assert.throws(() => prepare({ mode: 'group', messages }));
+});
+
+test('group output limits preserve complete replies and provider errors have useful codes', async t => {
+  let failure = false;
+  const client = { chat: { completions: { async create(options) {
+    if (failure) throw Object.assign(new Error('Provider configuration error'), { status: 400, param: 'response_format' });
+    assert.equal(options.response_format.json_schema.schema.properties.replies.minItems, 2);
+    return (async function* () {
+      yield { choices: [{ delta: { content: '{"replies":[{"name":"Eli","content":"One small step can help."},{"name":"Jade","content":"Unfinished' } }] };
+      yield { choices: [{ delta: {}, finish_reason: 'length' }] };
+      yield { choices: [], usage: { total_tokens: 1600 } };
+    })();
+  } } } };
+  const server = createApp(client).listen(0, '127.0.0.1');
+  await new Promise(resolve => server.once('listening', resolve));
+  t.after(() => new Promise(resolve => server.close(resolve)));
+  const post = () => fetch(`http://127.0.0.1:${server.address().port}/chat`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ mode: 'group', stream: true, messages: [{ role: 'user', content: 'Hello' }] }) });
+  const events = (await (await post()).text()).trim().split('\n').map(JSON.parse);
+  assert.equal(events.filter(e => e.type === 'reply').length, 1);
+  assert.equal(events.at(-1).type, 'done');
+  assert.match(events.at(-1).warning, /length limit/);
+  failure = true;
+  const response = await post();
+  assert.equal(response.status, 502);
+  const error = await response.json();
+  assert.equal(error.code, 'UPSTREAM_400');
+  assert.match(error.error, /configuration/);
 });

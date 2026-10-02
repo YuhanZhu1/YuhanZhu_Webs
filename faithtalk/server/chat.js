@@ -8,6 +8,14 @@ const replySchema = {
     required: ['name', 'content'], additionalProperties: false
   } } }, required: ['replies'], additionalProperties: false
 };
+function schemaFor(target) {
+  const schema = JSON.parse(JSON.stringify(replySchema));
+  const array = schema.properties.replies;
+  array.minItems = target ? 1 : 2;
+  array.maxItems = target ? 1 : 3;
+  if (target) array.items.properties.name.enum = [target];
+  return schema;
+}
 function prepare(body) {
   if (!body || !Array.isArray(body.messages) || body.messages.length > 100) throw new Error('Send a valid conversation.');
   const mode = body.mode || 'faithtalk';
@@ -17,7 +25,7 @@ function prepare(body) {
   if (!input.length || input.at(-1).role !== 'user') throw new Error('The last message must be from you.');
   for (const m of input) {
     if (typeof m.content !== 'string' || !m.content.trim() || m.content.length > 4000) throw new Error('Messages must contain 1–4,000 characters.');
-    if (m.name && !NAMES.includes(m.name)) throw new Error('Unknown character in history.');
+    if (mode === 'group' && m.role === 'assistant' && m.name && !NAMES.includes(m.name)) throw new Error('Unknown character in history.');
   }
   // A hard input budget avoids repeated paid summaries. Keep recent context, not unbounded history.
   let remaining = 12000;
@@ -31,11 +39,11 @@ function prepare(body) {
   const prompt = mode === 'group' ? GROUP + (body.target ? `\nTarget: ${body.target}. Return exactly one message by ${body.target}.` : '') : FAITH;
   return { mode, target: body.target, messages: [{ role: 'system', content: prompt }, ...history] };
 }
-function validateReplies(data, target) {
+function validateReplies(data, target, allowPartial = false) {
   if (!data || !Array.isArray(data.replies) || data.replies.length < 1 || data.replies.length > 3) throw new Error('Invalid group response.');
   const replies = data.replies;
   if (target && (replies.length !== 1 || replies[0].name !== target)) throw new Error('Invalid targeted response.');
-  if (!target && (replies.length < 2 || new Set(replies.map(r => r.name)).size < 2)) throw new Error('The group response needs different speakers.');
+  if (!target && !allowPartial && replies.length < 2) throw new Error('The group response needs different speakers.');
   for (const r of replies) if (!NAMES.includes(r.name) || typeof r.content !== 'string' || !r.content.trim() || r.content.length > 4000) throw new Error('Invalid character response.');
   return replies;
 }
@@ -52,4 +60,4 @@ function completeReplies(text) {
   }
   return found;
 }
-module.exports = { prepare, validateReplies, completeReplies, replySchema };
+module.exports = { prepare, validateReplies, completeReplies, replySchema, schemaFor };

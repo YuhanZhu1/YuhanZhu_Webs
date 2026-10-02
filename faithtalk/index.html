@@ -21,6 +21,7 @@
         <button type="button" data-mode="group" aria-pressed="false"><span>The circle<small>A conversation with four AI voices</small></span><span aria-hidden="true">↗</span></button>
       </nav>
       <div class="sidebar-note"><span aria-hidden="true">“</span><p>Ask, and it will be given to you; seek, and you will find.</p><small>MATTHEW 7:7</small></div>
+      <button class="write-shortcut" type="button" id="write-message">Write a message <span aria-hidden="true">↗</span></button>
       <div class="sidebar-bottom"><button type="button" id="about-button">About this space</button><a href="/index.html">Made by Yuhan ↗</a></div>
     </aside>
     <main class="chat-main">
@@ -32,6 +33,7 @@
         <div class="member"><img src="assets/lumi-avatar.png" alt="" width="36" height="36"><span>Lumi<small>The bright spark</small></span></div>
         <div class="member"><img src="assets/sage-avatar.png" alt="" width="36" height="36"><span>Sage<small>The quiet observer</small></span></div>
       </section>
+      <div class="chat-scroll-wrap">
       <div class="chat-scroll" id="chat-scroll" tabindex="0" aria-label="Conversation">
         <section class="welcome" id="welcome"><p class="eyebrow">COME AS YOU ARE</p><h2 id="welcome-title">You don't need to have<br>it all figured out.</h2><p id="welcome-description">Questions, doubts, everyday worries. There’s room for all of it here. Where would you like to start?</p><div id="starters" class="starters" aria-label="Conversation starters"></div></section>
         <p id="reply-announcement" class="sr-only" role="status" aria-live="polite"></p>
@@ -39,7 +41,10 @@
         <div id="reply-progress" class="reply-progress" role="status" hidden><span class="thinking-dots" aria-hidden="true"><i></i><i></i><i></i></span><span id="reply-progress-text">Thinking about your message…</span></div>
         <div id="chat-error" class="chat-error" role="alert" hidden><p id="chat-error-text"></p><button id="retry" type="button">Retry reply</button></div>
       </div>
+      <button id="jump-latest" class="jump-latest" type="button" hidden>Latest messages ↓</button>
+      </div>
       <div class="composer-area">
+        <p id="reply-warning" class="reply-warning" role="status" hidden></p>
         <form id="composer"><div class="composer-top"><label for="userInput" id="input-label">What's on your mind?</label><div id="target-control" hidden><label for="target">Talk to</label><select id="target"><option value="">The circle</option><option>Eli</option><option>Jade</option><option>Lumi</option><option>Sage</option></select></div></div><textarea id="userInput" rows="2" maxlength="2000" required placeholder="You can start anywhere…" aria-describedby="composer-hint"></textarea><div class="composer-actions"><span id="character-count">0 / 2,000</span><div><button type="button" id="stop-button" class="quiet-button" hidden>Stop reply</button><button type="submit" id="send-button">Send message <span aria-hidden="true">↗</span></button></div></div></form>
         <div class="composer-footer"><p id="composer-hint">Enter to send · Shift + Enter for a new line</p><button type="button" id="usage-button" aria-expanded="false" aria-controls="usage-details">Token usage</button></div><p id="usage-details" hidden>No model calls yet. Recent context is limited to keep requests small.</p>
         <p class="ai-note">AI companions, not real people or spiritual authorities. Messages are sent to OpenAI through this server. <button type="button" id="privacy-button">How it works</button></p>

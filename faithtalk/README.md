@@ -44,14 +44,14 @@ Opening the page makes one health request to wake the backend. Free Render servi
 ## Conversation and token behavior
 
 - One model call per user turn, including group exchanges.
-- Group replies: 2–3 short messages by at least two different characters; targeting a character returns one message.
+- Group replies: 2–3 short messages, with the prompt encouraging different speakers; targeting a character returns one message.
 - FaithTalk text streams as generated. Group messages appear as each complete structured reply arrives. No artificial typing delays.
 - Server-owned concise prompts; client system prompts are ignored.
 - Most recent 16 messages, up to 12,000 context characters; older details may be forgotten. Character counts are not exact token counts.
 - Minimal reasoning effort and a 1,600 completion-token ceiling, including reasoning tokens. Raising this ceiling can help if real responses frequently finish incomplete, at increased token cost.
 - No additional paid summarization requests. No automatic model retries.
 - The token panel shows actual API usage for completed responses; interrupted/error responses can consume tokens that aren't shown.
-- Separate in-memory histories for each mode. Reload clears both. Stop, mode changes, and new conversations cancel the pending request; failed partial replies are not kept in context.
+- Separate in-memory histories for each mode. Reload clears both. Stop, mode changes, and new conversations cancel the pending request; failed partial replies are not kept in context. If a streamed group reply hits its output limit, complete character messages are retained with a notice; unfinished text is discarded.
 
 ## Checks
 
@@ -69,3 +69,9 @@ The app keeps conversations only in tab memory. The server does not log chat tex
 The API has request/body/output limits and an instance-local rate limiter. It is still a public, unauthenticated endpoint. CORS controls browser origins, not who can call the API. If usage expands, add authentication and a shared per-user rate limiter; the current limiter groups by Express's request IP, which may be a proxy address on Render.
 
 Live model quality, real token savings, and production cold-start latency require testing after deployment with the actual hosting configuration. The local regression and browser checks use mocks rather than paid model calls.
+
+## October 2026 reliability updates
+
+FaithTalk assistant display names are accepted in one-to-one history and omitted from new frontend requests. Group schemas constrain response counts and target names. Repeated valid speakers no longer invalidate an entire exchange. Errors distinguish provider configuration, authentication, usage limits, timeouts and incomplete output; server logs include a safe error code, parameter and provider request ID, without logging prompts or replies.
+
+Desktop uses a centered chat frame capped at 900px high, with a non-scrolling composer. The transcript scrolls independently, and a Latest messages button appears when reading older messages. Unsent drafts and character selections survive mode switching within the tab.

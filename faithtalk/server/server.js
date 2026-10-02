@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
 const OpenAI = require('openai');
-const { prepare, validateReplies, completeReplies, replySchema } = require('./chat');
+const { prepare, validateReplies, completeReplies, schemaFor } = require('./chat');
 
 function createApp(client) {
   const app = express();
@@ -13,7 +13,7 @@ function createApp(client) {
   const limits = new Map();
   const timer = setInterval(() => { const now = Date.now(); for (const [key, entry] of limits) if (entry.until < now) limits.delete(key); }, 60000);
   timer.unref();
-  app.get('/ping', (req, res) => res.json({ status: 'ready', apiVersion: 2 }));
+  app.get('/ping', (req, res) => res.json({ status: 'ready', apiVersion: 2, revision: '2026-10-02-chat-fixes' }));
   app.post('/chat', async (req, res) => {
     let request;
     try { request = prepare(req.body); } catch (error) { return res.status(400).json({ error: error.message }); }
@@ -31,7 +31,7 @@ function createApp(client) {
     const emit = event => { if (!res.destroyed) res.write(JSON.stringify(event) + '\n'); };
     try {
       const options = { model: process.env.OPENAI_MODEL || 'gpt-5-nano', messages: request.messages, reasoning_effort: 'minimal', max_completion_tokens: 1600, store: false };
-      if (request.mode === 'group') options.response_format = { type: 'json_schema', json_schema: { name: 'group_exchange', strict: true, schema: replySchema } };
+      if (request.mode === 'group') options.response_format = { type: 'json_schema', json_schema: { name: 'group_exchange', strict: true, schema: schemaFor(request.target) } };
       if (!streaming) {
         const result = await client.chat.completions.create(options, { signal: abort.signal });
         const choice = result.choices[0];
@@ -58,16 +58,30 @@ function createApp(client) {
           for (; emitted < replies.length; emitted++) emit({ type: 'reply', ...replies[emitted] });
         }
       }
-      if (refusal || finish !== 'stop' || !text.trim()) throw new Error('Incomplete response');
-      if (request.mode === 'group') validateReplies(JSON.parse(text), request.target);
-      emit({ type: 'done', usage });
+      if (refusal) throw Object.assign(new Error('Model refusal'), { code: 'REFUSAL' });
+      let warning;
+      if (request.mode === 'group' && finish === 'length') {
+        const complete = completeReplies(text);
+        validateReplies({ replies: complete }, request.target, true);
+        warning = 'The reply reached its length limit. Complete messages are kept; you can continue the conversation.';
+      } else {
+        if (finish !== 'stop' || !text.trim()) throw Object.assign(new Error('Incomplete response'), { code: 'INCOMPLETE_REPLY' });
+        if (request.mode === 'group') validateReplies(JSON.parse(text), request.target);
+      }
+      emit({ type: 'done', usage, warning });
       res.end();
     } catch (error) {
       // Do not log conversation text or personal information.
-      console.error('Chat request failed:', error.name, error.status || '');
-      const message = abort.signal.aborted ? 'The reply took too long. Please try again.' : 'We couldn’t finish this reply. Please try again.';
-      if (res.headersSent) { emit({ type: 'error', error: message }); res.end(); }
-      else res.status(502).json({ error: message });
+      const code = abort.signal.aborted ? 'TIMEOUT' : error.code || (error.status ? 'UPSTREAM_' + error.status : 'INVALID_REPLY');
+      console.error('Chat request failed:', { code, status: error.status, parameter: error.param, requestId: error.request_id });
+      const message = abort.signal.aborted ? 'The reply took too long. Please try again.'
+        : error.status === 401 || error.status === 403 ? 'The chat service couldn’t authenticate with its AI provider. Please check the server’s API configuration.'
+        : error.status === 429 ? 'The AI service is at its usage limit. Please wait a moment and try again.'
+        : error.status === 400 ? 'The AI service rejected the chat configuration. Please check the server logs for the affected parameter.'
+        : code === 'REFUSAL' ? 'The AI couldn’t respond to this request. Try rephrasing your message.'
+        : 'The reply was incomplete. Your message is still here; please retry.';
+      if (res.headersSent) { emit({ type: 'error', error: message, code }); res.end(); }
+      else res.status(502).json({ error: message, code });
     } finally { clearTimeout(timeout); res.off('close', disconnect); }
   });
   app.use((error, req, res, next) => { if (!res.headersSent) res.status(error.status || 500).json({ error: 'Invalid request. Please send a smaller message.' }); });
