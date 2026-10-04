@@ -898,3 +898,33 @@ body {
     min-height: 44px;
   }
 }
+
+/* Assistant Markdown keeps Scripture distinct without rendering model HTML. */
+.message-content p { margin: 0 0 14px; }
+.message-content p:last-child { margin-bottom: 0; }
+.message-content ul { padding-left: 22px; margin: 12px 0; }
+.message-content blockquote {
+  text-align: center;
+  margin: 22px 0;
+  padding: 18px 14px;
+  border-block: 1px solid var(--line);
+  color: var(--green);
+  line-height: 1.8;
+}
+.message-content { overflow-wrap: anywhere; }
+@media (max-width: 700px) {
+  .composer-area { padding: 8px 14px max(8px, env(safe-area-inset-bottom)); }
+  #composer { padding: 8px 12px; }
+  .composer-top > label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  textarea { min-height: 36px; max-height: 88px; padding: 7px 0; line-height: 22px; }
+  #send-button { padding: 8px 12px; }
+  .composer-footer { margin-top: 4px; }
+  #composer-hint { display: none; }
+  .ai-note { display: none; }
+  .chat-header { padding-block: 10px; }
+  .connection-banner { padding-block: 6px; }
+  .circle-members { padding-block: 6px; }
+}
+
+.mobile-about { display: none; }
+@media (max-width: 700px) { .mobile-about { display: inline-block; } }

@@ -8,6 +8,7 @@
   <title>FaithTalk — Room for your questions</title>
   <link rel="icon" type="image/png" href="favicon.png">
   <link rel="stylesheet" href="assets/style.css">
+  <script defer src="assets/markdown.js"></script>
   <script defer src="assets/script.js"></script>
 </head>
 <body>
@@ -45,8 +46,8 @@
       </div>
       <div class="composer-area">
         <p id="reply-warning" class="reply-warning" role="status" hidden></p>
-        <form id="composer"><div class="composer-top"><label for="userInput" id="input-label">What's on your mind?</label><div id="target-control" hidden><label for="target">Talk to</label><select id="target"><option value="">The circle</option><option>Eli</option><option>Jade</option><option>Lumi</option><option>Sage</option></select></div></div><textarea id="userInput" rows="2" maxlength="2000" required placeholder="You can start anywhere…" aria-describedby="composer-hint"></textarea><div class="composer-actions"><span id="character-count">0 / 2,000</span><div><button type="button" id="stop-button" class="quiet-button" hidden>Stop reply</button><button type="submit" id="send-button">Send message <span aria-hidden="true">↗</span></button></div></div></form>
-        <div class="composer-footer"><p id="composer-hint">Enter to send · Shift + Enter for a new line</p><button type="button" id="usage-button" aria-expanded="false" aria-controls="usage-details">Token usage</button></div><p id="usage-details" hidden>No model calls yet. Recent context is limited to keep requests small.</p>
+        <form id="composer"><div class="composer-top"><label for="userInput" id="input-label">What's on your mind?</label><div id="target-control" hidden><label for="target">Talk to</label><select id="target"><option value="">The circle</option><option>Eli</option><option>Jade</option><option>Lumi</option><option>Sage</option></select></div></div><textarea id="userInput" rows="1" maxlength="2000" required placeholder="You can start anywhere…" aria-describedby="composer-hint"></textarea><div class="composer-actions"><span id="character-count">0 / 2,000</span><div><button type="button" id="stop-button" class="quiet-button" hidden>Stop reply</button><button type="submit" id="send-button">Send message <span aria-hidden="true">↗</span></button></div></div></form>
+        <div class="composer-footer"><p id="composer-hint">Enter to send · Shift + Enter for a new line</p><button type="button" id="mobile-about" class="mobile-about">About &amp; privacy</button><button type="button" id="usage-button" aria-expanded="false" aria-controls="usage-details">Token usage</button></div><p id="usage-details" hidden>No model calls yet. Recent context is limited to keep requests small.</p>
         <p class="ai-note">AI companions, not real people or spiritual authorities. Messages are sent to OpenAI through this server. <button type="button" id="privacy-button">How it works</button></p>
       </div>
     </main>

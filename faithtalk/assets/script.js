@@ -59,8 +59,9 @@
     }
     const body = document.createElement('div'); body.className = 'message-body';
     const author = document.createElement('p'); author.className = 'message-author'; author.textContent = name;
-    const content = document.createElement('div'); content.className = 'message-content'; content.textContent = message.content;
-    // Plain text rendering prevents user or model HTML from executing; paragraphs still retain their spacing.
+    const content = document.createElement('div'); content.className = 'message-content'; if (message.role === 'user') content.textContent = message.content;
+    else renderFaithTalkMarkdown(content, message.content);
+    // User text is literal; assistant Markdown is rendered with safe DOM nodes.
     body.append(author, content); row.append(body);
     if (!live) row.setAttribute('aria-live', 'off');
     $('chatbox').append(row);
@@ -89,7 +90,7 @@
   }
   function resize() {
     const input = $('userInput');
-    input.style.height = 'auto'; input.style.height = Math.min(input.scrollHeight, 160) + 'px';
+    input.style.height = 'auto'; input.style.height = Math.min(input.scrollHeight, matchMedia('(max-width: 700px)').matches ? 88 : 160) + 'px';
     $('character-count').textContent = `${input.value.length.toLocaleString()} / 2,000`;
   }
   function busy(on) {
@@ -147,7 +148,7 @@
         if (event.type === 'error') throw new Error(event.error);
         if (event.type === 'delta') {
           if (!draft) { draft = { role: 'assistant', name: 'FaithTalk', content: '' }; staged.push(draft); const b = bubble(draft, false); rows.push(b); }
-          draft.content += event.content; rows[0].content.textContent = draft.content;
+          draft.content += event.content; renderFaithTalkMarkdown(rows[0].content, draft.content);
         }
         if (event.type === 'reply') {
           if (!characters[event.name] || typeof event.content !== 'string' || staged.length >= 3) throw new Error('The group reply was incomplete. Please retry.');
@@ -192,11 +193,13 @@
   $('retry').addEventListener('click', () => send(true));
   $('stop-button').addEventListener('click', stop);
   $('reconnect').addEventListener('click', () => connect().catch(() => {}));
-  $('new-chat').addEventListener('click', () => { stop(); sessions[mode] = { history: [], error: '', usage: null, totalTokens: 0 }; $('userInput').value = ''; resize(); render(); $('userInput').focus(); });
+  $('new-chat').addEventListener('click', () => { stop(); sessions[mode] = { history: [], error: '', usage: null, totalTokens: 0 }; $('userInput').value = ''; $('target').value = ''; resize(); render(); $('userInput').focus(); });
   const dialog = $('about-dialog');
-  ['about-button', 'privacy-button'].forEach(id => $(id).addEventListener('click', () => dialog.showModal()));
+  ['about-button', 'privacy-button', 'mobile-about'].forEach(id => $(id).addEventListener('click', () => dialog.showModal()));
   $('close-about').addEventListener('click', () => dialog.close());
   dialog.addEventListener('click', event => { if (event.target === dialog) { const rect = dialog.getBoundingClientRect(); if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) dialog.close(); } });
   $('usage-button').addEventListener('click', () => { const open = $('usage-button').getAttribute('aria-expanded') !== 'true'; $('usage-button').setAttribute('aria-expanded', String(open)); $('usage-details').hidden = !open; });
+  if (matchMedia('(pointer: coarse)').matches) $('composer-hint').textContent = 'Tap Send to reply · Enter for a new line';
+  window.addEventListener('resize', resize, { passive: true });
   render(); resize(); connect().catch(() => {});
 })();

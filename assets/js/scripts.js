@@ -3,6 +3,8 @@
   const button = document.querySelector('.menu-icon');
   const close = () => { menu.classList.remove('menu-active'); button.setAttribute('aria-expanded', 'false'); button.setAttribute('aria-label', 'Open navigation'); };
   button.addEventListener('click', () => { const open = !menu.classList.contains('menu-active'); menu.classList.toggle('menu-active', open); button.setAttribute('aria-expanded', String(open)); button.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation'); });
+  window.addEventListener('scroll', close, { passive: true });
+  window.addEventListener('resize', close, { passive: true });
   menu.querySelectorAll('a').forEach(link => link.addEventListener('click', close));
   document.addEventListener('click', event => { if (!event.target.closest('nav')) close(); });
   document.addEventListener('keydown', event => { if (event.key === 'Escape' && menu.classList.contains('menu-active')) { close(); button.focus(); } });

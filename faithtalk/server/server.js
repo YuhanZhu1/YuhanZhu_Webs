@@ -13,7 +13,7 @@ function createApp(client) {
   const limits = new Map();
   const timer = setInterval(() => { const now = Date.now(); for (const [key, entry] of limits) if (entry.until < now) limits.delete(key); }, 60000);
   timer.unref();
-  app.get('/ping', (req, res) => res.json({ status: 'ready', apiVersion: 2, revision: '2026-10-02-language-fix' }));
+  app.get('/ping', (req, res) => res.json({ status: 'ready', apiVersion: 2, revision: '2026-10-04-original-prompt' }));
   app.post('/chat', async (req, res) => {
     let request;
     try { request = prepare(req.body); } catch (error) { return res.status(400).json({ error: error.message }); }
